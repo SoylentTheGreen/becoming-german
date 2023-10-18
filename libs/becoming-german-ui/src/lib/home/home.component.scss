@@ -1,0 +1,50 @@
+:host {
+
+  .home {
+    position: relative;
+    height: 217px;
+    width: 698px;
+    display: grid;
+    grid-template-columns: 478px 80px 70px 80px;
+    grid-template-rows: 52px 57px 38px 40px 40px;
+    grid-template-areas:
+            ". . jo ."
+            "lbl lbl jo lines"
+            ". cart jo ."
+            "byline cart jo ."
+            "lang . jo .";
+  }
+
+  .label-img {
+    grid-area: lbl;
+  }
+
+  .right-lines-img {
+    grid-area: lines;
+  }
+
+  .cart-img {
+    grid-area: cart;
+  }
+
+  .jo-img {
+    grid-area: jo;
+  }
+
+  .byline {
+    grid-area: byline;
+    .lbl {
+      font-family: 'Petit Formal Script', cursive;
+      font-style: italic;
+    }
+  }
+
+
+  .language {
+    grid-area: lang;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+  }
+}
+

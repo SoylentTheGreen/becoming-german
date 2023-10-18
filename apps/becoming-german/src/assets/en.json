@@ -1,0 +1,9 @@
+{
+  "locale": "en",
+  "translations": {
+    "nav-project": "The Project",
+    "nav-news": "News",
+    "nav-contact": "Contact",
+    "nav-about": "About"
+  }
+}

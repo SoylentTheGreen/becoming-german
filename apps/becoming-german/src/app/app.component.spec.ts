@@ -1,28 +1,28 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
+
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [AppComponent, NxWelcomeComponent],
+      declarations: [AppComponent],
     }).compileComponents();
   });
 
-  it('should render title', () => {
+  it('should render byline', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome becoming-german'
+    expect(compiled.querySelector('.byline')?.textContent).toContain(
+      'A Project by Joanne Moar'
     );
   });
 
-  it(`should have as title 'becoming-german'`, () => {
+  it(`should have as title 'Becoming German'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('becoming-german');
+    expect(app.title).toEqual('Becoming German');
   });
 });

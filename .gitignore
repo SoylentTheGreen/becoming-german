@@ -39,3 +39,4 @@ testem.log
 Thumbs.db
 
 .angular
+/apps/becoming-german-api/src/datasource/config.ts

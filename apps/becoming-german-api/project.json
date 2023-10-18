@@ -1,0 +1,64 @@
+{
+  "name": "becoming-german-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/becoming-german-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/becoming-german-api",
+        "main": "apps/becoming-german-api/src/main.ts",
+        "tsConfig": "apps/becoming-german-api/tsconfig.app.json",
+        "assets": ["apps/becoming-german-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/becoming-german-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "becoming-german-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "becoming-german-api:build:development"
+        },
+        "production": {
+          "buildTarget": "becoming-german-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/becoming-german-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/becoming-german-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

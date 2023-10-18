@@ -14,7 +14,18 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@becoming-german/model": [
+        "libs/becoming-german-model/src/index.ts"
+      ],
+      "@becoming-german/ui": [
+        "libs/becoming-german-ui/src/index.ts"
+      ],
+      "@becoming-german/tools": ["libs/tools/src/index.ts"]
+    }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
+  "angularCompilerOptions": {
+    "disableTypeScriptVersionCheck": true
+  }
 }

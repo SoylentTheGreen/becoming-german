@@ -2,24 +2,43 @@
   "name": "becoming-german",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "becoming-german",
+  "prefix": "bgn",
   "sourceRoot": "apps/becoming-german/src",
   "tags": [],
+  "i18n": {
+    "sourceLocale": "de",
+    "locales": {
+      "en": "apps/becoming-german/src/assets/en.json"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
+        "localize": ["en", "de"],
         "outputPath": "dist/apps/becoming-german",
         "index": "apps/becoming-german/src/index.html",
         "main": "apps/becoming-german/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js",
+          "apps/becoming-german/src/polyfills.ts"
+        ],
         "tsConfig": "apps/becoming-german/tsconfig.app.json",
         "assets": [
           "apps/becoming-german/src/favicon.ico",
-          "apps/becoming-german/src/assets"
+          "apps/becoming-german/src/assets",
+          {
+            "input": "libs/becoming-german-ui/src/lib/assets",
+            "glob": "**/*",
+            "output": "assets"
+          }
         ],
-        "styles": ["apps/becoming-german/src/styles.scss"],
+        "styles": [
+          "apps/becoming-german/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -47,6 +66,11 @@
           "namedChunks": true
         }
       },
+      "en": {
+        "localize": [
+          "en"
+        ]
+      },
       "defaultConfiguration": "production"
     },
     "serve": {
@@ -64,12 +88,17 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "becoming-german:build"
+        "browserTarget": "becoming-german:build",
+        "format": "json",
+        "outputPath": "apps/becoming-german/src/assets",
+        "outFile": "de.json"
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "apps/becoming-german/**/*.ts",
@@ -79,7 +108,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/becoming-german/jest.config.ts",
         "passWithNoTests": true
