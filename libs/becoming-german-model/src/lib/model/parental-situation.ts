@@ -1,4 +1,4 @@
-import { typeUtil } from "@becoming-german/tools";
+import { literalStringArrayTyping } from "@becoming-german/tools";
 
 export const parentalSituations = [
   "parents",
@@ -7,4 +7,4 @@ export const parentalSituations = [
   "another caregiver"
 ] as const;
 export type ParentalSituation = (typeof parentalSituations)[number];
-export const parentalSituationType = typeUtil(parentalSituations);
+export const parentalSituationType = literalStringArrayTyping(parentalSituations);

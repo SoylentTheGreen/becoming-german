@@ -1,4 +1,4 @@
-import { typeUtil } from "@becoming-german/tools";
+import { literalStringArrayTyping } from "@becoming-german/tools";
 
 export const dwellingSituations = [
   "in a city",
@@ -9,4 +9,4 @@ export const dwellingSituations = [
   "in a village"
 ];
 export type DwellingSituation = (typeof dwellingSituations)[number];
-export const dwellingSituationType = typeUtil(dwellingSituations);
+export const dwellingSituationType = literalStringArrayTyping(dwellingSituations);

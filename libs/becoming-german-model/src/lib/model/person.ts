@@ -1,21 +1,14 @@
-import { ParentalSituation } from './parental-situation';
-import { SiblingState } from './sibling-states';
-import { SiblingPosition } from './sibling-position';
-import { Gender } from './gender';
-import { BedroomSituation } from './bedroom-situation';
-import { DwellingSituation } from './dwelling-situation';
-import { Unknown } from './unknown';
+import * as t from 'io-ts';
+import { ChildhoodProfile } from './childhood-profile';
 
-export type Person = {
-  id: string;
-  gender: Gender | Unknown;
-  birthDate: string;
-  siblings: SiblingState | Unknown;
-  siblingPosition: SiblingPosition | Unknown;
-  parents: ParentalSituation | Unknown;
-  bedroomSituation: BedroomSituation | Unknown;
-  dwellingSituation: DwellingSituation | Unknown;
-  dwellingSituationComment: string;
-};
+export const DonatedProfile = t.intersection([
+  ChildhoodProfile,
+  t.type({ dwellingSituationComment: t.string }),
+]);
 
+export const Person = t.intersection([
+  DonatedProfile,
+  t.type({ id: t.string }),
+]);
 
+export type Person = t.TypeOf<typeof Person>;

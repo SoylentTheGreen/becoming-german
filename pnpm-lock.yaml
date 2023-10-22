@@ -99,6 +99,9 @@ importers:
       '@nestjs/testing':
         specifier: ^10.0.2
         version: 10.2.7(@nestjs/common@10.2.7)(@nestjs/core@10.2.7)(@nestjs/platform-express@10.2.7)
+      '@nx/aws-lambda':
+        specifier: ^16.8.2
+        version: 16.8.2(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(ts-node@10.9.1)(typescript@5.2.2)
       '@nx/esbuild':
         specifier: 16.10.0
         version: 16.10.0(@types/node@20.8.6)(esbuild@0.19.4)(nx@16.10.0)(typescript@5.2.2)
@@ -129,6 +132,9 @@ importers:
       '@schematics/angular':
         specifier: ~16.2.6
         version: 16.2.6
+      '@types/aws-lambda':
+        specifier: 8.10.92
+        version: 8.10.92
       '@types/jest':
         specifier: ^29.5.5
         version: 29.5.5
@@ -153,6 +159,15 @@ importers:
       eslint-config-prettier:
         specifier: 9.0.0
         version: 9.0.0(eslint@8.51.0)
+      fp-ts:
+        specifier: ^2.16.1
+        version: 2.16.1
+      io-ts:
+        specifier: ^2.2.20
+        version: 2.2.20(fp-ts@2.16.1)
+      io-ts-types:
+        specifier: ^0.5.19
+        version: 0.5.19(fp-ts@2.16.1)(io-ts@2.2.20)(monocle-ts@2.3.13)(newtype-ts@0.3.5)
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.6)(ts-node@10.9.1)
@@ -183,6 +198,12 @@ importers:
       typescript:
         specifier: ~5.2.2
         version: 5.2.2
+
+  libs/becoming-german-model:
+    dependencies:
+      tslib:
+        specifier: ^2.3.0
+        version: 2.6.2
 
   libs/tools:
     dependencies:
@@ -3721,6 +3742,27 @@ packages:
       - webpack-cli
     dev: false
 
+  /@nrwl/aws-lambda@16.8.2(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(ts-node@10.9.1)(typescript@5.2.2):
+    resolution: {integrity: sha512-HBdgxHR7ZouBcREEQFrL3oC/FTpibLiWxA02itVqhxwqFNeeBqSRys0zUSt3PZTEQ9JVggEh+2Hb/e6l4uAViQ==}
+    dependencies:
+      '@nx/aws-lambda': 16.8.2(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(ts-node@10.9.1)(typescript@5.2.2)
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - babel-plugin-macros
+      - debug
+      - eslint
+      - node-notifier
+      - nx
+      - supports-color
+      - ts-node
+      - typescript
+      - verdaccio
+    dev: true
+
   /@nrwl/cypress@16.10.0(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(typescript@5.2.2):
     resolution: {integrity: sha512-ns6VQrrF08XYwZE4OduLVK2rwpN6dNrkVArw4fzJccuZ1g3YxR5JSuxpdBQA3FjKWoo2DybivuQudpIlYGq3UQ==}
     dependencies:
@@ -4030,6 +4072,30 @@ packages:
       - vue-template-compiler
       - webpack-cli
     dev: false
+
+  /@nx/aws-lambda@16.8.2(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(ts-node@10.9.1)(typescript@5.2.2):
+    resolution: {integrity: sha512-MzI3WjCANS57YlS1/8mlbyVYWcPDgtsYGXbUWD8Yp9HovkrZZdlOcj2ATqapV7bSxJ2i8uMXLG6aE4eK6Qr0Aw==}
+    dependencies:
+      '@nrwl/aws-lambda': 16.8.2(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(ts-node@10.9.1)(typescript@5.2.2)
+      '@nx/devkit': 16.10.0(nx@16.10.0)
+      '@nx/linter': 16.10.0(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)
+      '@nx/node': 16.10.0(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(ts-node@10.9.1)(typescript@5.2.2)
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - babel-plugin-macros
+      - debug
+      - eslint
+      - node-notifier
+      - nx
+      - supports-color
+      - ts-node
+      - typescript
+      - verdaccio
+    dev: true
 
   /@nx/cypress@16.10.0(@types/node@20.8.6)(eslint@8.51.0)(nx@16.10.0)(typescript@5.2.2):
     resolution: {integrity: sha512-suYc5jC6Os0D78Fn2pAIuGOkM6nhIWsSEb94PWwdZWE0XKQiWrgQJZBXDIu3x2zq6oZxYdx8OufUFli8vr4/Tw==}
@@ -4639,6 +4705,10 @@ packages:
     dependencies:
       '@tufjs/canonical-json': 1.0.0
       minimatch: 9.0.3
+    dev: true
+
+  /@types/aws-lambda@8.10.92:
+    resolution: {integrity: sha512-dB14TltT1SNq73z3MaZfKyyBZ37NAgAFl8jze59bisR4fJ6pB6AYGxItHFkooZbN7UcVJX/cFudM4p8wp1W4rA==}
     dev: true
 
   /@types/babel__core@7.20.2:
@@ -7199,6 +7269,10 @@ packages:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
 
+  /fp-ts@2.16.1:
+    resolution: {integrity: sha512-by7U5W8dkIzcvDofUcO42yl9JbnHTEDBrzu3pt5fKT+Z4Oy85I21K80EYJYdjQGC2qum4Vo55Ag57iiIK4FYuA==}
+    dev: true
+
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
@@ -7699,6 +7773,28 @@ packages:
       strip-ansi: 6.0.1
       through: 2.3.8
       wrap-ansi: 7.0.0
+
+  /io-ts-types@0.5.19(fp-ts@2.16.1)(io-ts@2.2.20)(monocle-ts@2.3.13)(newtype-ts@0.3.5):
+    resolution: {integrity: sha512-kQOYYDZG5vKre+INIDZbLeDJe+oM+4zLpUkjXyTMyUfoCpjJNyi29ZLkuEAwcPufaYo3yu/BsemZtbdD+NtRfQ==}
+    peerDependencies:
+      fp-ts: ^2.0.0
+      io-ts: ^2.0.0
+      monocle-ts: ^2.0.0
+      newtype-ts: ^0.3.2
+    dependencies:
+      fp-ts: 2.16.1
+      io-ts: 2.2.20(fp-ts@2.16.1)
+      monocle-ts: 2.3.13(fp-ts@2.16.1)
+      newtype-ts: 0.3.5(fp-ts@2.16.1)(monocle-ts@2.3.13)
+    dev: true
+
+  /io-ts@2.2.20(fp-ts@2.16.1):
+    resolution: {integrity: sha512-Rq2BsYmtwS5vVttie4rqrOCIfHCS9TgpRLFpKQCM1wZBBRY9nWVGmEvm2FnDbSE2un1UE39DvFpTR5UL47YDcA==}
+    peerDependencies:
+      fp-ts: ^2.5.0
+    dependencies:
+      fp-ts: 2.16.1
+    dev: true
 
   /ip@2.0.0:
     resolution: {integrity: sha512-WKa+XuLG1A1R0UWhl2+1XQSi+fZWMsYKffMZTTYsiZaUD8k2yDAj5atimTUD2TZkyCkNEeYE5NhFZmupOGtjYQ==}
@@ -8943,6 +9039,14 @@ packages:
     hasBin: true
     dev: true
 
+  /monocle-ts@2.3.13(fp-ts@2.16.1):
+    resolution: {integrity: sha512-D5Ygd3oulEoAm3KuGO0eeJIrhFf1jlQIoEVV2DYsZUMz42j4tGxgct97Aq68+F8w4w4geEnwFa8HayTS/7lpKQ==}
+    peerDependencies:
+      fp-ts: ^2.5.0
+    dependencies:
+      fp-ts: 2.16.1
+    dev: true
+
   /mrmime@1.0.1:
     resolution: {integrity: sha512-hzzEagAgDyoU1Q6yg5uI+AorQgdvMCur3FcKf7NhMKWsaYg+RnbTyHRa/9IlLF9rf455MOCtcqqrQQ83pPP7Uw==}
     engines: {node: '>=10'}
@@ -9015,6 +9119,16 @@ packages:
 
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
+
+  /newtype-ts@0.3.5(fp-ts@2.16.1)(monocle-ts@2.3.13):
+    resolution: {integrity: sha512-v83UEQMlVR75yf1OUdoSFssjitxzjZlqBAjiGQ4WJaML8Jdc68LJ+BaSAXUmKY4bNzp7hygkKLYTsDi14PxI2g==}
+    peerDependencies:
+      fp-ts: ^2.0.0
+      monocle-ts: ^2.0.0
+    dependencies:
+      fp-ts: 2.16.1
+      monocle-ts: 2.3.13(fp-ts@2.16.1)
+    dev: true
 
   /nice-napi@1.0.2:
     resolution: {integrity: sha512-px/KnJAJZf5RuBGcfD+Sp2pAKq0ytz8j+1NehvgIGFkvtvFrDM3T8E4x/JJODXK9WZow8RRGrbA9QQ3hs+pDhA==}

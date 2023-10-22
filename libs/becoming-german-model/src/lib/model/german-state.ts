@@ -1,4 +1,4 @@
-import { typeUtil } from "@becoming-german/tools";
+import { literalStringArrayTyping } from "@becoming-german/tools";
 
 export const germanStates = [
   'Baden-Wurttemberg',
@@ -19,7 +19,7 @@ export const germanStates = [
   'Thuringia'
 ] as const;
 export type GermanState = (typeof germanStates)[number];
-export const germanStateType = typeUtil(germanStates);
+export const germanStateType = literalStringArrayTyping(germanStates);
 export const stateIsEast = (s: GermanState) => [
   "Mecklenburg-Western Pomerania",
   "Brandenburg",

@@ -1,3 +1,3 @@
 export * from './lib/tools';
 export * from './lib/tools';
-export { typeUtil } from "./lib/type-util";
+export { literalStringArrayTyping } from "./lib/literal-string-array-typing";

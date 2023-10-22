@@ -1,4 +1,4 @@
-import { typeUtil } from "@becoming-german/tools";
+import { literalStringArrayTyping } from "@becoming-german/tools";
 
 export const siblingStates = [
   "none",
@@ -10,4 +10,4 @@ export const siblingStates = [
   "more than five"
 ] as const;
 export type SiblingState = (typeof siblingStates)[number];
-export const siblingStateType = typeUtil(siblingStates);
+export const siblingStateType = literalStringArrayTyping(siblingStates);

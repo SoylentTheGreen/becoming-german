@@ -1,4 +1,4 @@
-import { typeUtil } from "@becoming-german/tools";
+import { literalStringArrayTyping } from "@becoming-german/tools";
 
 export const bedroomSituations = [
   "own",
@@ -8,4 +8,4 @@ export const bedroomSituations = [
   "various"
 ] as const;
 export type BedroomSituation = (typeof bedroomSituations)[number];
-export const bedroomSituationType = typeUtil(bedroomSituations);
+export const bedroomSituationType = literalStringArrayTyping(bedroomSituations);

@@ -1,30 +1,12 @@
-import {
-  bedroomSituationType,
-  genderType,
-  Person,
-  siblingPositionType,
-  siblingStateType
-} from "@becoming-german/model";
+import { bedroomSituationType, genderType, siblingPositionType, siblingStateType } from '@becoming-german/model';
+import * as t from 'io-ts';
 
-type PersonTable = {
-  id: number;
-  sex: number;
-  birthDate: string;
-  siblings: number | null;
-  siblingPosition: number | null;
-  bedroomSituation: number | null;
-};
-
-const numOrUnknown = <A, K extends keyof A, T>(key: K, mapper: (i: A[K]) => T) => (inp: A) => mapper(inp[key])
-
-
-export const dbRowToPerson = (row: PersonTable): Partial<Person> => {
-  return {
-    id             : row.id.toString(),
-    birthDate      : row.birthDate,
-    gender         : genderType.fromNumber(row.sex),
-    siblings       : siblingStateType.fromNumber(row.siblings),
-    siblingPosition: siblingPositionType.fromNumber(row.siblingPosition),
-    bedroomSituation: bedroomSituationType.fromNumber(row.bedroomSituation)
-  };
-};
+export const PersonTable = t.type({
+  id: t.number,
+  sex: genderType.fromNumber,
+  birthDate: t.string,
+  siblings: siblingStateType.fromNumber,
+  siblingPosition: siblingPositionType.fromNumber,
+  bedroomSituation: bedroomSituationType.fromNumber,
+});
+export type PersonTable = t.TypeOf<typeof PersonTable>;

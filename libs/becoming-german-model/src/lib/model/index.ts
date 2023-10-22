@@ -10,3 +10,4 @@ export * from './bedroom-situation';
 export * from './dwelling-situation';
 export * from './home-moves';
 export * from './unknown';
+export { ChildhoodProfile } from "./childhood-profile";
