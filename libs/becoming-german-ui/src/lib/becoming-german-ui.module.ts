@@ -8,11 +8,16 @@ import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
 import { NavComponent } from './nav/nav.component';
 import { RequestComponent } from './request/request.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
   },
   {
     path: 'project',
@@ -36,7 +41,7 @@ export const appRoutes: Routes = [
   },
 ];
 @NgModule({
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ReactiveFormsModule],
   declarations: [
     HomeComponent,
     ProjectComponent,
@@ -44,7 +49,7 @@ export const appRoutes: Routes = [
     ContactComponent,
     AboutComponent,
     NavComponent,
-    RequestComponent,
+    RequestComponent
   ],
   exports: [NavComponent],
 })

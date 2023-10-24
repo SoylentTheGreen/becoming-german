@@ -1,5 +1,7 @@
-import { literalStringArrayTyping } from "@becoming-german/tools";
+import { literalStringArrayTyping } from '@becoming-german/tools';
 
-const homeMoves = ["never", "once", "twice", "more than twice"];
+const homeMoves = ['0', '1', '2', '2+'] as const;
 export type HomeMoves = (typeof homeMoves)[number];
-export const homeMovesType = literalStringArrayTyping(homeMoves);
+
+
+export const homeMovesType = literalStringArrayTyping<HomeMoves>('HomeMoves', [...homeMoves]);

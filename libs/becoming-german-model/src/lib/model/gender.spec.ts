@@ -1,16 +1,5 @@
 import { genderType } from './gender';
-import { flow } from 'fp-ts/function';
-import * as E from 'fp-ts/Either';
-import { Decode } from 'io-ts';
-
-const decodeOrNull = <T>(decoder: Decode<unknown, T>) =>
-  flow(
-    decoder,
-    E.fold(
-      () => null,
-      (v) => v,
-    ),
-  );
+import { decodeOrNull } from '../decode-or-null';
 
 describe('Gender', () => {
   describe('genderType', () => {

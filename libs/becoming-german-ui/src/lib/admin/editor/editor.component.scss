@@ -1,0 +1,56 @@
+:host {
+  min-height: 90vh;
+  max-width: 60vw;
+
+  .row {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .table .row {
+    & > div {
+      width: 6rem;
+      font-size: 0.8rem;
+      padding: 0.2rem;
+
+      &.id {
+        width: 2rem;
+      }
+
+      &.gender, &.siblings {
+        width: 3rem;
+      }
+    }
+    &.data {
+      cursor: pointer;
+    }
+
+    &.data:nth-child(even) {
+      background-color: rgba(0, 0, 255, 0.3);
+    }
+  }
+
+  .editor {
+    display: grid;
+    width: 100%;
+
+    grid-template-areas: "mem memE";
+
+    .memory {
+      grid-area: mem;
+    }
+
+    .memoryEnglish {
+      grid-area: memE;
+    }
+
+    .block {
+      width: 40%;
+    }
+    textarea {
+      width: 100%;
+      height: 20rem;
+    }
+  }
+}
+

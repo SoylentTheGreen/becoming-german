@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes, LibsBecomingGermanUiModule } from "@becoming-german/ui";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -11,6 +12,7 @@ import { appRoutes, LibsBecomingGermanUiModule } from "@becoming-german/ui";
     BrowserModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     LibsBecomingGermanUiModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

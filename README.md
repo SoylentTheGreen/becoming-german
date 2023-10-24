@@ -1,25 +1,24 @@
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx.png" width="600" alt="Nx - Smart, Fast and Extensible Build System"></p>
+# becoming-german
+A collection of donated german childhood memories
 
-## Note
-Before trying to run `nx run serve` or `nx run deploy` you must have: 
-- [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html#install-sam-cli-instructions) installed which is different as per your OS
-- esbuild available in your PATH
-    ```shell
-    npm install -g esbuild
-    ``` 
 
-## Development
-Now after both are installed you can go ahead and run `nx run serve` which should:
-- Invoke `sam build` which builds your artifacts and copies them to `.aws-sam`
-- Invoke `sam local invoke` which invokes the function defined inside of your `template.yaml` file
+### Getting started.
 
-## Deployment
-**Note**: Before attempting to deploy you must have completed the prequistes for using AWS services such as:
-- Creating an AWS Account
-- Provisioning an admin user
-- Creating Access keys
+### Github
+(optional) create a github account [here](https://github.com) 
 
-To deploy you run 
-```shell
-nx run deploy
-```
+source code is [here](https://github.com/SoylentTheGreen/becoming-german)
+
+
+
+#### Tools
+development IDE: [visual studio code](https://code.visualstudio.com/)
+
+easiest is installing visual studio code and cloning the project.
+
+
+
+
+ 
+
+

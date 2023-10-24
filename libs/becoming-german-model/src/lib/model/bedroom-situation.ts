@@ -1,11 +1,13 @@
-import { literalStringArrayTyping } from "@becoming-german/tools";
+import { literalStringArrayTyping } from '@becoming-german/tools';
 
 export const bedroomSituations = [
-  "own",
-  "shared with sister",
-  "shared with brother",
-  "shared with several siblings",
-  "various"
+  'own',
+  'sister',
+  'brother',
+  'several',
+  'various',
 ] as const;
 export type BedroomSituation = (typeof bedroomSituations)[number];
-export const bedroomSituationType = literalStringArrayTyping(bedroomSituations);
+export const bedroomSituationType = literalStringArrayTyping<BedroomSituation>('BedroomSituation', [
+  ...bedroomSituations,
+]);

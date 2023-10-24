@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@becoming-german/api-lib": ["libs/api-lib/src/index.ts"],
       "@becoming-german/model": ["libs/becoming-german-model/src/index.ts"],
       "@becoming-german/tools": ["libs/tools/src/index.ts"],
       "@becoming-german/ui": ["libs/becoming-german-ui/src/index.ts"]

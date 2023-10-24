@@ -1,0 +1,17 @@
+.options {
+  display: flex;
+  flex-direction: column;
+  width: 40rem;
+  border: 1px solid red;
+  margin: 0 auto;
+  gap: 1rem;
+  padding: 1rem;
+
+  .selector {
+    display: flex;
+    gap: 2rem;
+    label {
+      width: 40%;
+    }
+  }
+}
