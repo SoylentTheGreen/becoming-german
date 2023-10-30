@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PersonService } from '../../person.service';
-import { Person } from '@becoming-german/model';
+import { Person, ymd } from '@becoming-german/model';
 import { Observable, shareReplay, Subject } from 'rxjs';
 
 export const labels: Record<keyof Person, string> = {
@@ -16,7 +16,8 @@ export const labels: Record<keyof Person, string> = {
   parents: $localize`:@@label.admin.parents:Parent`,
   germanState: $localize`:@@label.admin.state:State`,
   memory: $localize`:@@label.admin.memory:Memory`,
-  memoryEnglish: $localize`:@@label.admin.memoryEnglish:Memory English`
+  hobby: $localize`:@@label.admin.hobby:Hobby`,
+  favoriteColor: $localize`:@@label.admin.favoriteColor:Favourite Colour`,
 };
 
 @Component({
@@ -37,11 +38,15 @@ export class EditorComponent {
     'dwellingSituation',
     'moves',
     'parents',
-    'germanState'
+    'germanState',
   ];
   active = new Subject<Person>();
 
   activePerson: Observable<Person> = this.active.pipe(shareReplay(1));
 
   constructor(private service: PersonService) {}
+
+  format(field: (typeof this.fields)[number], value: unknown) {
+    return field === 'birthDate' ? ymd(value as Date) : value;
+  }
 }

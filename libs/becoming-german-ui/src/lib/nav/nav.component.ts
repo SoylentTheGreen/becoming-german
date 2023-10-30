@@ -6,8 +6,6 @@ const linkText: [string, string][] = [
   ['about', $localize`:@@nav-about:Impressum`],
 ];
 
-
-
 @Component({
   selector: 'bgn-nav',
   templateUrl: './nav.component.html',
@@ -15,7 +13,5 @@ const linkText: [string, string][] = [
 })
 export class NavComponent {
   links = linkText;
-  constructor() {
-    console.log('the nav component is being initialized')
-  }
+
 }

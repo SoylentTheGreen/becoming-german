@@ -5,17 +5,13 @@
     <div>has memory</div>
   </div>
   <div class="data row" *ngFor="let person of people | async" (click)="active.next(person)">
-    <div class="cell {{field}}" *ngFor="let field of fields">{{person[field]}}</div>
-    <div class="cell memory">{{person.memory ? 'X' : ''}}</div>
+    <div class="cell {{field}}" *ngFor="let field of fields">{{ format(field, person[field])}}</div>
+    <div class="cell memory">{{person.memory.length > 0 ? 'X' : ''}}</div>
   </div>
 </div>
 <div class="editor" *ngIf="activePerson | async; let ap">
-  <div class="block memory">
-    <div class="cell memory">{{labels.memory}}</div>
-    <textarea class="cell">{{ap.memory}}</textarea>
-  </div>
-  <div class="block memoryEnglish">
-    <div class="cell memoryEnglish">{{labels.memoryEnglish}}</div>
-    <textarea class="cell">{{ap.memoryEnglish}}</textarea>
+  <div class="block memory" *ngFor="let mem of ap.memory">
+    <div class="cell memory">{{labels.memory}} {{mem.language}}</div>
+    <textarea class="cell">{{mem.memory}}</textarea>
   </div>
 </div>

@@ -10,6 +10,15 @@
         <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{o[1]}}</option>
       </select>
     </div>
+    <div class="selector">
+      <label i18n="@@label.hobby">Hobby</label>
+      <input type="text" formControlName="hobby">
+    </div>
+    <div class="selector">
+      <label i18n="@@label.favoriteColor">Favorite Color</label>
+      <input type="text" formControlName="favoriteColor">
+    </div>
   </div>
+  <button [disabled]="disabled | async" i18n="@@label.submit" (click)="getProfile()">Submit</button>
 </div>
 

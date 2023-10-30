@@ -107,7 +107,7 @@ export type LiteralPropertiesRecord<T> = {
 const transFor = <Y extends string>(meta: LiteralMeta<Y>, tr: LiteralTranslation<Y>): [Y, string][] =>
   pipe(tr, toEntries, translationSort(meta.ord));
 
-export const childhoodProfileTranslations: LiteralPropertiesRecord<Omit<ChildhoodProfile, 'birthDate'>> = {
+export const childhoodProfileTranslations: LiteralPropertiesRecord<Omit<ChildhoodProfile, 'birthDate' | 'hobby' | 'favoriteColor'>> = {
   siblings: transFor(siblingStateType, siblings),
   siblingPosition: transFor(siblingPositionType, siblingPosition),
   bedroomSituation: transFor(bedroomSituationType, bedroomSituation),
@@ -115,8 +115,8 @@ export const childhoodProfileTranslations: LiteralPropertiesRecord<Omit<Childhoo
   gender: transFor(genderType, gender),
   moves: transFor(homeMovesType, moves),
   parents: transFor(parentalSituationType, parents),
-  germanState: transFor(germanStateType, state),
 };
+  // germanState: transFor(germanStateType, state),
 
 
 export const labels = {

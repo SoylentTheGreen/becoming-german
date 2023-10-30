@@ -1,10 +1,11 @@
-import { Decode } from "io-ts";
+import { Type } from 'io-ts';
 import { flow } from "fp-ts/function";
 import * as E from "fp-ts/Either";
 
-export const decodeOrNull = <T>(decoder: Decode<unknown, T>) =>
+
+export const decodeOrNull = <A, O, I>(codec: Type<A, O, I>) =>
   flow(
-    decoder,
+    codec.decode,
     E.fold(
       () => null,
       (v) => v
