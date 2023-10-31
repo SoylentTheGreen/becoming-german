@@ -2,29 +2,32 @@ nav {
   position: fixed;
   top: 2rem;
   left: 50%;
-  transform: translate(-50%);
-  width: 698px;
+  transform: translate(-30%);
+  max-width: 698px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-end;
 
   a {
-    font-family: 'Petit Formal Script', cursive;
+    font-family: Arial, Helvetica, sans-serif, cursive;
     font-style: italic;
     color: blue;
     text-transform: lowercase;
     text-decoration: none;
     display: flex;
     align-items: center;
-    font-size: 0.8rem;
-    gap: 0.2rem;
-    .ball {
+    font-size: 1rem;
+    gap: 1rem;
+    padding-left: 3rem;
+    /*border: 1px solid red;*/
+    
+    .ball {             /* red lolly */
       width: 12px;
       height: 12px;
       border-radius: 50%;
       display: inline-block;
       background: radial-gradient(circle at 15% 50%, rgba(255, 0, 0, 0.8) 1px, red 3%, darkred 60%, red 100%);
 
-      &::before {
+      &::before {     /*green stick*/
         content: "";
         display: inline-block;
         width: 1.4rem;
@@ -38,13 +41,13 @@ nav {
       transform: rotate(270deg);
     }
 
+    &:hover .ball {
+      transform: rotate(270deg);
+    }
+
   }
 
-
-
-
-
-
 }
+
 
 
