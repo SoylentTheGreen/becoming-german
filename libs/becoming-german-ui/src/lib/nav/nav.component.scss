@@ -19,15 +19,15 @@ nav {
     gap: 1rem;
     padding-left: 3rem;
     /*border: 1px solid red;*/
-    
-    .ball {             /* red lolly */
+
+    .ball { /* red lolly */
       width: 12px;
       height: 12px;
       border-radius: 50%;
       display: inline-block;
       background: radial-gradient(circle at 15% 50%, rgba(255, 0, 0, 0.8) 1px, red 3%, darkred 60%, red 100%);
 
-      &::before {     /*green stick*/
+      &::before { /*green stick*/
         content: "";
         display: inline-block;
         width: 1.4rem;
@@ -37,16 +37,12 @@ nav {
       }
     }
 
-    &.active .ball {
-      transform: rotate(270deg);
+    &.active, &:hover {
+      .ball {
+        transform: rotate(270deg);
+      }
     }
-
-    &:hover .ball {
-      transform: rotate(270deg);
-    }
-
   }
-
 }
 
 
