@@ -1,33 +1,21 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
-import { filter, map, mergeMap, startWith, take, tap } from 'rxjs';
+import { filter, firstValueFrom, map, mergeMap, startWith, take } from 'rxjs';
 import { childhoodProfileTranslations, LiteralPropertiesRecord } from '../i18n/translation';
 import { isLeft, isRight } from 'fp-ts/Either';
-import { keys } from 'fp-ts/Record';
-import { PathReporter } from 'io-ts/PathReporter';
-import { undefined } from 'io-ts';
-import { DateFromISOString } from 'io-ts-types';
 import { PersonService } from '../person.service';
 
 export type FormGroupMap<T> = FormGroup<{
   [Property in keyof T]: T[Property] extends (infer U)[] ? FormArray<FormGroupMap<U>> : FormControl<T[Property]>;
 }>;
 
-type NullableProperties<T> = {
-  [P in keyof T]: T[P] | null;
-};
 
-const nullObject: Partial<NullableProperties<ChildhoodProfile>> = keys(ChildhoodProfile.type.props).reduce(
-  (r, k) => ({ ...r, [k]: null }),
-  {},
-);
 const getF =
   <T, K extends keyof T>(trans: LiteralPropertiesRecord<T>) =>
   (k: K, t: string): { k: K; t: string; o: LiteralPropertiesRecord<T>[K] } => ({ k, t, o: trans[k] });
 
 const optionFields = getF(childhoodProfileTranslations);
-
 
 const defaultProfile: ChildhoodProfileOutput = {
   bedroomSituation: 'brother',
@@ -66,10 +54,11 @@ export class RequestComponent {
   );
   valid = this.updates.pipe(filter(isRight), map(v => v.right))
   disabled = this.updates.pipe(map(isLeft));
+  result = this.service.matchingProfile
 
   constructor(private fb: FormBuilder, private service: PersonService) {}
 
-  getProfile() {
-    this.valid.pipe(take(1), mergeMap(v => this.service.findProfile(v))).subscribe(console.log);
+  async getProfile() {
+    this.service.findProfile(await(firstValueFrom(this.valid)));
   }
 }

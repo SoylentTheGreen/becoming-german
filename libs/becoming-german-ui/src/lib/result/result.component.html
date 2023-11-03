@@ -1,0 +1,17 @@
+<div *ngIf="(result | async) as matches" class="results">
+  <div *ngFor="let itemKey of items" class="item">
+    <div class="label item">{{itemKey}}</div>
+    <div class="label weight">weight:</div>
+    <div class="detail weight">{{matches[itemKey].weight}}</div>
+    <div class="detail item">
+
+      <ng-container [ngSwitch]="itemKey">
+        <ng-template [ngSwitchCase]="'book'">
+          <div class="label book title" i18n="@@match.book.title">Title</div>
+          <div class="label book">{{ matches.book.item.de?.title }}</div>
+        </ng-template>
+      </ng-container>
+    </div>
+
+  </div>
+</div>

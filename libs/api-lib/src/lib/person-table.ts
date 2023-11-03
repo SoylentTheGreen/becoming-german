@@ -1,10 +1,37 @@
 import * as t from 'io-ts';
-import { germanStateType, languageType } from '@becoming-german/model';
-import { BookTable, getBookSql } from './book-table';
+import {
+  germanStateType,
+  Grandparents,
+  Holiday,
+  Item,
+  items,
+  languageType,
+  Memory,
+  NullableTranslatableC,
+} from '@becoming-german/model';
 import { fMapping } from './field-mapping';
 import { ChildhoodProfileTable } from './childhood-profile-table';
+import { pipe } from 'fp-ts/function';
+import { toEntries } from 'fp-ts/Record';
+import * as A from 'fp-ts/Array';
+import { BookItem } from './book-item';
+import { SongItem } from './song-item';
+import { weights } from './weights';
+import { itemQueryTable } from './item-query-table';
+import { PartyItem } from './party-item';
+import { AudioBookItem } from './audio-book-item';
 
 export const ChildhoodMemory = t.type({ language: languageType.literals, memory: t.string });
+
+const itemsProps = {
+  book: NullableTranslatableC(BookItem),
+  grandparents: NullableTranslatableC(Grandparents),
+  holidays: NullableTranslatableC(Holiday),
+  memory: NullableTranslatableC(Memory),
+  party: NullableTranslatableC(PartyItem),
+  song: NullableTranslatableC(SongItem),
+  speaking_book: NullableTranslatableC(AudioBookItem),
+};
 
 export const PersonTable = t.intersection([
   t.exact(
@@ -12,8 +39,7 @@ export const PersonTable = t.intersection([
       id: t.number,
       dwellingSituationComment: t.string,
       germanState: germanStateType.fromNumber,
-      memory: t.array(ChildhoodMemory),
-      book: t.array(BookTable),
+      ...itemsProps
     }),
   ),
   ChildhoodProfileTable,
@@ -27,17 +53,15 @@ const personTableMappingConfig: ([keyof PersonTable, string?] | [keyof PersonTab
   ['parents'],
   ['gender', 'sex'],
   ['germanState'],
-  ['id', 'p.id'],
-  [
-    'memory',
-    `json_array(json_object('language', 'de', 'memory', IFNULL(mem.diverse, "")),json_object('language', 'en', 'memory', IFNULL(memE.diverse, "")))`,
-  ],
-  ['moves', 'p.homeMoves'],
+  ['id'],
+  ['moves', 'homeMoves'],
   ['siblingPosition'],
   ['siblings'],
-  ['book', `COALESCE((${getBookSql()}), JSON_ARRAY())`],
+  ['hobby'],
+  ['favoriteColor'],
+  // ['book', `COALESCE(JSON_ARRAY(${getItemSql('memory')}), JSON_ARRAY())`],
 ];
-const personTableMapping = personTableMappingConfig.map(([a, b]) => fMapping(a, b));
+const personTableMapping = personTableMappingConfig.map(([a, b]) => fMapping(a, `p.${b || a}`));
 const zeroableFields: (keyof PersonTable | 'sex' | 'homeMoves')[] = [
   'birthDate',
   'sex',
@@ -52,33 +76,34 @@ const zeroableFields: (keyof PersonTable | 'sex' | 'homeMoves')[] = [
 const validFieldWhere = zeroableFields.map((f) => `${f} != 0`).join(' AND ');
 export const countPersonSql = `SELECT count(*) as total from tbl_german_person WHERE ${validFieldWhere}`;
 
-export const getPersonSql = (offset = 0, limit = 10) =>
-  `
-  SELECT json_object(${personTableMapping.join(', ')}) as json_mapping
-  FROM tbl_german_person p LEFT JOIN tbl_memory mem ON p.id = mem.pid LEFT JOIN eng_tbl_memory memE ON p.id = memE.pid
+export const getPersonSql = (offset = 0, limit = 10) => {
+  const items = pipe(
+    itemQueryTable,
+    toEntries,
+    A.map(
+      ([k, v]) =>
+        `'${k}', (
+        SELECT ${v} 
+        FROM tbl_${k} de_${k} LEFT JOIN eng_tbl_${k} en_${k} ON de_${k}.id=en_${k}.id 
+        WHERE de_${k}.pid=p.id LIMIT 1
+        )`,
+    ),
+  ).join(',');
+  return `
+  SELECT json_object(${personTableMapping.join(', ')}, ${items} ) as json_mapping
+  FROM tbl_german_person p
   WHERE 
     ${validFieldWhere}
+  ORDER BY p.id  
   LIMIT ${offset}, ${limit}`;
+};
 
 const fieldName = (k: keyof ChildhoodProfileTable): string =>
   k === 'gender' ? 'sex' : k === 'moves' ? 'homeMoves' : k;
 
-const weights: Record<keyof ChildhoodProfileTable, number> = {
-  birthDate: 5,
-  bedroomSituation: 1,
-  dwellingSituation: 1,
-  parents: 1,
-  siblingPosition: 1,
-  siblings: 1,
-  moves: 1,
-  favoriteColor: 0,
-  hobby: 0,
-  gender: 3
-};
-
 export const getSearch = (p: ChildhoodProfileTable) => {
   const data = ChildhoodProfileTable.encode(p);
-  const yearWeight = 3;
+
   const weightField = `
       IF(
       ABS(DATE_FORMAT(birthDate,"%Y")-${p.birthDate.getFullYear()}) <= ${weights.birthDate}, 
@@ -87,18 +112,62 @@ export const getSearch = (p: ChildhoodProfileTable) => {
         .filter(([k]) => k !== 'birthDate')
         .map(([k, v]: [keyof ChildhoodProfileTable, number]) => `if(${fieldName(k)}=${data[k]}, ${v}, 0)`)
         .join('+')}`;
-  const divisor = yearWeight + Object.values(weights).reduce((r, v) => r + v, 0);
+  const divisor = Object.values(weights).reduce((r, v) => r + v, 0);
 
-  return `
-    SELECT 
-      p.id,
-      DATE_FORMAT(birthDate,"%Y")-${p.birthDate.getFullYear()} as yearDiff, 
-      DATE_FORMAT(birthDate,"%Y") as year,
-      (${weightField}) / ${divisor} * 100 as weight
-      FROM tbl_german_person p
-      WHERE ${weightField} > 0
-      AND sex =${data['gender']}
-      ORDER BY weight DESC
-      limit 10
-`;
+  const getSql = (k: Item) => `
+  SELECT p.id, ${weightField} as weight, json_object('${k}', json_object(
+  'weight', (${weightField}) / ${divisor} * 100,
+  'pid', p.id,
+  'item', ${itemQueryTable[k]})) as jsonItem
+  FROM tbl_german_person p
+  JOIN (tbl_${k} as de_${k} LEFT JOIN eng_tbl_${k} as en_${k} ON de_${k}.id=en_${k}.id) ON de_${k}.pid=p.id
+  WHERE de_${k}.id is not null
+  AND  ${validFieldWhere}
+  ORDER BY weight DESC LIMIT 1`;
+  const sql = items.map((i) => `(${getSql(i)})`).join(' UNION ');
+
+  //   const sql = `
+  //
+  //   SELECT p.id, ${weightField} / ${divisor} * 100 as weight, json_object(
+  //   'weight', ${weightField} / ${divisor} * 100,
+  //   'memory', JSON_OBJECT('de', item.diverse, 'en', eItem.diverse)) as jsonItem
+  // FROM tbl_german_person p
+  //          JOIN (tbl_memory item LEFT JOIN eng_tbl_memory eItem ON item.id = eItem.id) ON p.id = item.pid
+  // WHERE item.id is not null ORDER BY weight DESC LIMIT 1`;
+  //   const sql =  pipe(
+  //     itemTables,
+  //     toEntries,
+  //     A.map(
+  //       ([item]) =>
+  //         `
+  //     (SELECT
+  //
+  //       JSON_OBJECT(
+  //
+  //       '${item}', (${getItemSql(item)})) as jsonResult
+  //       FROM tbl_german_person, ${getItemTableName(item)} b
+  //       WHERE b.pid = tbl_german_person.id
+  //       AND ${weightField} > 0
+  //       ORDER BY weight DESC
+  //       limit 1)
+  // `,
+  //     ),
+  //   ).join(' UNION ');
+  console.log(sql);
+  return sql;
 };
+/*
+const t = `
+    (SELECT
+      (${weightField}) / ${divisor} * 100 as weight,
+      JSON_OBJECT(
+      'weight',  (${weightField}) / ${divisor} * 100,
+      '${item}', (${getItemSql(item)})) as jsonResult
+      FROM tbl_german_person, ${getItemTableName(item)} b
+      WHERE
+      b.pid = tbl_german_person.id
+      AND ${weightField} > 0
+      ORDER BY weight DESC
+      limit 1)
+`
+ */

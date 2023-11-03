@@ -1,25 +1,41 @@
 :host {
   min-height: 90vh;
-  max-width: 60vw;
+  max-width: 80vw;
 
   .row {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
+    .cell {
+      width: 2rem;
+    }
+    .id {
+      width: 1rem;
+    }
+
+    .birthDate, .dwellingSituation {
+      width: 5.5rem;
+    }
+    .gender, .siblings, .bedroomSituation, .parents{
+      width: 3rem;
+    }
+
+    .siblingPosition {
+      width: 4rem;
+    }
+
+    .stat {
+      width: 2rem;
+      text-align: center;
+    }
+
   }
 
   .table .row {
     & > div {
-      width: 6rem;
       font-size: 0.8rem;
       padding: 0.2rem;
 
-      &.id {
-        width: 2rem;
-      }
 
-      &.gender, &.siblings {
-        width: 3rem;
-      }
     }
     &.data {
       cursor: pointer;

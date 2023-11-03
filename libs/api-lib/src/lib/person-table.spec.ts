@@ -1,50 +1,31 @@
-import { ChildhoodProfile } from '@becoming-german/model';
-import { decodeOrNull } from '@becoming-german/model';
-import { PathReporter } from 'io-ts/PathReporter';
-
 import * as t from 'io-ts';
-import { ChildhoodProfileTable } from './childhood-profile-table';
+import { isRight } from 'fp-ts/Either';
+import { PathReporter } from 'io-ts/PathReporter';
+import { BookItem } from './book-item';
+import { Memory, NullableTranslatableC } from '@becoming-german/model';
 
-const test = t.keyof({ a: null, b: null });
-type Test = t.TypeOf<typeof test>;
-const fromNumber = new t.Type<Test, number, unknown>(
-  `TestNumber`,
-  test.is,
-  (input, context) =>
-    input === 1 ? t.success('a') : input === 2 ? t.success('b') : t.failure(input, context, 'must be 1 or 2'),
-  (out: Test) => (out === 'a' ? 1 : 2),
-);
-
-const T1 = t.type({ a: fromNumber, b: t.string });
-const T2 = t.type({ a: test, b: t.string });
-type T1 = t.TypeOf<typeof T1>;
-type T2 = t.TypeOf<typeof T2>;
-const testy: T2 = { a: 'a', b: 'test' };
-type ChildhoodProfileTable = t.TypeOf<typeof ChildhoodProfileTable>;
-describe('PersonTable', () => {
-  it('can map from a valid profile to ChildhoodProfileTable', () => {
-    const profile: ChildhoodProfile = {
-      bedroomSituation: 'own',
-      birthDate: new Date('1973-10-10'),
-      dwellingSituation: 'suburb',
-      gender: 'male',
-      germanState: 'NW',
-      moves: '1',
-      parents: 'parents',
-      siblingPosition: 'youngest',
-      siblings: 'two',
+type BookTableOut = t.OutputOf<typeof BookItem>;
+describe('mapping', () => {
+  it('can map a book', () => {
+    const raw: BookTableOut = {
+      title: 'die unendliche geschichte',
+      author: 'michael ende',
+      readBy: 2,
+      synopsis: '',
+      character1: '',
+      character2: '',
+      ageWhenRead: 5,
+      whyFavorite: 'es war das einzige das ich fertig gelesen hab',
+      howItInfluenced: 'nicht wirklich',
     };
-
-    const ut = ChildhoodProfileTable.encode(profile);
-    expect(ut).toEqual({
-      bedroomSituation: 1,
-      birthDate: new Date(),
-      dwellingSituation: 2,
-      gender: 1,
-      moves: 1,
-      parents: 1,
-      siblingPosition: 4,
-      siblings: 2,
-    });
+    const res = BookItem.decode(raw);
+    console.log(PathReporter.report(res));
+    expect(isRight(res)).toBe(true);
   });
+
+  it('can resolve the type of Translated', () => {
+    const example = NullableTranslatableC(Memory);
+
+    const e: t.TypeOf<typeof example> = {de: {diverse: 'test'}};
+  })
 });
