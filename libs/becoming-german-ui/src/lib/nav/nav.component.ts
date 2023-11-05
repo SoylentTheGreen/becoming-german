@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 const linkText: [string, string][] = [
-  ['project', $localize`:@@nav-project:Das Projekt`],
+  ['project', $localize`:@@nav-project:Projekt`],
   ['news', $localize`:@@nav-news:Aktuelles`],
   ['contact', $localize`:@@nav-contact:Kontakt`],
   ['about', $localize`:@@nav-about:Impressum`],

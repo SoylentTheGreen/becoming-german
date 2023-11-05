@@ -1,50 +1,62 @@
 nav {
   position: fixed;
   top: 2rem;
-  left: 50%;
-  transform: translate(-30%);
-  max-width: 698px;
-  display: flex;
-  justify-content: flex-end;
-  border-bottom: 5px solid green;
+  //left: 27%;
+  transform: translate(-50%);
+  width: 698px;
 
   a {
-    font-family: Arial, Helvetica, sans-serif, cursive;
     font-style: italic;
     color: blue;
     text-transform: lowercase;
     text-decoration: none;
+  }
+  
+  .row_1 {
     display: flex;
-    align-items: center;
-    font-size: 1rem;
-    gap: 1rem;
-    padding-left: 3rem;
-    /*border: 1px solid red;*/
+    //justify-content: flex-end;
+    border-bottom: 2px solid lightgreen;
+    padding-bottom: 3px;
 
-    .ball { /* red lolly */
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: inline-block;
-      background: radial-gradient(circle at 15% 50%, rgba(255, 0, 0, 0.8) 1px, red 3%, darkred 60%, red 100%);
-
-      &::before { /*green stick*/
-        content: "";
-        display: inline-block;
-        width: 1.4rem;
-        height: 0.21rem;
-        transform: translate(-1rem, -0.35rem);
-        background-image: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), green, rgba(0, 255, 0, 0.1));
-      }
+    .home-link img {
+      padding-right: 92px; /* Optional: Adds some space between the home image and other links */ 
     }
-
-    &.active, &:hover {
-      .ball {
-        transform: rotate(270deg);
+  
+    .MainNav {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      //font-size: 1rem;
+      gap: 1rem;
+      padding-left: 3rem;
+      
+  
+      .ball { /* red lolly */
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        background: radial-gradient(circle at 15% 50%, rgba(255, 0, 0, 0.8) 1px, red 3%, darkred 60%, red 100%);
+  
+        &::before { /*green stick*/
+          content: "";
+          display: inline-block;
+          width: 2rem; //stick length
+          height: 0.2rem;
+          transform: translate(-1.8rem, -0.5rem); // (horizontal position, vertical position)
+          background-image: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), lightgreen, rgba(0, 255, 0, 0.1));
+        }
+      }
+  
+      &.active, &:hover {
+        .ball {
+          transform: rotate(270deg);
+        }
       }
     }
   }
+
+  .switchLanguage {
+    padding-top: 3px;
+  }
 }
-
-
-

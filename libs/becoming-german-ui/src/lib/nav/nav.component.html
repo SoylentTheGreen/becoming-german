@@ -1,6 +1,14 @@
 <nav>
-  <a [class]="link[0]" *ngFor="let link of links" routerLink="/{{link[0]}}" routerLinkActive="active">
-    <div class="ball"></div>
-    {{ link[1] }}
-  </a>
+  <div class="row_1">
+    <a class="home-link" routerLink="/">
+      <img src="assets/pix/header/home.gif" alt="Home">
+    </a>
+    <a class="MainNav" [class]="link[0]" *ngFor="let link of links" routerLink="/{{link[0]}}" routerLinkActive="active">
+      <div class="ball"></div>
+      {{ link[1] }}
+    </a>
+  </div>
+  <div class="switchLanguage" >
+    <a routerLink="">English</a>
+  </div>
 </nav>
