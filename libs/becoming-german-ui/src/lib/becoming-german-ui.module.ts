@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, Routes } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProjectComponent } from './project/project.component';
 import { NewsComponent } from './news/news.component';
@@ -10,6 +10,8 @@ import { NavComponent } from './nav/nav.component';
 import { RequestComponent } from './request/request.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ResultComponent } from './result/result.component';
+import { StandardLayoutComponent } from './standard-layout/standard-layout.component';
+import { WanderschaftComponent } from './project/wanderschaft/wanderschaft.component';
 
 export const appRoutes: Routes = [
   {
@@ -21,28 +23,38 @@ export const appRoutes: Routes = [
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
-    path: 'project',
-    component: ProjectComponent,
-  },
-  {
-    path: 'news',
-    component: NewsComponent,
-  },
-  {
-    path: 'about',
-    component: AboutComponent,
-  },
-  {
-    path: 'contact',
-    component: ContactComponent,
-  },
-  {
-    path: 'request',
-    component: RequestComponent,
+    path: '',
+    component: StandardLayoutComponent,
+    children: [
+      {
+        path: 'project',
+        component: ProjectComponent,
+      },
+      {
+        path: 'project/wanderschaft',
+        component: WanderschaftComponent,
+      },
+      {
+        path: 'news',
+        component: NewsComponent,
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
+      },
+      {
+        path: 'contact',
+        component: ContactComponent,
+      },
+      {
+        path: 'request',
+        component: RequestComponent,
+      },
+    ],
   },
 ];
 @NgModule({
-  imports: [CommonModule, RouterLink, RouterLinkActive, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ReactiveFormsModule, RouterOutlet],
   declarations: [
     HomeComponent,
     ProjectComponent,
@@ -52,6 +64,9 @@ export const appRoutes: Routes = [
     NavComponent,
     RequestComponent,
     ResultComponent,
+    HomeComponent,
+    StandardLayoutComponent,
+    WanderschaftComponent,
   ],
   exports: [NavComponent],
 })
