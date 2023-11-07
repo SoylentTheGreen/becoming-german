@@ -1,7 +1,5 @@
 import * as t from 'io-ts';
-
-
-import { NullableTranslatableC, Translatable, TranslatableC } from './nullableTranslatable';
+import { Translatable, TranslatableC } from './nullableTranslatable';
 import { Book } from './book';
 import { Grandparents } from './grandparents';
 import { Holiday } from './holiday';
@@ -10,7 +8,7 @@ import { Party } from './party';
 import { Song } from './song';
 import { AudioBook } from './audio-book';
 
-export type MatchingItem<T> = { pid: number, weight: number; item: Translatable<T> };
+export type MatchingItem<T> = { pid: number; weight: number; item: Translatable<T> };
 
 
 export const MatchingItemC = <T extends t.Mixed>(codec: T): t.Type<MatchingItem<t.TypeOf<T>>> =>
@@ -27,4 +25,5 @@ export const MatchingItemsProps = {
 }
 export const MatchingItemsC = t.type(MatchingItemsProps);
 export type MatchingItems = t.TypeOf<typeof MatchingItemsC>;
+
 

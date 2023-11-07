@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ChildhoodProfileTable, PersonService } from '@becoming-german/api-lib';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import { ChildhoodProfileTable, PersonService, UpdateResult } from '@becoming-german/api-lib';
 import * as t from 'io-ts';
 import { flow } from 'fp-ts/function';
 import { fold, isRight } from 'fp-ts/Either';
 import { ChildhoodProfile, NumberFromStringOrNumber, NumberInRange } from '@becoming-german/model';
 import { PathReporter } from 'io-ts/PathReporter';
-
+import { Observable, Subject } from 'rxjs';
+import { Response as ExResp } from 'express';
 
 const getReqC = t.type({
   offset: NumberFromStringOrNumber,
@@ -25,6 +26,8 @@ const getParamParser = decodeOrDefault(getReqC, defaultParams);
 
 @Controller()
 export class AppController {
+  private results = new Subject<UpdateResult[]>();
+
   constructor(private readonly service: PersonService) {}
 
   @Get('admin/profiles/:offset?/:limit?')
@@ -44,5 +47,40 @@ export class AppController {
     }
     console.log('decoding profile did not work');
     throw PathReporter.report(profile);
+  }
+
+  @Get('admin/migrate')
+  migrate(@Res() response: ExResp) {
+    const gen = this.service.normalise(0, 100);
+    response.setHeader('Content-Type', 'application/json');
+
+    const createFrom = (asyncCollection: () => AsyncIterableIterator<UpdateResult[]>): Observable<UpdateResult[]> => {
+      return new Observable<UpdateResult[]>((subscriber) => {
+        (async () => {
+          try {
+            for await (const value of asyncCollection()) {
+              subscriber.next(value);
+              // if(value[value.length-1].id > 100) break;
+            }
+            subscriber.complete();
+            console.log('subscription completed');
+          } catch (err) {
+            subscriber.error(err);
+          }
+        })();
+      });
+    };
+
+    createFrom(gen).subscribe({
+      next: (rows) => response.write(JSON.stringify(rows)),
+      complete: () => {
+        console.log('complete has been called on migration');
+        response.end()
+      },
+      error: (e) => {
+        console.error(e);
+        response.end()
+      }
+    });
   }
 }

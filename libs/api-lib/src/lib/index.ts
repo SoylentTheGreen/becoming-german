@@ -10,4 +10,5 @@ export * from './memory-item';
 export * from './song-item';
 export * from '../../../becoming-german-model/src/lib/model/item';
 export * from './weights';
+export { DbSafeString } from './db-safe-string';
 

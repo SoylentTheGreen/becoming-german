@@ -1,10 +1,11 @@
 import * as t from 'io-ts';
 import {
+  ChildhoodProfile,
   germanStateType,
   Grandparents,
   Holiday,
   Item,
-  items,
+  items, ItemToggleValue,
   languageType,
   Memory,
   NullableTranslatableC,
@@ -59,22 +60,12 @@ const personTableMappingConfig: ([keyof PersonTable, string?] | [keyof PersonTab
   ['siblings'],
   ['hobby'],
   ['favoriteColor'],
-  // ['book', `COALESCE(JSON_ARRAY(${getItemSql('memory')}), JSON_ARRAY())`],
 ];
 const personTableMapping = personTableMappingConfig.map(([a, b]) => fMapping(a, `p.${b || a}`));
-const zeroableFields: (keyof PersonTable | 'sex' | 'homeMoves')[] = [
-  'birthDate',
-  'sex',
-  'siblings',
-  'siblingPosition',
-  'parents',
-  'bedroomSituation',
-  'dwellingSituation',
-  'homeMoves',
-  'germanState',
-];
-const validFieldWhere = zeroableFields.map((f) => `${f} != 0`).join(' AND ');
-export const countPersonSql = `SELECT count(*) as total from tbl_german_person WHERE ${validFieldWhere}`;
+
+
+export const countPersonSql = `SELECT count(*) as total from tbl_german_person WHERE isQuarantined=0`;
+
 
 export const getPersonSql = (offset = 0, limit = 10) => {
   const items = pipe(
@@ -93,9 +84,10 @@ export const getPersonSql = (offset = 0, limit = 10) => {
   SELECT json_object(${personTableMapping.join(', ')}, ${items} ) as json_mapping
   FROM tbl_german_person p
   WHERE 
-    ${validFieldWhere}
+    isQuarantined=0
+    AND p.id > ${offset}
   ORDER BY p.id  
-  LIMIT ${offset}, ${limit}`;
+  LIMIT ${limit}`;
 };
 
 const fieldName = (k: keyof ChildhoodProfileTable): string =>
@@ -118,11 +110,11 @@ export const getSearch = (p: ChildhoodProfileTable) => {
   SELECT p.id, ${weightField} as weight, json_object('${k}', json_object(
   'weight', (${weightField}) / ${divisor} * 100,
   'pid', p.id,
-  'item', ${itemQueryTable[k]})) as jsonItem
+  'item', JSON_EXTRACT(jsonData, '$.${k}'))) as jsonItem
   FROM tbl_german_person p
-  JOIN (tbl_${k} as de_${k} LEFT JOIN eng_tbl_${k} as en_${k} ON de_${k}.id=en_${k}.id) ON de_${k}.pid=p.id
-  WHERE de_${k}.id is not null
-  AND  ${validFieldWhere}
+  WHERE 
+  items_de & ${ItemToggleValue[k]}
+  AND  isQuarantined = 0
   ORDER BY weight DESC LIMIT 1`;
   const sql = items.map((i) => `(${getSql(i)})`).join(' UNION ');
 
@@ -156,6 +148,7 @@ export const getSearch = (p: ChildhoodProfileTable) => {
   console.log(sql);
   return sql;
 };
+
 /*
 const t = `
     (SELECT

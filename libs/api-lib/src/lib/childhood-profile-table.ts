@@ -1,5 +1,4 @@
 import * as t from 'io-ts';
-import { escape as mysqlEscape } from 'mysql';
 import {
   bedroomSituationType,
   DateOnlyInput,
@@ -10,7 +9,7 @@ import {
   siblingPositionType,
   siblingStateType,
 } from '@becoming-german/model';
-export const DbSafeString = new t.Type('mysqlsafestring', t.string.is, t.string.validate, mysqlEscape);
+import { DbSafeString } from './db-safe-string';
 
 export const ChildhoodProfileTable = t.exact(
   t.type({
@@ -23,7 +22,7 @@ export const ChildhoodProfileTable = t.exact(
     moves: homeMovesType.fromNumber,
     parents: parentalSituationType.fromNumber,
     favoriteColor: DbSafeString,
-    hobby: DbSafeString
+    hobby: DbSafeString,
   }),
 );
 export type ChildhoodProfileTable = t.TypeOf<typeof ChildhoodProfileTable>

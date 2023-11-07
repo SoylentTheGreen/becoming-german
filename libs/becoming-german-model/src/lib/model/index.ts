@@ -11,6 +11,7 @@ export * from './grandparents';
 export * from './holiday';
 export * from './home-moves';
 export * from './item';
+export * from './item-type-map';
 export * from './language';
 export * from './matching-item';
 export * from './memory';
