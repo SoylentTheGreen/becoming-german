@@ -1,5 +1,5 @@
 /* Styles for the body element */
-body {
+/*body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -12,44 +12,44 @@ body {
     //left: 27%;
     transform: translate(-50%);
 }
-
-div {
-    padding-bottom: 50px;
-}
-
-a {
-    color: blue;
-    text-decoration: none;
-}
+*/
 
 /* Styles for the secondary horizontal navigation */
-.secondary-nav {
+/*.secondary-nav {
     display: flex;
     align-items: center;
     height: 40px;
     margin-left: -15px; /* Move the navigation to the left */
-    font-weight: bold;
+    /*font-weight: bold;
     
         a {
         margin: 0 15px; /* Adjust horizontal spacing */
         
-        &:active, &:hover {
+        /*&:active, &:hover {
             text-decoration: underline;
         } 
     }
-}
+}*/
+    
 
 /* Styles for the content box */
-.bg_content {
-    width: 100%; /* Take up the full width */
-    max-width: 698px; /* Set maximum width if needed */
-    //border: 1px solid red;
-    
+div {
+    position: fixed;
+    top: 200px;
+    width: 698px; /* Set maximum width if needed */
+    padding-bottom: 50px;
+    transform: translate(-50%);
+    line-height: 1.5;
+    border: 1px solid red;
+
+
     span {
         font-weight: bold;
     }
 
     a {
         text-decoration: underline;
+        color: blue;
+    
     }
 }

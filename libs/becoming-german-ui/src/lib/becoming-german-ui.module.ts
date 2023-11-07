@@ -12,6 +12,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ResultComponent } from './result/result.component';
 import { StandardLayoutComponent } from './standard-layout/standard-layout.component';
 import { WanderschaftComponent } from './project/wanderschaft/wanderschaft.component';
+import { FotoalbumComponent } from './project/fotoalbum/fotoalbum.component';
+import { PresseComponent } from './project/presse/presse.component';
+import { SecondaryNavComponent } from './project/secondary-nav/secondary-nav.component';
+import { FooterComponent } from './footer/footer.component';
+import { SecondaryNav2Component } from './project/secondary-nav2/secondary-nav2.component';
 
 export const appRoutes: Routes = [
   {
@@ -33,6 +38,14 @@ export const appRoutes: Routes = [
       {
         path: 'project/wanderschaft',
         component: WanderschaftComponent,
+      },
+      {
+        path: 'project/Fotoalbum',
+        component: FotoalbumComponent,
+      },
+      {
+        path: 'project/presse',
+        component: PresseComponent,
       },
       {
         path: 'news',
@@ -67,7 +80,12 @@ export const appRoutes: Routes = [
     HomeComponent,
     StandardLayoutComponent,
     WanderschaftComponent,
+    FotoalbumComponent,
+    PresseComponent,
+    SecondaryNavComponent,
+    FooterComponent,
+    SecondaryNav2Component,
   ],
-  exports: [NavComponent],
+  exports: [NavComponent, SecondaryNavComponent],
 })
 export class LibsBecomingGermanUiModule {}
