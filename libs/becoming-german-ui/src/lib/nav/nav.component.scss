@@ -3,7 +3,6 @@ nav {
   align-self: flex-start;
   margin-top: 2rem;
   width: 698px;
-  border: 1px solid red;
 
   a {
     font-style: italic;
@@ -16,7 +15,7 @@ nav {
     display: flex;
     align-self: flex-start;
     border-bottom: 2px solid lightgreen;
-    padding-bottom: 3px;
+
 
     .home-link img {
       padding-right: 92px; /* Optional: Adds some space between the home image and other links */ 

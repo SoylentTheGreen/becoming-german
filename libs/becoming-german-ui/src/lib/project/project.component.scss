@@ -1,37 +1,20 @@
-/* Styles for the Main Heading */
-.heading {
-  align-self: flex-start;
-  font-size: 1rem;
-  width: 698px;
-  margin-top: 38px;
-  border: 1px solid green;
+:host {
+  display:flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-h3,
-.heading {
-  font-weight: bold;
-  color: blue;
-}
-
-/* Styles for the content box */
-.bg_content {
-  flex: 1; /* Allow the element to grow and shrink as needed */
-  align-self: flex-start;
-  margin-top: 30px;
-  width: 698px; /* Set maximum width if needed */
-  line-height: 1.5;
-  border: 1px solid red;
-  min-height: 60vh;
-
-  span {
-    font-weight: bold;
-  }
+.secondary-nav {
+  display: flex;
+  gap: 1.5rem;
 
   a {
-    text-decoration: underline;
-    color: blue;
+    text-decoration: none;
   }
-}
-.active {
+
+  .active, :hover{
     text-decoration: underline;
+  }
+
 }
+

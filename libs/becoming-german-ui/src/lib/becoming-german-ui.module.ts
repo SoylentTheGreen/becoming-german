@@ -10,12 +10,7 @@ import { RequestComponent } from './request/request.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ResultComponent } from './result/result.component';
 import { StandardLayoutComponent } from './standard-layout/standard-layout.component';
-import { WanderschaftComponent } from './project/wanderschaft/wanderschaft.component';
-import { FotoalbumComponent } from './project/fotoalbum/fotoalbum.component';
-import { PresseComponent } from './project/presse/presse.component';
-import { SecondaryNavComponent } from './project/secondary-nav/secondary-nav.component';
 import { FooterComponent } from './footer/footer.component';
-import { SecondaryNav2Component } from './project/secondary-nav2/secondary-nav2.component';
 import { I18nModule } from './i18n';
 
 export const appRoutes: Routes = [
@@ -34,14 +29,6 @@ export const appRoutes: Routes = [
       {
         path: 'project',
         loadChildren: () => import('./project/project.module').then((m) => m.ProjectModule),
-      },
-      {
-        path: 'project/Fotoalbum',
-        component: FotoalbumComponent,
-      },
-      {
-        path: 'project/presse',
-        component: PresseComponent,
       },
       {
         path: 'news',
@@ -75,12 +62,7 @@ export const appRoutes: Routes = [
     ResultComponent,
     HomeComponent,
     StandardLayoutComponent,
-    WanderschaftComponent,
-    FotoalbumComponent,
-    PresseComponent,
-    SecondaryNavComponent,
     FooterComponent,
-    SecondaryNav2Component,
   ],
   exports: [NavComponent],
   providers: [I18nModule.setLocale(), I18nModule.setLocaleId()],

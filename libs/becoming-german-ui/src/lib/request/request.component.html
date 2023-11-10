@@ -1,7 +1,7 @@
 <div class="input-form" [formGroup]="form">
   <div class="options">
     <div class="selector">
-      <label i18n="@@label.birthDate">wat</label>
+      <label i18n="@@label.birthDate">Geburtstag</label>
       <input type="date" formControlName="birthDate">
     </div>
     <div class="selector" *ngFor="let opt of options;">
@@ -21,9 +21,6 @@
   </div>
   <button [disabled]="disabled | async" i18n="@@label.submit" (click)="getProfile()">Submit</button>
   <a onclick="getProfile()">
-    <img src="assets/pix/kirschlutscher_kl.gif" alt="Submit form">
+    <img src="../assets/pix/kirschlutscher_kl.gif" alt="Submit form">
   </a>
 </div>
-<bgn-result></bgn-result>
-<bgn-footer></bgn-footer>
-
