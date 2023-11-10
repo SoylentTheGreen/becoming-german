@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ChildhoodProfile, ChildhoodProfileOutput, Person } from '@becoming-german/model';
+import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
 import { filter, firstValueFrom, map, startWith } from 'rxjs';
 import { childhoodProfileTranslations, labels, LiteralPropertiesRecord } from '../i18n/translation';
 import { isLeft, isRight } from 'fp-ts/Either';
@@ -56,7 +56,10 @@ export class RequestComponent {
     map((v) => v.right),
   );
   disabled = this.updates.pipe(map(isLeft));
-  result = this.service.matchingProfile;
+  requestEnabled = this.service.matchingProfile.pipe(
+    map(() => false),
+    startWith(true),
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -66,5 +69,4 @@ export class RequestComponent {
   async getProfile() {
     this.service.findProfile(await firstValueFrom(this.valid));
   }
-
 }

@@ -1,40 +1,167 @@
-<div *ngIf="(result | async) as matches" class="results">
+<div *ngIf="result | async as matches" class="results">
   <div *ngFor="let itemKey of items" class="item">
-    <div class="label item">Dein Lieblings{{itemKey}} in Deutschland war:</div>
-    <div class="label weight">weight:</div>
-    <div class="detail weight">{{matches[itemKey].weight}}</div>
-   
     <div class="detail item">
-      
+      <!--QUESTIONS & CHANGES TO BE MADE
+        
+          Sonderzeichenformatierung??
+          ageWhenRead needs ca. und Jahre 
+          Die Daten aus der Datenbank müssen BOLD sein
+          Können wir ein Feld weglassen, wenn es leer ist?
+          Is the weighting always the same??
+          Reihenfolge? (Zurzeit ist es alphabetisch)
+
+          FELD MIT INFOS ZUR PERSON
+
+      -->
 
       <ng-container [ngSwitch]="itemKey">
         <ng-template [ngSwitchCase]="'book'">
-          <div class="label book title" i18n="@@match.book.title">Titel:</div>
-          <div class="value book">{{ matches.book.item.de?.title }}</div>
+          <!--<div>Dein Lieblings{{itemKey}} in Deutschland war:</div>-->
+          <div i18n="@@match.book.heading">Dein Lieblingsbuch wäre gewesen:</div>
+          <div class="detail weight">(mit einer Wahrscheinlichkeit von: {{ matches[itemKey].weight }}%)</div>
+          <div class="item">{{ matches.book.item.de?.title }}</div>
+          <div class="item" i18n="@@match.book.author">geschrieben von {{ matches.book.item.de?.author }}</div>
+          <div class="item" i18n="@@match.book.characters">
+            Deine Lieblingsfiguren waren: {{ matches.book.item.de?.character1 }} und
+            {{ matches.book.item.de?.character2 }}
+          </div>
+          <div class="item" i18n="@@match.book.synopsis">
+            In dem Buch ging es um:{{ matches.book.item.de?.synopsis }}
+          </div>
+          <div class="item" i18n="@@match.book.whyFavorite">
+            Es war Dein Lieblingsbuch weil: {{ matches.book.item.de?.whyFavorite }}
+          </div>
+          <div class="item" i18n="@@match.book.howItInfluenced">
+            Das Buch hat Dein alltagsleben folgenderma&szlig;en beeinflu&szlig;t:
+            {{ matches.book.item.de?.howItInfluenced }}
+          </div>
+          <div class="item" i18n="@@match.book.ageWhenRead">
+            Das Buch war wichtig f&uuml;r Dich als Du {{ matches.book.item.de?.ageWhenRead }} alt
+          </div>
+          <!--ageWhenRead überarbeiten: "ca. 7 - 9 Jahre"-->
+          <div class="between_items"></div>
         </ng-template>
 
-      </ng-container>
-      <ng-container [ngSwitch]="itemKey">
-        <ng-template [ngSwitchCase]="'book'">
-          <div class="label book title" i18n="@@match.book.title">Autor:</div>
-          <div class="value book">{{ matches.book.item.de?.author }}</div>
-        </ng-template>
-
-      </ng-container>
-
-    </div>
-    <div class="detail item">
-      
-
-      <ng-container [ngSwitch]="itemKey">
         <ng-template [ngSwitchCase]="'grandparents'">
-          <div class="label grandparents title" i18n="@@match.grandparents.title">Title</div>
-          <div class="value grandparents">{{ matches.grandparents.item.de?.who }}</div>
-          <div class="value grandparents">{{ matches.grandparents.item.de?.getOn }}</div>
+          <div i18n="@@match.grandparents.heading">Deine Großeltern:</div>
+          <div class="detail weight">(mit einer Wahrscheinlichkeit von: {{ matches[itemKey].weight }}%)</div>
+          <div class="item" i18n="@@match.grandparents.who">
+            Deine Großeltern waren: {{ matches.grandparents.item.de?.who }}
+          </div>
+          <div class="item" i18n="@@match.grandparents.didYouMeet">
+            Hast Du die kennengelernt? {{ matches.grandparents.item.de?.didYouMeet }}
+          </div>
+          <div class="item" i18n="@@match.grandparents.getOn">
+            Habt ihr euch verstanden? {{ matches.grandparents.item.de?.getOn }}
+          </div>
+          <div class="item" i18n="@@match.grandparents.activity">
+            Wenn ihr euch gesehen habt, habt ihr folgendes gemacht: {{ matches.grandparents.item.de?.activity }}
+          </div>
+          <div class="item" i18n="@@match.grandparents.smell">
+            Der Geruch, den Du mit Deinen Großeltern verbindest ist: {{ matches.grandparents.item.de?.smell }}
+          </div>
+          <div class="item" i18n="@@match.grandparents.association">Weitere Assoziationen zu den Großeltern:</div>
+          <div>{{ matches.grandparents.item.de?.association }}</div>
+          <div class="item" i18n="@@match.grandparents.specialMemory">Besondere Erinnerungen:</div>
+          <div>{{ matches.grandparents.item.de?.specialMemory }}</div>
+          <div class="between_items"></div>
         </ng-template>
 
-      </ng-container>
+        <ng-template [ngSwitchCase]="'holidays'">
+          <div i18n="@@match.holidays.heading">Die Sommerferien:</div>
+          <div class="detail weight">(mit einer Wahrscheinlichkeit von: {{ matches[itemKey].weight }}%)</div>
+          <div class="item" i18n="@@match.holidays.holidayActivities">
+            In den Sommerferien hast Du folgendes gemacht!
+          </div>
+          <div>{{ matches.holidays.item.de?.holidayActivities }}</div>
+          <div class="between_items"></div>
+        </ng-template>
 
+        <ng-template [ngSwitchCase]="'memory'">
+          <div i18n="@@match.memory.heading">Andere Erinnerungen:</div>
+          <div class="detail weight">(mit einer Wahrscheinlichkeit von: {{ matches[itemKey].weight }}%)</div>
+          <div class="item" i18n="@@match.memory.diverse">
+            Diese Erinnerungen geh&ouml;ren unbedingt zu Deiner Kindheit in Deutschland dazu!
+          </div>
+          <div>{{ matches.memory.item.de?.diverse }}</div>
+          <div class="between_items"></div>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="'song'">
+          <div i18n="@@match.song.heading">Dein Lieblingslied war:</div>
+          <div class="detail weight">(mit einer Wahrscheinlichkeit von: {{ matches[itemKey].weight }}%)</div>
+          <div class="item">{{ matches.song.item.de?.title }}</div>
+          <div class="item" i18n="@@match.song.artist">und wurde gesungen von: {{ matches.song.item.de?.artist }}</div>
+          <div class="item" i18n="@@match.song.reason">
+            Das Lied/Song hat Dich deswegen fasziniert: {{ matches.song.item.de?.reason }}
+          </div>
+          <div class="item" i18n="@@match.song.text">
+            Der Text, den du noch kannst ist: {{ matches.song.item.de?.text }}
+          </div>
+          <div class="item" i18n="@@match.song.melody">Die Meldoy geht so: {{ matches.song.item.de?.melody }}</div>
+          <div class="item" i18n="@@match.song.listeningSituation">
+            Die Situation in der Du das Lied/den Song immer geh&ouml;rt hast war:
+          </div>
+          <div>{{ matches.song.item.de?.listeningSituation }}</div>
+          <div class="item" i18n="@@match.song.ageWhenImportant">
+            Das Lied/Song war wichtig f&uuml;r Dich als du {{ matches.song.item.de?.ageWhenImportant }} alt warst.
+          </div>
+          <div class="between_items"></div>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="'party'">
+          <div i18n="@@match.party.heading">Kindergeburtstag / Party:</div>
+          <div class="detail weight">(mit einer Wahrscheinlichkeit von: {{ matches[itemKey].weight }}%)</div>
+          <div class="item" i18n="@@match.party.likeParty">
+            Auf Kindergeburtstagen / Parties warst du {{ matches.party.item.de?.likeParty }}
+          </div>
+          <div class="item" i18n="@@match.party.reason">weil: {{ matches.party.item.de?.reason }}</div>
+          <div class="item" i18n="@@match.party.food">
+            Zum Essen gab's dort meistens: {{ matches.party.item.de?.food }}
+          </div>
+          <div class="item" i18n="@@match.party.favoriteFood">
+            Dein Lieblingsessen war: {{ matches.party.item.de?.favoriteFood }}
+          </div>
+          <div class="item" i18n="@@match.party.game">
+            Meistens habt Ihr gespielt: {{ matches.party.item.de?.game }}
+          </div>
+          <div class="item" i18n="@@match.party.favoriteGame">
+            Am liebsten hast Du gespielt: {{ matches.party.item.de?.favoriteGame }}
+          </div>
+          <div class="item" i18n="@@match.party.worstGame">
+            ... und gar nicht gern: {{ matches.party.item.de?.worstGame }}
+          </div>
+          <div class="item" i18n="@@match.party.specialMemory">
+            Besondere Erinnerungen: {{ matches.party.item.de?.specialMemory }}
+          </div>
+          <div class="between_items"></div>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="'speaking_book'">
+          <div i18n="@@match.speaking_book.heading">Dein Lieblingshörbuch / Deine Lieblingskassette/-platte:</div>
+          <div class="detail weight">(mit einer Wahrscheinlichkeit von: {{ matches[itemKey].weight }}%)</div>
+          <div class="item">{{ matches.speaking_book.item.de?.title }}</div>
+          <div class="item" i18n="@@match.speaking_book.author">von {{ matches.speaking_book.item.de?.author }}</div>
+          <div class="item" i18n="@@match.speaking_book.themeMusic">
+            Die Titelmelodie war: {{ matches.speaking_book.item.de?.themeMusic }}
+          </div>
+          <div class="item" i18n="@@match.speaking_book.synopsis">
+            Die Geschichte ging so: {{ matches.speaking_book.item.de?.synopsis }}
+          </div>
+          <div class="item" i18n="@@match.speaking_book.reason">
+            Es war Dein Favorit, weil: {{ matches.speaking_book.item.de?.reason }}
+          </div>
+          <div class="item" i18n="@@match.speaking_book.listeningSituation">
+            Die Situation in der Du die Märchenkassette / das Hörbuch immer geh&ouml;rt hast war:
+          </div>
+          <div>{{ matches.speaking_book.item.de?.listeningSituation }}</div>
+          <div class="item" i18n="@@match.speaking_book.ageWhenImportant">
+            Die Märchenkassette / das Hörbuch war wichtig für dich als du
+            {{ matches.speaking_book.item.de?.ageWhenImportant }} alt warst.
+          </div>
+          <div class="between_items"></div>
+        </ng-template>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -1,26 +1,27 @@
-<div class="input-form" [formGroup]="form">
+<div class="input-form" [formGroup]="form" *ngIf="(requestEnabled | async)">
   <div class="options">
     <div class="selector">
       <label i18n="@@label.birthDate">Geburtstag</label>
-      <input type="date" formControlName="birthDate">
+      <input type="date" formControlName="birthDate" />
     </div>
-    <div class="selector" *ngFor="let opt of options;">
-      <label>{{opt.t}}</label>
-      <select formControlName="{{opt.k}}">
-        <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{o[1]}}</option>
+    <div class="selector" *ngFor="let opt of options">
+      <label>{{ opt.t }}</label>
+      <select formControlName="{{ opt.k }}">
+        <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>
       </select>
     </div>
     <div class="selector">
       <label i18n="@@label.hobby">Hobby</label>
-      <input type="text" formControlName="hobby">
+      <input type="text" formControlName="hobby" />
     </div>
     <div class="selector">
       <label i18n="@@label.favoriteColor">Favorite Color</label>
-      <input type="text" formControlName="favoriteColor">
+      <input type="text" formControlName="favoriteColor" />
     </div>
   </div>
   <!--<button [disabled]="disabled | async" i18n="@@label.submit" (click)="getProfile()">Submit</button>-->
-  <a (click)="getProfile()">
-    <img src="assets/pix/kirschlutscher_kl.gif" alt="Submit form">
-  </a>
+
+  <img src="../assets/pix/kirschlutscher_kl.gif" alt="Submit form" (click)="getProfile()"/>
+
 </div>
+<bgn-result></bgn-result>

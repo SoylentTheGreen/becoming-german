@@ -9,7 +9,6 @@ import {
   GermanState,
   HomeMoves,
   homeMovesType,
-  Item,
   ParentalSituation,
   parentalSituationType,
   Person,
@@ -88,7 +87,7 @@ const gender: LiteralTranslation<Gender> = {
 const moves: LiteralTranslation<HomeMoves> = {
   '0': $localize`:@@childhood.moves.never:nie`,
   '1': $localize`:@@childhood.moves.once:einmal`,
-  '2': $localize`:@@childhood.moves.twice:zwiemal`,
+  '2': $localize`:@@childhood.moves.twice:zweimal`,
   '2+': $localize`:@@childhood.moves.more_than_twice:mehr als zweimal`,
 };
 

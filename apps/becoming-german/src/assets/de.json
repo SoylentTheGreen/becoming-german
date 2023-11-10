@@ -66,7 +66,7 @@
     "gender.male": "Männlich",
     "childhood.moves.never": "nie",
     "childhood.moves.once": "einmal",
-    "childhood.moves.twice": "zwiemal",
+    "childhood.moves.twice": "zweimal",
     "childhood.moves.more_than_twice": "mehr als zweimal",
     "childhood.parents.father": "alleinerziehender Vater",
     "childhood.parents.mother": "alleinerziehende Mutter",
@@ -96,8 +96,7 @@
     "project.link.presse": "Presse",
     "label.hobby": "Hobby",
     "label.favoriteColor": "Favorite Color",
-    "label.submit": "Submit",
-    "match.weighting": "Wahrscheinlichkeitsgewichtung",
-    "match.book.title": "Titel"
+    "match.book.title": "Titel:",
+    "match.grandparents.title": "Title"
   }
 }
