@@ -1,8 +1,7 @@
 nav {
-  position: fixed;
-  top: 2rem;
-  //left: 27%;
-  transform: translate(-50%);
+  /*flex: 0 0 auto;*/
+  align-self: flex-start;
+  margin-top: 2rem;
   width: 698px;
   border: 1px solid red;
 
@@ -15,7 +14,7 @@ nav {
   
   .row_1 {
     display: flex;
-    //justify-content: flex-end;
+    align-self: flex-start;
     border-bottom: 2px solid lightgreen;
     padding-bottom: 3px;
 
@@ -27,7 +26,7 @@ nav {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      //font-size: 1rem;
+      /*font-size: 1rem;*/
       gap: 1rem;
       padding-left: 3rem;
       

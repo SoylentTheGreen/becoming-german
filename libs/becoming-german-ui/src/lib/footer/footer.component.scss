@@ -1,6 +1,5 @@
 footer {
-  position: fixed;
-  bottom: 0;
-  width: 698px;
-  transform: translate(-50%);
+  flex-shrink: 0;
+  align-self: flex-end;
+  border: 1px solid magenta;
 }

@@ -1,30 +1,9 @@
-/* Styles for the body element */
-/*body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    line-height: 1.5;
-    position: fixed;
-    top: 170px;
-    width: 698px;
-    //left: 27%;
-    transform: translate(-50%);
-}*/
-
-
 /* Styles for the secondary horizontal navigation */
 .secondary-nav {
-  position: fixed;
-  top: 130px;
-  display: flex;
-  align-items: center;
-  //justify-content: flex-start;
-  //height: 40px;
-  margin-left: -15px; /* Move the navigation to the left */
+  align-self: flex-start;
+  margin-top: 2.5rem;
+  width: 698px; 
   font-weight: bold;
-  transform: translate(-65%);
   border: 1px solid green;
 
   a {
@@ -32,6 +11,10 @@
     color: blue;
     text-decoration: none;
 
+    &:first-child {
+      margin-left: 0;
+    }
+    &.active,
     &:active,
     &:hover {
       text-decoration: underline;

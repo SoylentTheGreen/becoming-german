@@ -1,4 +1,3 @@
-<bgn-nav></bgn-nav>
 <div *ngIf="(result | async) as matches" class="results">
   <div *ngFor="let itemKey of items" class="item">
     <div class="label item">{{itemKey}}</div>
@@ -9,11 +8,10 @@
       <ng-container [ngSwitch]="itemKey">
         <ng-template [ngSwitchCase]="'book'">
           <div class="label book title" i18n="@@match.book.title">Title</div>
-          <div class="label book">{{ matches.book.item.de?.title }}</div>
+          <div class="value book">{{ matches.book.item.de?.title }}</div>
         </ng-template>
       </ng-container>
     </div>
 
   </div>
 </div>
-<bgn-footer></bgn-footer>
