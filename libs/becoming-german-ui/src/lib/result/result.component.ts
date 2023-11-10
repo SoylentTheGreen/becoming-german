@@ -11,7 +11,9 @@ import { map } from 'rxjs';
 export class ResultComponent {
   result = this.service.matchingProfile;
   items = items;
-  book = this.result.pipe(map(r => r.book));
+  book = this.result.pipe(
+    map(r => r.book));
+
 
   constructor(private service: PersonService) {}
 }

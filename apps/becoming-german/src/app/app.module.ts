@@ -14,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
     LibsBecomingGermanUiModule,
     HttpClientModule
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

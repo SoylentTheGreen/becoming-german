@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ProjectComponent } from './project/project.component';
 import { NewsComponent } from './news/news.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
@@ -17,6 +16,7 @@ import { PresseComponent } from './project/presse/presse.component';
 import { SecondaryNavComponent } from './project/secondary-nav/secondary-nav.component';
 import { FooterComponent } from './footer/footer.component';
 import { SecondaryNav2Component } from './project/secondary-nav2/secondary-nav2.component';
+import { I18nModule } from './i18n';
 
 export const appRoutes: Routes = [
   {
@@ -33,11 +33,7 @@ export const appRoutes: Routes = [
     children: [
       {
         path: 'project',
-        component: ProjectComponent,
-      },
-      {
-        path: 'project/wanderschaft',
-        component: WanderschaftComponent,
+        loadChildren: () => import('./project/project.module').then((m) => m.ProjectModule),
       },
       {
         path: 'project/Fotoalbum',
@@ -66,11 +62,11 @@ export const appRoutes: Routes = [
     ],
   },
 ];
+
 @NgModule({
-  imports: [CommonModule, RouterLink, RouterLinkActive, ReactiveFormsModule, RouterOutlet],
+  imports: [CommonModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule],
   declarations: [
     HomeComponent,
-    ProjectComponent,
     NewsComponent,
     ContactComponent,
     AboutComponent,
@@ -86,6 +82,7 @@ export const appRoutes: Routes = [
     FooterComponent,
     SecondaryNav2Component,
   ],
-  exports: [NavComponent, SecondaryNavComponent],
+  exports: [NavComponent],
+  providers: [I18nModule.setLocale(), I18nModule.setLocaleId()],
 })
 export class LibsBecomingGermanUiModule {}

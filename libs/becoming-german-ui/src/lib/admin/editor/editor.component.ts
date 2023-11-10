@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { PersonService } from '../../person.service';
-import { items, Person, ymd } from '@becoming-german/model';
+import { getItemStatus, items, Person, ymd } from '@becoming-german/model';
 import { Observable, shareReplay, Subject } from 'rxjs';
-import { getItemStatus } from '../../../../../becoming-german-model/src/lib/model/item-type-map';
+
 
 export const labels: Record<keyof Person, string> = {
   id: $localize`:@@label.admin.id:ID`,
@@ -12,7 +12,7 @@ export const labels: Record<keyof Person, string> = {
   siblingPosition: $localize`:@@label.admin.siblingPosition:Sib Pos`,
   bedroomSituation: $localize`:@@label.admin.bedroom:Bed`,
   dwellingSituation: $localize`:@@label.admin.dwelling:Dwelling`,
-  dwellingSituationComment: $localize`:@@label.admin.dwelling:Dwelling Comment`,
+  dwellingSituationComment: $localize`:@@label.admin.dwelling-comment:Dwelling Comment`,
   moves: $localize`:@@label.admin.moves:Moves`,
   parents: $localize`:@@label.admin.parents:Parent`,
   germanState: $localize`:@@label.admin.state:State`,

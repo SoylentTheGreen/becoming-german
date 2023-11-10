@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { filter, map, mergeMap, Observable, shareReplay, Subject, tap } from 'rxjs';
 import * as A from 'fp-ts/Array';
-import { ChildhoodProfile, MatchingItemsC, Person, QueryResponse } from '@becoming-german/model';
+import { ChildhoodProfile, MatchingItems, MatchingItemsC, Person, QueryResponse } from '@becoming-german/model';
 import { flow } from 'fp-ts/function';
 import { Type } from 'io-ts';
 import { none, Option, some } from 'fp-ts/Option';
 import { isRight } from 'fp-ts/Either';
-import { MatchingItems } from '../../../becoming-german-model/src/lib/model/matching-item';
 
 const decodeResultToOption =
   <T, O>(codec: Type<T, O>) =>
@@ -33,15 +32,11 @@ export class PersonService {
 
   matchingProfile: Observable<MatchingItems> = this.matchingProfileInput.pipe(
     mergeMap(req => this.http.post('/api/request', req)),
-    tap(console.log),
     map(MatchingItemsC.decode),
     filter(isRight),
     map(r => r.right),
     shareReplay(1)
   )
-
-
-
 
   findProfile(req: ChildhoodProfile) {
     this.matchingProfileInput.next(req);

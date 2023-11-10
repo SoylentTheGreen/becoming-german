@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
+import { ChildhoodProfile, ChildhoodProfileOutput, Person } from '@becoming-german/model';
 import { filter, firstValueFrom, map, startWith } from 'rxjs';
-import { childhoodProfileTranslations, LiteralPropertiesRecord } from '../i18n/translation';
+import { childhoodProfileTranslations, labels, LiteralPropertiesRecord } from '../i18n/translation';
 import { isLeft, isRight } from 'fp-ts/Either';
 import { PersonService } from '../person.service';
 
@@ -36,15 +36,16 @@ const defaultProfile: ChildhoodProfileOutput = {
 })
 export class RequestComponent {
   form = this.fb.nonNullable.group(defaultProfile);
-
+  labels = labels();
+  value = $localize`:@@label.gender:Geschlecht`;
   options = [
-    optionFields('gender', $localize`:@@label.gender:Gender`),
-    optionFields('siblings', $localize`:@@label.siblings:Siblings`),
-    optionFields('siblingPosition', $localize`:@@label.siblingPosition:SiblingPosition`),
-    optionFields('bedroomSituation', $localize`:@@label.bedroom:Bedrooms Situation`),
-    optionFields('dwellingSituation', $localize`:@@label.dwelling:Dwelling Location`),
-    optionFields('moves', $localize`:@@label.moves:House Moves`),
-    optionFields('parents', $localize`:@@label.parents:Parental Situation`),
+    optionFields('gender', this.labels.gender),
+    optionFields('siblings', this.labels.siblings),
+    optionFields('siblingPosition', this.labels.siblingPosition),
+    optionFields('bedroomSituation', this.labels.bedroomSituation),
+    optionFields('dwellingSituation', this.labels.dwellingSituation),
+    optionFields('moves', this.labels.moves),
+    optionFields('parents', this.labels.parents),
   ];
   updates = this.form.valueChanges.pipe(
     map((v) => ChildhoodProfile.decode(v)),
@@ -65,4 +66,5 @@ export class RequestComponent {
   async getProfile() {
     this.service.findProfile(await firstValueFrom(this.valid));
   }
+
 }

@@ -16,7 +16,6 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "localize": ["en", "de"],
         "outputPath": "dist/apps/becoming-german",
         "index": "apps/becoming-german/src/index.html",
         "main": "apps/becoming-german/src/main.ts",
@@ -56,12 +55,8 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true,
-          "localize": ["de"]
+          "namedChunks": true
         }
-      },
-      "en": {
-        "localize": ["en"]
       },
       "defaultConfiguration": "production"
     },
