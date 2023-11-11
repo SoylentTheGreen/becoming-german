@@ -12,6 +12,7 @@ import { ResultComponent } from './result/result.component';
 import { StandardLayoutComponent } from './standard-layout/standard-layout.component';
 import { FooterComponent } from './footer/footer.component';
 import { I18nModule } from './i18n';
+import { SpendenComponent } from './spenden/spenden.component';
 
 export const appRoutes: Routes = [
   {
@@ -63,6 +64,7 @@ export const appRoutes: Routes = [
     HomeComponent,
     StandardLayoutComponent,
     FooterComponent,
+    SpendenComponent,
   ],
   exports: [NavComponent],
   providers: [I18nModule.setLocale(), I18nModule.setLocaleId()],

@@ -2,7 +2,9 @@
   "name": "@becoming-german/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start-local": "nx run-many --parallel --target=serve --projects=becoming-german,api"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~16.2.10",

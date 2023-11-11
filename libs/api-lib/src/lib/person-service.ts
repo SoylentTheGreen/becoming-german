@@ -12,11 +12,11 @@ import {
   Grandparents,
   Holiday,
   Item,
-  items, itemsType,
+  items,
   ItemToggleValue,
   MatchingItemC,
   MatchingItems,
-  Memory, Person,
+  Memory,
   QueryResponse,
 } from '@becoming-german/model';
 import { BehaviorSubject } from 'rxjs';
@@ -27,7 +27,6 @@ import { AudioBookItem } from './audio-book-item';
 import { PartyItem } from './party-item';
 import * as t from 'io-ts';
 import { dbConfig } from './config';
-import { PathReporter } from 'io-ts/PathReporter';
 
 // const processEntry = (row: unknown): Either<number, Entry> => {
 //   const item = row['jsonItem'];
@@ -143,20 +142,18 @@ export class PersonService {
       if (E.isLeft(result)) {
         console.log('result is left', result.left);
         yield [];
-      }
-      else {
+      } else {
         const lastId = last(result.right); // Assuming the last number in the array is the
-        if (O.isNone(lastId)){
+        if (O.isNone(lastId)) {
           console.log('last id is null');
           yield [];
           return;
         }
-        if(lastId.value.error) {
+        if (lastId.value.error) {
           console.log('we have an error on', lastId.value.id);
           yield [];
           return;
-        }
-        else {
+        } else {
           yield result.right;
           yield* getRes(lastId.value.id);
         }
@@ -167,10 +164,17 @@ export class PersonService {
   }
 
   async findMatchingItem(profile: ChildhoodProfileTable) {
-    const conn = await this.pool.getConnection();
-    const [rows] = await conn.execute(getSearch(profile));
-    conn.release();
-    return processMatchingItem(rows as MatchRow[]);
+    const exe = async (sql: string): Promise<MatchRow[]> => {
+      const conn = await this.pool.getConnection();
+      const [rows] = await conn.execute(sql);
+      conn.release();
+      return rows as MatchRow[];
+    };
+
+    const results = (await Promise.all(getSearch(profile).map(exe))).flat();
+    console.log(results);
+
+    return processMatchingItem(results);
   }
 }
 
@@ -186,11 +190,10 @@ export const MatchingItemsDBC = t.type({
 
 export type MatchRow = { jsonItem: Partial<MatchingItems> };
 
-
 const processMatchingItem = (rows: MatchRow[]) => {
   const dbResult = pipe(
     rows,
-    A.map(r => r.jsonItem),
+    A.map((r) => r.jsonItem),
     A.reduce({} as Partial<MatchingItems>, (r, v) => ({ ...r, ...v })),
   );
   const validationResult = MatchingItemsDBC.decode(dbResult);
@@ -200,7 +203,7 @@ const processMatchingItem = (rows: MatchRow[]) => {
     // console.log('failed parsing', item);
     console.error(
       `Validation failed! on ${JSON.stringify(dbResult)}`,
-      validationResult.left.map((error) => error.context[error.context.length - 1].key)
+      validationResult.left.map((error) => error.context[error.context.length - 1].key),
       // JSON.stringify(PathReporter.report(validationResult), undefined, 4),
       // JSON.stringify(item, undefined, 4),
     );

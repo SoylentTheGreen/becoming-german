@@ -116,7 +116,7 @@ export const getSearch = (p: ChildhoodProfileTable) => {
   items_de & ${ItemToggleValue[k]}
   AND  isQuarantined = 0
   ORDER BY weight DESC LIMIT 1`;
-  const sql = items.map((i) => `(${getSql(i)})`).join(' UNION ');
+  const sql = items.map((i) => `(${getSql(i)})`);
 
   //   const sql = `
   //
@@ -145,7 +145,7 @@ export const getSearch = (p: ChildhoodProfileTable) => {
   // `,
   //     ),
   //   ).join(' UNION ');
-  console.log(sql);
+
   return sql;
 };
 

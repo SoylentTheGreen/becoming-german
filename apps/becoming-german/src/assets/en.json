@@ -1,6 +1,13 @@
 {
   "locale": "en",
   "translations": {
+    "childhoodAge.under5": "younger than 5",
+    "childhoodAge.5-6": "about 5 to 6",
+    "childhoodAge.7-8": "about 7 to 8",
+    "childhoodAge.9-10": "about 9 to 10",
+    "childhoodAge.10-11": "about 10 to 11",
+    "childhoodAge.12-13": "about 12 to 13",
+    "childhoodAge.>13": "older than 13",
     "nav-project": "Project",
     "nav-news": "News",
     "nav-contact": "Contact",
@@ -17,6 +24,9 @@
     "language.switch": "To German",
     "project.text.p1": "The online database comprises an ever growing collection of “donated” German childhood memories, which provide a digital source of information and assistance to those, who did not have a German childhood and would like to “become German”.\n\nThere are two ways to use the database: either memories of growing up in Germany can be entered into the database i.e. “donated” or details of an imaginary childhood in Germany can be “received”. The childhood memories which are “received” are compiled from the data which has been “donated” and represent memories of a possible German childhood which can then be appropriated as one’s own.\n\nThe more data entries in the database the more accurate the “received” German childhoods can become. The accuracy of the database relies on as many individual entries as possible being collected from various groups of society and regions in Germany.\n\nTo achieve this I went on a walkabout through Germany (see On the Road) with the purpose-built Mobile-Info-Module in the summer months of 2005.\n\nThe database is currently only in German.",
     "label.submit": "Submit",
-    "match.book.title": "Title"
+    "match.weight": "(with a probability of {$INTERPOLATION}%)",
+    "match.book.title": "Title",
+    "match.book.author": "written by",
+    "match.book.ageWhenRead": "The book was important to you when you were {$INTERPOLATION} years old"
   }
 }
