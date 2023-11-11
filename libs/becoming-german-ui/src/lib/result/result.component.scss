@@ -1,19 +1,22 @@
-.results {
+:host {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
+  .results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
-  .result-item {
+    .result-item {
+      ::ng-deep {
+        .data {
+          font-weight: bold;
+        }
+      }
+    }
 
-    .data {
-      font-weight: bold;
+    .separator {
+      border: 1px solid lightgreen;
     }
   }
-  .separator {
-    border: 1px solid lightgreen;
-  }
 }
-
-
-
-

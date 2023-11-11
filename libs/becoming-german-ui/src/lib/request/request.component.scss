@@ -1,16 +1,9 @@
 
 .options {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  gap: 1rem;
-  padding: 1rem;
-
-  .selector {
-    display: flex;
-    gap: 2rem;
-    label {
-      width: 40%;
-    }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  input, select {
+    padding: 0.2rem;
   }
 }
