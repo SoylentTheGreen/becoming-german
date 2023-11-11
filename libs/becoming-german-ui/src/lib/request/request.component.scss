@@ -2,8 +2,6 @@
 .options {
   display: flex;
   flex-direction: column;
-  width: 40rem;
-  border: 1px solid red;
   margin: 0 auto;
   gap: 1rem;
   padding: 1rem;
@@ -15,8 +13,4 @@
       width: 40%;
     }
   }
-}
-
-.item {
-
 }

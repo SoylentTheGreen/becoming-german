@@ -7,9 +7,7 @@ import { AudioBook } from './audio-book';
 import { Party } from './party';
 import { NullableTranslatableC } from './nullableTranslatable';
 import * as t from 'io-ts';
-import * as A from 'fp-ts/Array';
-import { Item, items } from './item';
-import { pipe } from 'fp-ts/function';
+import { Item } from './item';
 
 export const itemProps = {
   book: NullableTranslatableC(Book),

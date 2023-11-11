@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
-import { filter, firstValueFrom, map, startWith } from 'rxjs';
+import { filter, firstValueFrom, map, skip, startWith } from 'rxjs';
 import { childhoodProfileTranslations, labels, LiteralPropertiesRecord } from '../i18n/translation';
 import { isLeft, isRight } from 'fp-ts/Either';
 import { PersonService } from '../person.service';
+import { Router } from '@angular/router';
 
 export type FormGroupMap<T> = FormGroup<{
   [Property in keyof T]: T[Property] extends (infer U)[] ? FormArray<FormGroupMap<U>> : FormControl<T[Property]>;
@@ -56,17 +57,16 @@ export class RequestComponent {
     map((v) => v.right),
   );
   disabled = this.updates.pipe(map(isLeft));
-  requestEnabled = this.service.matchingProfile.pipe(
-    map(() => false),
-    startWith(true),
-  );
+
 
   constructor(
     private fb: FormBuilder,
     private service: PersonService,
+    private router: Router
   ) {}
 
   async getProfile() {
     this.service.findProfile(await firstValueFrom(this.valid));
+    return this.router.navigate(['result'])
   }
 }

@@ -15,3 +15,4 @@ export const Book = t.exact(
     readBy: bookReadByType.literals,
   }),
 );
+export type Book = t.TypeOf<typeof Book>

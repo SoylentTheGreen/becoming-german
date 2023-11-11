@@ -9,8 +9,8 @@ import * as TE from 'fp-ts/TaskEither';
 
 import { countPersonSql, getPersonSql, getSearch, PersonTable } from './person-table';
 import {
-  Grandparents,
-  Holiday,
+  Grandparents, Holiday,
+  Holidays,
   Item,
   items,
   ItemToggleValue,

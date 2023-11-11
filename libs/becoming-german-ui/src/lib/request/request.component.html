@@ -1,4 +1,4 @@
-<div class="input-form" [formGroup]="form" *ngIf="(requestEnabled | async)">
+<div class="input-form" [formGroup]="form">
   <div class="options">
     <div class="selector">
       <label i18n="@@label.birthDate">Geburtstag</label>
@@ -24,4 +24,3 @@
   <img src="../assets/pix/kirschlutscher_kl.gif" alt="Submit form" (click)="getProfile()"/>
 
 </div>
-<bgn-result></bgn-result>

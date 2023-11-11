@@ -1,0 +1,19 @@
+<ng-container *ngIf="item as song">
+  <div i18n="@@match.song.heading">Dein Lieblingslied war:</div>
+  <div class="item">{{ song.title }}</div>
+  <div class="item" i18n="@@match.song.artist">und wurde gesungen von: {{ song.artist }}</div>
+  <div class="item"><span i18n="@@match.song.reason">Das Lied/Song hat Dich deswegen fasziniert</span>:
+    {{ song.reason }}
+  </div>
+  <div class="item"><span i18n="@@match.song.text">Der Text, den du noch kannst ist</span>:
+    {{ song.text }}
+  </div>
+  <div class="item" i18n="@@match.song.melody">Die Meldoy geht so: {{ song.melody }}</div>
+  <div class="item"><span i18n="@@match.song.listeningSituation">Die Situation in der Du das Lied/den Song immer geh&ouml;rt hast war</span>:
+
+  </div>
+  <div>{{ song.listeningSituation }}</div>
+  <div class="item" i18n="@@match.song.ageWhenImportant">
+    Das Lied/Song war wichtig f&uuml;r Dich als du {{ song.ageWhenImportant }} alt warst.
+  </div>
+</ng-container>

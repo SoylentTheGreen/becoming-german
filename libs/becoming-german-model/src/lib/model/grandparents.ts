@@ -11,3 +11,4 @@ export const Grandparents = t.exact(
     specialMemory: t.string,
   }),
 );
+export type Grandparents = t.TypeOf<typeof Grandparents>

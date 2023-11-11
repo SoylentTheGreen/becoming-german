@@ -1,0 +1,9 @@
+<div class="result-item" *ngIf="item as holidays">
+
+  <div i18n="@@match.holidays.heading">Die Sommerferien:</div>
+  <div class="item" i18n="@@match.holidays.holidayActivities">
+    In den Sommerferien hast Du folgendes gemacht!
+  </div>
+  <div class="data">{{ holidays.holidayActivities }}</div>
+  <div class="between_items"></div>
+</div>

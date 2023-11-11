@@ -1,11 +1,11 @@
 import * as t from 'io-ts';
 import {
-  ChildhoodProfile,
   germanStateType,
   Grandparents,
   Holiday,
   Item,
-  items, ItemToggleValue,
+  items,
+  ItemToggleValue,
   languageType,
   Memory,
   NullableTranslatableC,
@@ -21,8 +21,6 @@ import { weights } from './weights';
 import { itemQueryTable } from './item-query-table';
 import { PartyItem } from './party-item';
 import { AudioBookItem } from './audio-book-item';
-
-export const ChildhoodMemory = t.type({ language: languageType.literals, memory: t.string });
 
 const itemsProps = {
   book: NullableTranslatableC(BookItem),

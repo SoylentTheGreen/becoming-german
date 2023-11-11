@@ -1,14 +1,19 @@
-.detail {
+.results {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 
-  .between_items {
-    border-bottom: 0.15rem solid lightgreen; 
-    margin: 2rem 0;
+  .result-item {
+
+    .data {
+      font-weight: bold;
+    }
+  }
+  .separator {
+    border: 1px solid lightgreen;
   }
 }
 
-.data {
-  font-weight: bold;
-}
+
+
+

@@ -16,3 +16,4 @@ export const partyProps = {
     specialMemory: t.string,
 };
 export const Party = t.exact(t.type(partyProps));
+export type Party = t.TypeOf<typeof Party>

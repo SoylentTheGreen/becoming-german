@@ -11,4 +11,5 @@ export const songProps = {
     ageWhenImportant: childhoodAgeType.literals,
 };
 export const Song = t.exact(t.type(songProps));
+export type Song = t.TypeOf<typeof Song>
 

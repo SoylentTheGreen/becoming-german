@@ -1,0 +1,29 @@
+<div class="result-item" *ngIf="item as party">
+  <div i18n="@@match.party.heading">Kindergeburtstag / Party:</div>
+  <div class="item" i18n="@@match.party.likeParty">
+    Auf Kindergeburtstagen / Parties warst du {{ party.likeParty }}
+  </div>
+  <div class="item" i18n="@@match.party.reason">weil: {{ party.reason }}</div>
+  <div class="item"><span i18n="@@match.party.food">Zum Essen gab's dort meistens</span>:
+    {{ party.food }}
+  </div>
+  <div class="item"><span i18n="@@match.party.favoriteFood">Dein Lieblingsessen war</span>:
+    {{ party.favoriteFood }}
+  </div>
+  <div class="item">
+    <span i18n="@@match.party.game">Meistens habt Ihr gespielt</span>:
+    {{ party.game }}
+  </div>
+  <div class="item">
+    <span i18n="@@match.party.favoriteGame">Am liebsten hast Du gespielt</span>:
+    {{ party.favoriteGame }}
+  </div>
+  <div class="item">
+    <span i18n="@@match.party.worstGame">... und gar nicht gern</span>:
+    {{ party.worstGame }}
+  </div>
+  <div class="item">
+    <span i18n="@@match.party.specialMemory">Besondere Erinnerungen</span>:
+    {{ party.specialMemory }}
+  </div>
+</div>

@@ -11,3 +11,4 @@ export const audioBookProps = {
     ageWhenImportant: childhoodAgeType.literals,
 };
 export const AudioBook = t.exact(t.type(audioBookProps));
+export type AudioBook = t.TypeOf<typeof AudioBook>

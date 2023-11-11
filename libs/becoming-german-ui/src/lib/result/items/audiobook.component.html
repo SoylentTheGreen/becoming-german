@@ -1,0 +1,26 @@
+<ng-container *ngIf="item as audiobook">
+  <div i18n="@@match.speaking_book.heading">Dein Lieblingshörbuch / Deine Lieblingskassette/-platte:</div>
+  <div class="item">{{audiobook.title }}</div>
+  <div class="item"><span i18n="@@match.speaking_book.by">von</span> {{audiobook.author}}
+  </div>
+  <div class="item">
+    <span i18n="@@match.speaking_book.themeMusic">Die Titelmelodie war:</span>
+    {{audiobook.themeMusic }}
+  </div>
+  <div class="item">
+    <span i18n="@@match.speaking_book.synopsis">Die Geschichte ging so:</span>
+    {{audiobook.synopsis }}
+  </div>
+  <div class="item">
+    <span i18n="@@match.speaking_book.reason">Es war Dein Favorit, weil</span>
+    {{audiobook.reason }}
+  </div>
+  <div class="item" i18n="@@match.speaking_book.listeningSituation"
+  >Die Situation in der Du die Märchenkassette / das Hörbuch immer gehört hast war:
+  </div>
+  <div>{{audiobook.listeningSituation }}</div>
+  <div class="item" i18n="@@match.speaking_book.ageWhenImportant"
+  >Die Märchenkassette / das Hörbuch war wichtig für dich als
+    du {{tr('childhoodAge', audiobook.ageWhenImportant) }} alt warst.
+  </div>
+</ng-container>
