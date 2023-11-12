@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PresseComponent } from './presse.component';
+import { PressComponent } from './press.component';
 
 describe('PresseComponent', () => {
-  let component: PresseComponent;
-  let fixture: ComponentFixture<PresseComponent>;
+  let component: PressComponent;
+  let fixture: ComponentFixture<PressComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PresseComponent],
+      declarations: [PressComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PresseComponent);
+    fixture = TestBed.createComponent(PressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

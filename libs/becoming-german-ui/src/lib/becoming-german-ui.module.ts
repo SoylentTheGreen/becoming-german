@@ -59,6 +59,10 @@ export const appRoutes: Routes = [
         path: 'result',
         component: ResultComponent,
       },
+      {
+        path: 'spenden',
+        loadChildren: () => import('./spenden/spenden.module').then((m) => m.SpendenModule),
+      },
     ],
   },
 ];
@@ -85,7 +89,7 @@ export const appRoutes: Routes = [
     MemoryComponent,
     PartyComponent,
     AudiobookComponent,
-  ],
+    ],
   exports: [NavComponent],
   providers: [I18nModule.setLocale(), I18nModule.setLocaleId()],
 })

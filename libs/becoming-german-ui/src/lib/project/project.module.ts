@@ -5,7 +5,7 @@ import { ProjectComponent } from './project.component';
 import { WanderschaftComponent } from './wanderschaft/wanderschaft.component';
 import { InfoComponent } from './info/info.component';
 import { FotoalbumComponent } from './fotoalbum/fotoalbum.component';
-import { PresseComponent } from './presse/presse.component';
+import { PressComponent } from './press/press.component';
 
 const routes: Routes = [
   {
@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: 'presse',
-        component: PresseComponent,
+        component: PressComponent,
       },
       {
         path: '',
@@ -44,7 +44,7 @@ const routes: Routes = [
     InfoComponent,
     WanderschaftComponent,
     FotoalbumComponent,
-    PresseComponent,
+    PressComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes)],
 })
