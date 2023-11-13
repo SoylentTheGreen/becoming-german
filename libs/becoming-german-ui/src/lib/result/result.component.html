@@ -1,7 +1,7 @@
 <div class="back"><a routerLink="/request">new request</a></div>
 
 <div class="profile" *ngIf="(request | async) as profile">
-    Du Bist im {{ profile.birthDate | date : 'yyyy' }} geboren.
+    Du Bist im {{ profile.birthYear }} geboren.
 </div>
 
 <div *ngIf="result | async as matches" class="results">

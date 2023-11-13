@@ -1,8 +1,15 @@
 
 .options {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr auto;
   grid-gap: 1rem;
+
+  .year-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   input, select {
     padding: 0.2rem;
   }

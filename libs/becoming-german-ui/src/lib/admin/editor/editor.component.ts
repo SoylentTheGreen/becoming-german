@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { PersonService } from '../../person.service';
-import { getItemStatus, items, Person, ymd } from '@becoming-german/model';
+import { getItemStatus, items, Person } from '@becoming-german/model';
 import { Observable, shareReplay, Subject } from 'rxjs';
-
 
 export const labels: Record<keyof Person, string> = {
   id: $localize`:@@label.admin.id:ID`,
-  birthDate: $localize`:@@label.admin.birthDate:DoB`,
+  birthYear: $localize`:@@label.admin.birthYear:Geb.J`,
   gender: $localize`:@@label.admin.gender:Sex`,
   siblings: $localize`:@@label.admin.siblings:Sibs`,
   siblingPosition: $localize`:@@label.admin.siblingPosition:Sib Pos`,
@@ -25,6 +24,7 @@ export const labels: Record<keyof Person, string> = {
   holidays: $localize`:@@label.admin.holidays:Holidays`,
   party: $localize`:@@label.admin.party:Party`,
   speaking_book: $localize`:@@label.admin.audiobook:Favorite Audiobook`,
+  country: 'not necessary atm',
 };
 
 @Component({
@@ -38,7 +38,7 @@ export class EditorComponent {
   labels = labels;
   fields: (keyof Person)[] = [
     'id',
-    'birthDate',
+    'birthYear',
     'gender',
     'siblings',
     'siblingPosition',
@@ -53,9 +53,6 @@ export class EditorComponent {
 
   constructor(private service: PersonService) {}
 
-  format(field: (typeof this.fields)[number], value: unknown) {
-    return field === 'birthDate' ? ymd(value as Date) : value;
-  }
 
   itemsStatus(person: Person): [keyof Person, boolean][] {
     const stats = getItemStatus(person)

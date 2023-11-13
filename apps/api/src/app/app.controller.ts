@@ -33,7 +33,7 @@ export class AppController {
   @Get('admin/profiles/:offset?/:limit?')
   async getData(@Param() params: GetRec) {
     const { offset, limit } = getParamParser({ ...defaultParams, ...params });
-    return this.service.getData(offset, limit);
+    return this.service.getNormalizedData(offset, limit);
   }
 
   @Post('request')
@@ -44,8 +44,9 @@ export class AppController {
       if (isRight(table)) {
         return this.service.findMatchingItem(table.right);
       }
+      else throw PathReporter.report(table);
     }
-    console.log('decoding profile did not work');
+    console.log('decoding profile did not work', console);
     throw PathReporter.report(profile);
   }
 

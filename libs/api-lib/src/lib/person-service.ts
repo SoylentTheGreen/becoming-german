@@ -7,16 +7,16 @@ import { Either, isLeft, isRight, mapLeft } from 'fp-ts/Either';
 import * as O from 'fp-ts/Option';
 import * as TE from 'fp-ts/TaskEither';
 
-import { countPersonSql, getPersonSql, getSearch, PersonTable } from './person-table';
+import { countPersonSql, getNormalizePersonSql, getPersonSql, getSearch, PersonTable } from './person-table';
 import {
-  Grandparents, Holiday,
-  Holidays,
+  Grandparents,
+  Holiday,
   Item,
   items,
   ItemToggleValue,
   MatchingItemC,
   MatchingItems,
-  Memory,
+  Memory, Person,
   QueryResponse,
 } from '@becoming-german/model';
 import { BehaviorSubject } from 'rxjs';
@@ -27,6 +27,7 @@ import { AudioBookItem } from './audio-book-item';
 import { PartyItem } from './party-item';
 import * as t from 'io-ts';
 import { dbConfig } from './config';
+import { PathReporter } from 'io-ts/PathReporter';
 
 // const processEntry = (row: unknown): Either<number, Entry> => {
 //   const item = row['jsonItem'];
@@ -56,6 +57,18 @@ const processPerson = (row: unknown): Either<number, PersonTable> => {
     mapLeft(() => item['id']),
   );
 };
+
+const processNormalizedPerson = (row: {id: number, jsonData: unknown}): Either<number, Person> => {
+  const validationResult = Person.decode(row.jsonData);
+  if(isLeft(validationResult)) {
+    console.log('failed decoding', PathReporter.report(validationResult));
+  }
+
+  return pipe(
+    validationResult,
+    mapLeft(() => row.id),
+  );
+}
 // const mQuery =
 //   (connection: Pool) =>
 //   <T>(sql: string): Promise<T> =>
@@ -95,6 +108,33 @@ export class PersonService {
 
     console.warn(upResult['changedRows'], 'entries in german_person quarantined', ids);
   }
+
+  async getNormalizedData(offset: number, limit: number):Promise<QueryResponse<Person>> {
+    const conn = await this.pool.getConnection();
+    try {
+      if (this.totalRows.getValue() === 0) this.totalRows.next((await conn.execute(countPersonSql))[0][0]['total']);
+      const sql = getNormalizePersonSql(offset, limit);
+      console.log(sql);
+      const res = pipe(
+        await conn.execute(sql),
+        (r) => r[0] as unknown[],
+        A.partitionMap(processNormalizedPerson),
+      );
+      conn.release();
+      return {
+        status: 'ok',
+        total: this.totalRows.getValue(),
+        errors: res.left.length,
+        offset,
+        endId: res.right.length > 0 ? res.right[res.right.length - 1].id : offset,
+        result: res.right,
+      };
+    } catch(e: unknown) {
+      console.error(e);
+      return { total: this.totalRows.getValue(), errors: 0, offset, endId: offset, result: [], status: 'error' };
+    }
+  }
+
 
   async getData(offset: number, limit: number): Promise<QueryResponse<PersonTable>> {
     const conn = await this.pool.getConnection();

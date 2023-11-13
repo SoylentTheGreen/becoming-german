@@ -7,11 +7,13 @@ import { parentalSituationType } from './parental-situation';
 import { bedroomSituationType } from './bedroom-situation';
 import { dwellingSituationType } from './dwelling-situation';
 import { homeMovesType } from './home-moves';
-import { DateOnlyInput } from '../type';
+import { numberInRange } from '@becoming-german/tools';
+import { UUID } from 'io-ts-types';
 
 export const ChildhoodProfile = t.exact(
   t.type({
-    birthDate: DateOnlyInput,
+    id: UUID,
+    birthYear: numberInRange(1900, new Date().getFullYear() - 10),
     gender: genderType.literals,
     parents: parentalSituationType.literals,
     siblings: siblingStateType.literals,
@@ -19,9 +21,10 @@ export const ChildhoodProfile = t.exact(
     bedroomSituation: bedroomSituationType.literals,
     dwellingSituation: dwellingSituationType.literals,
     moves: homeMovesType.literals,
-    hobby: t.string,
-    favoriteColor: t.string,
+    hobby: t.union([t.string, t.null]),
+    favoriteColor: t.union([t.string, t.null]),
   }),
+  'ChildhoodProfile',
 );
 
 export type ChildhoodProfile = t.TypeOf<typeof ChildhoodProfile>;

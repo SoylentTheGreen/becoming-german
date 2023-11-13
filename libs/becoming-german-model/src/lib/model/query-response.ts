@@ -3,6 +3,6 @@ export type QueryResponse<T> = {
   total: number;
   errors: number;
   offset: number;
-  endId: number;
+  endId: number | string;
   result: T[]
 }

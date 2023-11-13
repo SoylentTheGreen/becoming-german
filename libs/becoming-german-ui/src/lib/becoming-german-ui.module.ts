@@ -56,6 +56,10 @@ export const appRoutes: Routes = [
         component: RequestComponent,
       },
       {
+        path: 'spenden',
+        component: SpendenComponent,
+      },
+      {
         path: 'result',
         component: ResultComponent,
       },

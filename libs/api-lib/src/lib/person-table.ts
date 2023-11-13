@@ -6,7 +6,6 @@ import {
   Item,
   items,
   ItemToggleValue,
-  languageType,
   Memory,
   NullableTranslatableC,
 } from '@becoming-german/model';
@@ -36,7 +35,7 @@ export const PersonTable = t.intersection([
   t.exact(
     t.type({
       id: t.number,
-      dwellingSituationComment: t.string,
+      dwellingSituationComment: NullableTranslatableC(t.string),
       germanState: germanStateType.fromNumber,
       ...itemsProps
     }),
@@ -46,7 +45,7 @@ export const PersonTable = t.intersection([
 export type PersonTable = t.TypeOf<typeof PersonTable>;
 const personTableMappingConfig: ([keyof PersonTable, string?] | [keyof PersonTable])[] = [
   ['bedroomSituation'],
-  ['birthDate'],
+  ['birthYear', 'DATE_FORMAT(birthDate,"%Y")'],
   ['dwellingSituation'],
   ['dwellingSituationComment'],
   ['parents'],
@@ -64,6 +63,9 @@ const personTableMapping = personTableMappingConfig.map(([a, b]) => fMapping(a, 
 
 export const countPersonSql = `SELECT count(*) as total from tbl_german_person WHERE isQuarantined=0`;
 
+export const getNormalizePersonSql = (offset = 0, limit = 10) => {
+  return `select id, jsonData from tbl_german_person where id > ${offset} AND isQuarantined = false limit ${limit}`;
+}
 
 export const getPersonSql = (offset = 0, limit = 10) => {
   const items = pipe(
@@ -96,10 +98,10 @@ export const getSearch = (p: ChildhoodProfileTable) => {
 
   const weightField = `
       IF(
-      ABS(DATE_FORMAT(birthDate,"%Y")-${p.birthDate.getFullYear()}) <= ${weights.birthDate}, 
-      ${weights.birthDate} - ABS(DATE_FORMAT(birthDate,"%Y")-${p.birthDate.getFullYear()}), 0)+
+      ABS(DATE_FORMAT(birthDate,"%Y")-${p.birthYear}) <= ${weights.birthYear}, 
+      ${weights.birthYear} - ABS(DATE_FORMAT(birthDate,"%Y")-${p.birthYear}), 0)+
       ${Object.entries(weights)
-        .filter(([k]) => k !== 'birthDate')
+        .filter(([k]) => k !== 'birthYear')
         .map(([k, v]: [keyof ChildhoodProfileTable, number]) => `if(${fieldName(k)}=${data[k]}, ${v}, 0)`)
         .join('+')}`;
   const divisor = Object.values(weights).reduce((r, v) => r + v, 0);

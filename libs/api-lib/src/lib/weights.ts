@@ -1,7 +1,7 @@
 import { ChildhoodProfileTable } from './childhood-profile-table';
 
-export const weights: Record<keyof ChildhoodProfileTable, number> = {
-  birthDate        : 5,
+export const weights: Record<keyof Omit<ChildhoodProfileTable, 'id'>, number> = {
+  birthYear        : 5,
   bedroomSituation : 1,
   dwellingSituation: 1,
   parents          : 1,
