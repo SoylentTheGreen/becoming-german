@@ -32,6 +32,18 @@ export const appRoutes: Routes = [
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
+    path: 'request',
+    component: RequestComponent,
+  },
+  {
+    path: 'result',
+    component: ResultComponent,
+  },
+  {
+    path: 'spenden',
+    loadChildren: () => import('./spenden/spenden.module').then((m) => m.SpendenModule),
+  },
+  {
     path: '',
     component: StandardLayoutComponent,
     children: [
@@ -50,18 +62,6 @@ export const appRoutes: Routes = [
       {
         path: 'contact',
         component: ContactComponent,
-      },
-      {
-        path: 'request',
-        component: RequestComponent,
-      },
-      {
-        path: 'result',
-        component: ResultComponent,
-      },
-      {
-        path: 'spenden',
-        loadChildren: () => import('./spenden/spenden.module').then((m) => m.SpendenModule),
       },
     ],
   },

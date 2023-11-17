@@ -9,16 +9,23 @@ import { MemoryComponent } from './item/memory.component';
 import { PartyComponent } from './item/party.component';
 import { SongComponent } from './item/song.component';
 import { SpendenComponent } from './spenden.component';
+import { SpendenHomeComponent } from './item/spenden-home.component';
 
 const routes: Routes = [
-  { path: '', component: SpendenComponent },
-  { path: 'audiobook', component: AudiobookComponent },
-  { path: 'book', component: BookComponent },
-  { path: 'grandparents', component: GrandparentsComponent },
-  { path: 'holidays', component: HolidaysComponent },
-  { path: 'memory', component: MemoryComponent },
-  { path: 'party', component: PartyComponent },
-  { path: 'song', component: SongComponent }
+  {
+    path: '',
+    component: SpendenComponent,
+    children: [
+      { path: 'audiobook', component: AudiobookComponent },
+      { path: 'book', component: BookComponent },
+      { path: 'grandparents', component: GrandparentsComponent },
+      { path: 'holidays', component: HolidaysComponent },
+      { path: 'memory', component: MemoryComponent },
+      { path: 'party', component: PartyComponent },
+      { path: 'song', component: SongComponent },
+      { path: '', component: SpendenHomeComponent },
+    ],
+  },
 ];
 
 @NgModule({
@@ -30,6 +37,7 @@ const routes: Routes = [
     MemoryComponent,
     PartyComponent,
     SongComponent,
+    SpendenHomeComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes)],
 })
