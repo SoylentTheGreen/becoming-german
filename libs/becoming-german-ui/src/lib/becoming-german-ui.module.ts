@@ -21,6 +21,8 @@ import { GrandparentsComponent } from './result/items/grandparents.component';
 import { MemoryComponent } from './result/items/memory.component';
 import { PartyComponent } from './result/items/party.component';
 import { AudiobookComponent } from './result/items/audiobook.component';
+import { StartComponent } from './start/start.component';
+
 
 export const appRoutes: Routes = [
   {
@@ -28,20 +30,12 @@ export const appRoutes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'start',
+    component: StartComponent,
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
-  },
-  {
-    path: 'request',
-    component: RequestComponent,
-  },
-  {
-    path: 'result',
-    component: ResultComponent,
-  },
-  {
-    path: 'spenden',
-    loadChildren: () => import('./spenden/spenden.module').then((m) => m.SpendenModule),
   },
   {
     path: '',
@@ -62,6 +56,18 @@ export const appRoutes: Routes = [
       {
         path: 'contact',
         component: ContactComponent,
+      },
+      {
+        path: 'request',
+        component: RequestComponent,
+      },
+      {
+        path: 'result',
+        component: ResultComponent,
+      },
+      {
+        path: 'spenden',
+        loadChildren: () => import('./spenden/spenden.module').then((m) => m.SpendenModule),
       },
     ],
   },
@@ -89,7 +95,8 @@ export const appRoutes: Routes = [
     MemoryComponent,
     PartyComponent,
     AudiobookComponent,
-    ],
+    StartComponent,
+  ],
   exports: [NavComponent],
   providers: [I18nModule.setLocale(), I18nModule.setLocaleId()],
 })

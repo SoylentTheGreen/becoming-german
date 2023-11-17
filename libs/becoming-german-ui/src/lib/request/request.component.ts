@@ -33,7 +33,7 @@ const defaultProfile: ChildhoodProfileOutput = {
 @Component({
   selector: 'bgn-request',
   templateUrl: './request.component.html',
-  styleUrls: ['./request.component.scss'],
+  styleUrls: ['./request.component.scss', '../standard-layout/standard-layout.component.scss'],
 })
 export class RequestComponent {
   form = this.fb.nonNullable.group(defaultProfile);

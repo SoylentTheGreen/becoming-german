@@ -3,9 +3,9 @@ import { Language } from '@becoming-german/model';
 import { I18n } from '../i18n';
 
 const linkText: () => [string, string][] = () => [
-  ['project', $localize`:@@nav-project:Projekt`],
-  ['news', $localize`:@@nav-news:Aktuelles`],
-  ['contact', $localize`:@@nav-contact:Kontakt`],
+  ['request', $localize`:@@nav-request:Empfangen`],
+  ['spenden', $localize`:@@nav-spenden:Spenden`],
+  ['project', $localize`:@@nav-project:Projekt-Infos`],
   ['about', $localize`:@@nav-about:Impressum`],
 ];
 
