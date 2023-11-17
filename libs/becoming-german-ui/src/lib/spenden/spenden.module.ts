@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'holidays', component: HolidaysComponent },
   { path: 'memory', component: MemoryComponent },
   { path: 'party', component: PartyComponent },
-  { path: 'song', component: SongComponent },
+  { path: 'song', component: SongComponent }
 ];
 
 @NgModule({
