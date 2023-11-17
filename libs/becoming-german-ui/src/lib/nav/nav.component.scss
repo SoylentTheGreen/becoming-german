@@ -2,7 +2,7 @@ nav {
   /*flex: 0 0 auto;*/
   align-self: flex-start;
   margin-top: 2rem;
-  width: 698px;
+  /*width: 698px;*/
 
   a {
     font-style: italic;
@@ -18,7 +18,7 @@ nav {
 
 
     .home-link img {
-      padding-right: 92px; /* Optional: Adds some space between the home image and other links */ 
+      padding-right: 5.6rem; /* Optional: Adds some space between the home image and other links */ 
     }
   
     .MainNav {
@@ -57,5 +57,9 @@ nav {
 
   .switchLanguage {
     padding-top: 3px;
+    cursor: pointer;
+    font-style: italic;
+    color: blue;
+    text-transform: lowercase;
   }
 }
