@@ -2,13 +2,33 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookComponent } from './item/book.component';
 import { RouterModule, Routes } from '@angular/router';
+import { AudiobookComponent } from './item/audiobook.component';
+import { GrandparentsComponent } from './item/grandparents.component';
+import { HolidaysComponent } from './item/holidays.component';
+import { MemoryComponent } from './item/memory.component';
+import { PartyComponent } from './item/party.component';
+import { SongComponent } from './item/song.component';
 
-const routes: Routes=[{path: 'book', component: BookComponent}];
+const routes: Routes = [
+  { path: 'audiobook', component: AudiobookComponent },
+  { path: 'book', component: BookComponent },
+  { path: 'grandparents', component: GrandparentsComponent },
+  { path: 'holidays', component: HolidaysComponent },
+  { path: 'memory', component: MemoryComponent },
+  { path: 'party', component: PartyComponent },
+  { path: 'song', component: SongComponent },
+];
 
 @NgModule({
-  declarations: [BookComponent],
-  imports: [
-    CommonModule, RouterModule.forChild(routes)
-  ]
+  declarations: [
+    BookComponent,
+    AudiobookComponent,
+    GrandparentsComponent,
+    HolidaysComponent,
+    MemoryComponent,
+    PartyComponent,
+    SongComponent,
+  ],
+  imports: [CommonModule, RouterModule.forChild(routes)],
 })
-export class SpendenModule { }
+export class SpendenModule {}
