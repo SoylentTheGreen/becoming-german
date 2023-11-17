@@ -1,6 +1,6 @@
 <nav>
   <div class="row_1">
-    <a class="home-link" routerLink="/">
+    <a routerLink="/">
       <img src="assets/pix/header/home.gif" alt="Home">
     </a>
     <a class="MainNav" [class]="link[0]" *ngFor="let link of links" routerLink="/{{link[0]}}" routerLinkActive="active">

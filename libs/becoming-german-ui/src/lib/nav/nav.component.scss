@@ -1,44 +1,38 @@
 nav {
-  /*flex: 0 0 auto;*/
-  align-self: flex-start;
-  margin-top: 2rem;
-  /*width: 698px;*/
-
   a {
     font-style: italic;
-    color: blue;
     text-transform: lowercase;
     text-decoration: none;
   }
-  
+
   .row_1 {
     display: flex;
-    align-self: flex-start;
+    justify-content: flex-end;
     border-bottom: 2px solid lightgreen;
 
-
-    .home-link img {
-      padding-right: 5.6rem; /* Optional: Adds some space between the home image and other links */ 
+    :first-child {
+      margin-right: auto;
     }
-  
+
     .MainNav {
       display: flex;
-      justify-content: flex-end;
+      justify-self: flex-end;
       align-items: center;
       /*font-size: 1rem;*/
       gap: 1rem;
       padding-left: 3rem;
-      
-  
-      .ball { /* red lolly */
+
+      .ball {
+        /* red lolly */
         width: 12px;
         height: 12px;
         border-radius: 50%;
         display: inline-block;
         background: radial-gradient(circle at 15% 50%, rgba(255, 0, 0, 0.8) 1px, red 3%, darkred 60%, red 100%);
-  
-        &::before { /*green stick*/
-          content: "";
+
+        &::before {
+          /*green stick*/
+          content: '';
           display: inline-block;
           width: 2rem; //stick length
           height: 0.2rem;
@@ -46,8 +40,9 @@ nav {
           background-image: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), lightgreen, rgba(0, 255, 0, 0.1));
         }
       }
-  
-      &.active, &:hover {
+
+      &.active,
+      &:hover {
         .ball {
           transform: rotate(270deg);
         }

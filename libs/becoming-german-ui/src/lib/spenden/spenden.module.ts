@@ -8,8 +8,10 @@ import { HolidaysComponent } from './item/holidays.component';
 import { MemoryComponent } from './item/memory.component';
 import { PartyComponent } from './item/party.component';
 import { SongComponent } from './item/song.component';
+import { SpendenComponent } from './spenden.component';
 
 const routes: Routes = [
+  { path: '', component: SpendenComponent },
   { path: 'audiobook', component: AudiobookComponent },
   { path: 'book', component: BookComponent },
   { path: 'grandparents', component: GrandparentsComponent },
