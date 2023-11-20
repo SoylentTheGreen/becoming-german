@@ -22,6 +22,7 @@ import { MemoryComponent } from './result/items/memory.component';
 import { PartyComponent } from './result/items/party.component';
 import { AudiobookComponent } from './result/items/audiobook.component';
 import { StartComponent } from './start/start.component';
+import { SpendenHomeComponent } from './spenden/item/spenden-home.component';
 
 
 export const appRoutes: Routes = [
@@ -69,6 +70,10 @@ export const appRoutes: Routes = [
         path: 'spenden',
         loadChildren: () => import('./spenden/spenden.module').then((m) => m.SpendenModule),
       },
+      {
+        path: 'spenden-home',
+        component: SpendenHomeComponent,
+      }
     ],
   },
 ];
