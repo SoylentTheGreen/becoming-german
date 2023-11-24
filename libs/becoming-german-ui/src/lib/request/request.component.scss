@@ -1,9 +1,9 @@
-
 .options {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
-  input, select {
+  input,
+  select {
     padding: 0.2rem;
   }
 }
@@ -13,4 +13,26 @@
   text-transform: lowercase;
   text-decoration: none;
   color: red;
+}
+
+.container {
+  display: flex;
+  justify-self: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.text {
+  flex: 1;
+}
+
+.image {
+  padding-top: 2rem;
+  padding-right: 6rem;
+  cursor: pointer;
+}
+
+.separator {
+  border-bottom: 1px solid lightgreen;
 }

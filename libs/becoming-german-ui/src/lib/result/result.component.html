@@ -1,22 +1,30 @@
 <div class="back"><a routerLink="/request">new request</a></div>
 
-<div class="profile" *ngIf="(request | async) as profile">
-    Du Bist im {{ profile.birthDate | date : 'yyyy' }} geboren.
+<div class="profile" *ngIf="request | async as profile">
+  Du bist {{ profile.gender }} und Jahrgang {{ profile.birthDate | date: 'yyyy' }}. <br />
+  Du bist {{ profile.siblingPosition }}, hast {{ profile.siblings }} Geschwister und bist
+  {{ profile.parents }} aufgewachsen. <br />
+  Während deiner Kindheit bist du {{ profile.moves }} umgezogen.
+
+  <br /><br />
+  If-clause: Dein Lieblingshobby als Kind war {{ profile.hobby }}. <br />
+  Deine Lieblingsfarbe war {{ profile.favoriteColor }}.<br />
 </div>
 
 <div *ngIf="result | async as matches" class="results">
-    <bgn-book [item]="matches.book.item.de"></bgn-book>
-    <div class="separator"></div>
-    <bgn-grandparents [item]="matches.grandparents.item.de"></bgn-grandparents>
-    <div class="separator"></div>
-    <bgn-holidays [item]="matches.holidays.item.de"></bgn-holidays>
-    <div class="separator"></div>
-    <bgn-song [item]="matches.song.item.de"></bgn-song>
-    <div class="separator"></div>
-    <bgn-memory [item]="matches.memory.item.de"></bgn-memory>
-    <div class="separator"></div>
-    <bgn-party [item]="matches.party.item.de"></bgn-party>
-    <div class="separator"></div>
-    <bgn-audiobook [item]="matches.speaking_book.item.de"></bgn-audiobook>
+  <div class="separator"></div>
+  <bgn-book [item]="matches.book.item.de"></bgn-book>
+  <div class="separator"></div>
+  <bgn-grandparents [item]="matches.grandparents.item.de"></bgn-grandparents>
+  <div class="separator"></div>
+  <bgn-holidays [item]="matches.holidays.item.de"></bgn-holidays>
+  <div class="separator"></div>
+  <bgn-song [item]="matches.song.item.de"></bgn-song>
+  <div class="separator"></div>
+  <bgn-memory [item]="matches.memory.item.de"></bgn-memory>
+  <div class="separator"></div>
+  <bgn-party [item]="matches.party.item.de"></bgn-party>
+  <div class="separator"></div>
+  <bgn-audiobook [item]="matches.speaking_book.item.de"></bgn-audiobook>
+  <div class="separator"></div>
 </div>
-

@@ -57,9 +57,9 @@ export const state: LiteralTranslation<GermanState> = () => ({
 
 const siblingPosition: LiteralTranslation<SiblingPosition> = () => ({
   only: $localize`:@@childhood.siblings.only:Einzelkind`,
-  eldest: $localize`:@@childhood.siblings.eldest:ältestes Kind`,
-  middle: $localize`:@@childhood.siblings.middle:mittleres Kind`,
-  youngest: $localize`:@@childhood.siblings.youngest:jüngstes Kind`,
+  eldest: $localize`:@@childhood.siblings.eldest:das älteste Kind`,
+  middle: $localize`:@@childhood.siblings.middle:das mittlere Kind`,
+  youngest: $localize`:@@childhood.siblings.youngest:das jüngste Kind`,
 });
 
 const bedroomSituation: LiteralTranslation<BedroomSituation> = () => ({
@@ -67,10 +67,10 @@ const bedroomSituation: LiteralTranslation<BedroomSituation> = () => ({
   several: $localize`:@@childhood.bedroom.with-several siblings:mit mehreren Geschwistern geteilt`,
   sister: $localize`:@@childhood.bedroom.with-sister:mit Schwester geteilt`,
   own: $localize`:@@childhood.bedroom.own:eigenes`,
-  various: $localize`:@@childhood.bedroom.various:Untershiedlich`,
+  various: $localize`:@@childhood.bedroom.various:Unterschiedlich`,
 });
 
-const dwellingSituation: LiteralTranslation<DwellingSituation> = () => ({
+const dwellingSituation: LiteralTranslation<DwellingSituation> = () => ({ 
   city: $localize`:@@childhood.dwelling.city:in einer Großstadt`,
   country: $localize`:@@childhood.dwelling.country:auf dem Land`,
   small_town: $localize`:@@childhood.dwelling.small_town:in einer Stadt`,
@@ -83,6 +83,7 @@ const dwellingSituation: LiteralTranslation<DwellingSituation> = () => ({
 const gender: LiteralTranslation<Gender> = () => ({
   female: $localize`:@@gender.female:Weiblich`,
   male: $localize`:@@gender.male:Männlich`,
+  diverse: $localize`:@@gender.diverse:Divers`,
 });
 
 const moves: LiteralTranslation<HomeMoves> = () => ({
@@ -93,10 +94,10 @@ const moves: LiteralTranslation<HomeMoves> = () => ({
 });
 
 const parents: LiteralTranslation<ParentalSituation> = () => ({
-  father: $localize`:@@childhood.parents.father:alleinerziehender Vater`,
-  mother: $localize`:@@childhood.parents.mother:alleinerziehende Mutter`,
-  other: $localize`:@@childhood.parents.other:anderes`,
-  parents: $localize`:@@childhood.parents.parents:Beide Elternteile`,
+  father: $localize`:@@childhood.parents.father:beim Vater`,
+  mother: $localize`:@@childhood.parents.mother:bei der Mutter`,
+  other: $localize`:@@childhood.parents.other:nicht bei den Eltern`,
+  parents: $localize`:@@childhood.parents.parents:beiden Eltern`,
 });
 
 const childhoodAge: LiteralTranslation<ChildhoodAge> = () => ({

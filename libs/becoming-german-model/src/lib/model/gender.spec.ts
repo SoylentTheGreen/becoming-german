@@ -14,13 +14,16 @@ describe('Gender', () => {
       it('maps 2 to Gender female', () => {
         expect(decoder(2)).toBe('female');
       });
+      
+      it('maps 3 to Gender diverse', () => {
+        expect(decoder(3)).toBe('diverse');
+      });
 
       it('accepts Genders with no problem', () => {
         expect(decoder('male')).toBe('male');
         expect(decoder('female')).toBe('female');
+        expect(decoder('diverse')).toBe('diverse');
       });
-
-
 
       it('it maps gives either left on invalid values', () => {
         expect(decoder(0)).toBeNull();

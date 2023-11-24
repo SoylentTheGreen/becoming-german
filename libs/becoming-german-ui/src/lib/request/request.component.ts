@@ -43,10 +43,10 @@ export class RequestComponent {
     optionFields('gender', this.labels.gender),
     optionFields('siblings', this.labels.siblings),
     optionFields('siblingPosition', this.labels.siblingPosition),
+    optionFields('parents', this.labels.parents),
     optionFields('bedroomSituation', this.labels.bedroomSituation),
     optionFields('dwellingSituation', this.labels.dwellingSituation),
     optionFields('moves', this.labels.moves),
-    optionFields('parents', this.labels.parents),
   ];
   updates = this.form.valueChanges.pipe(
     map((v) => ChildhoodProfile.decode(v)),
