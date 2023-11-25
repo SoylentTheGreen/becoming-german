@@ -1,30 +1,40 @@
 <div class="back"><a routerLink="/request">new request</a></div>
 
-<div class="profile" *ngIf="request | async as profile">
-  Du bist {{ profile.gender }} und Jahrgang {{ profile.birthDate | date: 'yyyy' }}. <br />
-  Du bist {{ profile.siblingPosition }}, hast {{ profile.siblings }} Geschwister und bist
-  {{ profile.parents }} aufgewachsen. <br />
-  Während deiner Kindheit bist du {{ profile.moves }} umgezogen.
+<div class="profile results" *ngIf="request | async as profile">
+  <div class="result-item">
+    <div class="heading">Dein Profil:</div>
+    <div class="item">
+      Du bist <span class="data">{{ profile.gender }}</span> und Jahrgang
+      <span class="data">{{ profile.birthDate | date: 'yyyy' }}</span>. <br />
+      Du bist <span class="data">{{ profile.siblingPosition }}</span
+      >, hast <span class="data">{{ profile.siblings }}</span> Geschwister und bist
+      <span class="data">{{ profile.parents }}</span> aufgewachsen. <br />
+      Während deiner Kindheit bist du <span class="data">{{ profile.moves }}</span> umgezogen.
+    </div>
+    <div *ngIf="profile.hobby">
+      Dein Lieblingshobby als Kind war <span class="data">{{ profile.hobby }}</span
+      >.
+      <div *ngIf="profile.favoriteColor">
+        Deine Lieblingsfarbe war <span class="data">{{ profile.favoriteColor }}.</span>
+      </div>
+    </div>
+  </div>
 
-  <br /><br />
-  If-clause: Dein Lieblingshobby als Kind war {{ profile.hobby }}. <br />
-  Deine Lieblingsfarbe war {{ profile.favoriteColor }}.<br />
-</div>
-
-<div *ngIf="result | async as matches" class="results">
-  <div class="separator"></div>
-  <bgn-book [item]="matches.book.item.de"></bgn-book>
-  <div class="separator"></div>
-  <bgn-grandparents [item]="matches.grandparents.item.de"></bgn-grandparents>
-  <div class="separator"></div>
-  <bgn-holidays [item]="matches.holidays.item.de"></bgn-holidays>
-  <div class="separator"></div>
-  <bgn-song [item]="matches.song.item.de"></bgn-song>
-  <div class="separator"></div>
-  <bgn-memory [item]="matches.memory.item.de"></bgn-memory>
-  <div class="separator"></div>
-  <bgn-party [item]="matches.party.item.de"></bgn-party>
-  <div class="separator"></div>
-  <bgn-audiobook [item]="matches.speaking_book.item.de"></bgn-audiobook>
-  <div class="separator"></div>
+  <div *ngIf="result | async as matches" class="results">
+    <div class="separator"></div>
+    <bgn-book [item]="matches.book.item.de"></bgn-book>
+    <div class="separator"></div>
+    <bgn-grandparents [item]="matches.grandparents.item.de"></bgn-grandparents>
+    <div class="separator"></div>
+    <bgn-holidays [item]="matches.holidays.item.de"></bgn-holidays>
+    <div class="separator"></div>
+    <bgn-song [item]="matches.song.item.de"></bgn-song>
+    <div class="separator"></div>
+    <bgn-memory [item]="matches.memory.item.de"></bgn-memory>
+    <div class="separator"></div>
+    <bgn-party [item]="matches.party.item.de"></bgn-party>
+    <div class="separator"></div>
+    <bgn-audiobook [item]="matches.speaking_book.item.de"></bgn-audiobook>
+    <div class="separator"></div>
+  </div>
 </div>

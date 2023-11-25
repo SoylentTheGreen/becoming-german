@@ -1,24 +1,25 @@
 <div class="result-item" *ngIf="item as book">
-  <div i18n="@@match.book.heading">Dein Lieblingsbuch wäre gewesen:</div>
-  <div class="item data">{{ book.title }}</div>
+  <div i18n="@@match.book.heading" class="heading">Dein Lieblingsbuch:</div>
   <div class="item">
+    <span class="data">{{ book.title }} </span>
     <span i18n="@@match.book.author">geschrieben von</span>
     <span class="data"> {{ book.author }}</span>
   </div>
-  <div class="item"><span i18n="@@match.book.characters">Deine Lieblingsfiguren waren</span>:
+  <div class="item" *ngIf="book.character1">
+    <span i18n="@@match.book.characters">Deine Lieblingsfiguren waren</span>:
     <span class="data" *ngIf="book.character1">{{ book.character1 }}</span>
     <span class="data" *ngIf="book.character2">{{ book.character2 }}</span>
   </div>
-  <div class="item"><span i18n="@@match.book.synopsis">In dem Buch ging es um</span>:
+  <div class="item" *ngIf="book.synopsis"><span i18n="@@match.book.synopsis">In dem Buch ging es um</span>:
     <span class="data">{{ book.synopsis }}</span>
   </div>
-  <div class="item"><span i18n="@@match.book.whyFavorite">Es war Dein Lieblingsbuch weil</span>:
+  <div class="item" *ngIf="book.whyFavorite"><span i18n="@@match.book.whyFavorite">Es war Dein Lieblingsbuch weil</span>:
     <span class="data">{{ book.whyFavorite }}</span>
   </div>
   <div class="item" *ngIf="book.howItInfluenced"><span i18n="@@match.book.howItInfluenced">Das Buch hat Dein alltagsleben folgendermaßen beeinflußt</span>:
     <span class="data">{{ book.howItInfluenced }}</span>
   </div>
   <div class="item" i18n="@@match.book.ageWhenRead">Das Buch war wichtig für Dich als
-    Du <span class="data">{{ tr('childhoodAge', book.ageWhenRead) }}</span> Jahre alt war
+    Du <span class="data">{{ tr('childhoodAge', book.ageWhenRead) }}</span> Jahre alt warst.
   </div>
 </div>

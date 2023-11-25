@@ -29,6 +29,6 @@
     "match.weight": "(with a probability of {$INTERPOLATION}%)",
     "match.book.title": "Title",
     "match.book.author": "written by",
-    "match.book.ageWhenRead": "The book was important to you when you were {$INTERPOLATION} years old"
+    "match.book.ageWhenRead": "The book was important to you when you were {$START_TAG_SPAN}{$INTERPOLATION}{$CLOSE_TAG_SPAN} years old"
   }
 }

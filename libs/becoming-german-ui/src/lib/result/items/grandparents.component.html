@@ -1,24 +1,31 @@
 <div class="result-item" *ngIf="item as gp">
-  <div i18n="@@match.grandparents.heading">Deine Großeltern:</div>
-  <div class="item"><span i18n="@@match.grandparents.who">Deine Großeltern waren</span>:
+  <div class="heading" i18n="@@match.grandparents.heading">Deine Großeltern:</div>
+  <div class="item" *ngIf="gp.who">
+    <span i18n="@@match.grandparents.who">Deine Großeltern waren</span>:
     <span class="data">{{ gp.who }}</span>
   </div>
-  <div class="item" i18n="@@match.grandparents.didYouMeet">
-    Hast Du die kennengelernt? <span class="data">{{ gp.didYouMeet }}</span>
+  <div class="item" *ngIf="gp.didYouMeet">
+    <span i18n="@@match.grandparents.didYouMeet">Hast Du die kennengelernt?</span>
+    <span class="data"> {{ gp.didYouMeet }}</span>
   </div>
-  <div class="item" i18n="@@match.grandparents.getOn">
-    Habt ihr euch verstanden? {{ gp.getOn }}
+  <div class="item" *ngIf="gp.getOn">
+    <span i18n="@@match.grandparents.getOn">Habt ihr euch verstanden?</span>
+    <span class="data"> {{ gp.getOn }}</span>
   </div>
-  <div class="item"><span
-    i18n="@@match.grandparents.activity">Wenn ihr euch gesehen habt, habt ihr folgendes gemacht</span>:
-    {{ gp.activity }}
+  <div class="item" *ngIf="gp.activity">
+    <span i18n="@@match.grandparents.activity">Wenn ihr euch gesehen habt, habt ihr folgendes gemacht</span>: <br />
+    <span class="data"> {{ gp.activity }}</span>
   </div>
-  <div class="item"><span
-    i18n="@@match.grandparents.smell">Der Geruch, den Du mit Deinen Großeltern verbindest ist</span>:
-    {{ gp.smell }}
+  <div class="item" *ngIf="gp.smell">
+    <span i18n="@@match.grandparents.smell">Der Geruch, den Du mit Deinen Großeltern verbindest ist</span>: <br />
+    <span class="data"> {{ gp.smell }}</span>
   </div>
-  <div class="item" i18n="@@match.grandparents.association">Weitere Assoziationen zu den Großeltern:</div>
-  <div>{{ gp.association }}</div>
-  <div class="item" i18n="@@match.grandparents.specialMemory">Besondere Erinnerungen:</div>
-  <div>{{ gp.specialMemory }}</div>
+  <div class="item" *ngIf="gp.association">
+    <span i18n="@@match.grandparents.association">Weitere Assoziationen zu den Großeltern:</span>
+    <span class="data"> {{ gp.association }}</span>
+  </div>
+  <div class="item" *ngIf="gp.specialMemory">
+    <span i18n="@@match.grandparents.specialMemory">Besondere Erinnerungen:</span>
+    <span class="data"> {{ gp.specialMemory }}</span>
+  </div>
 </div>
