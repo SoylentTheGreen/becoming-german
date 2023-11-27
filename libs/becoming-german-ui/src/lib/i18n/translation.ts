@@ -120,7 +120,7 @@ const transFor = <Y extends string>(meta: LiteralMeta<Y>, tr: LiteralTranslation
   pipe(tr(), toEntries, translationSort(meta.ord));
 
 export const childhoodProfileTranslations: LiteralPropertiesRecord<
-  Omit<ChildhoodProfile, 'birthDate' | 'hobby' | 'favoriteColor'>
+  Omit<ChildhoodProfile, 'id' | 'birthYear' | 'hobby' | 'favoriteColor'>
 > = {
   siblings: transFor(siblingStateType, siblings),
   siblingPosition: transFor(siblingPositionType, siblingPosition),
@@ -133,7 +133,7 @@ export const childhoodProfileTranslations: LiteralPropertiesRecord<
 // germanState: transFor(germanStateType, state),
 
 export const labels: () => Record<keyof Person, string> = () => ({
-  birthDate: $localize`:@@label.birthDate:Geburtstag`,
+  birthYear: $localize`:@@label.birthDate:Geburtsjahr`,
   gender: $localize`:@@label.gender:Geschlecht`,
   siblings: $localize`:@@label.siblings:Geschwister`,
   siblingPosition: $localize`:@@label.siblingPosition:Ich war`,

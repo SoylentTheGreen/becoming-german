@@ -6,7 +6,7 @@ import { Observable, shareReplay, Subject } from 'rxjs';
 
 export const labels: Record<keyof Person, string> = {
   id: $localize`:@@label.admin.id:ID`,
-  birthDate: $localize`:@@label.admin.birthDate:DoB`,
+  birthYear: $localize`:@@label.admin.birthDate:Born`,
   gender: $localize`:@@label.admin.gender:Sex`,
   siblings: $localize`:@@label.admin.siblings:Sibs`,
   siblingPosition: $localize`:@@label.admin.siblingPosition:Sib Pos`,
@@ -37,8 +37,7 @@ export class EditorComponent {
   people = this.service.people;
   labels = labels;
   fields: (keyof Person)[] = [
-    'id',
-    'birthDate',
+    'birthYear',
     'gender',
     'siblings',
     'siblingPosition',
@@ -52,10 +51,6 @@ export class EditorComponent {
   activePerson: Observable<Person> = this.active.pipe(shareReplay(1));
 
   constructor(private service: PersonService) {}
-
-  format(field: (typeof this.fields)[number], value: unknown) {
-    return field === 'birthDate' ? ymd(value as Date) : value;
-  }
 
   itemsStatus(person: Person): [keyof Person, boolean][] {
     const stats = getItemStatus(person)

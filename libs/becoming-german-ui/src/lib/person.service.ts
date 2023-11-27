@@ -2,11 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, mergeMap, Observable, shareReplay } from 'rxjs';
 import * as A from 'fp-ts/Array';
-import { ChildhoodProfile, MatchingItems, MatchingItemsC, Person, QueryResponse } from '@becoming-german/model';
-import { flow } from 'fp-ts/function';
+import {
+  ChildhoodProfile,
+  ChildhoodProfileOutput,
+  MatchingItems,
+  MatchingItemsC,
+  Person,
+  QueryResponse,
+} from '@becoming-german/model';
+import { flow, pipe } from 'fp-ts/function';
 import { Type } from 'io-ts';
-import { isSome, none, Option, Some, some } from 'fp-ts/Option';
+import { fromEither, isSome, none, Option, Some, some } from 'fp-ts/Option';
 import { isRight } from 'fp-ts/Either';
+import * as R from 'fp-ts/Record';
 
 const decodeResultToOption =
   <T, O>(codec: Type<T, O>) =>
@@ -18,7 +26,9 @@ const decodeResultToOption =
     return none;
   };
 
-const getValue = <T>(i: Some<T>) => i.value
+export type Nullable<T> = { [K in keyof T]: T[K] | null };
+const getValue = <T>(i: Some<T>) => i.value;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -29,24 +39,37 @@ export class PersonService {
     shareReplay(1),
   );
 
+  private matchingProfileInput = new BehaviorSubject<Nullable<ChildhoodProfileOutput>>(
+    pipe(
+      ChildhoodProfile.type.props,
+      R.map(() => null),
+    ),
+  );
 
-  private matchingProfileInput = new BehaviorSubject<Option<ChildhoodProfile>>(none)
+  profileInput: Observable<Nullable<ChildhoodProfileOutput>> = this.matchingProfileInput.pipe(shareReplay(1));
+
+
   requestProfile = this.matchingProfileInput.pipe(
+    map(flow(ChildhoodProfile.decode, fromEither)),
     filter(isSome),
     map(getValue),
-    shareReplay(1));
+  );
+
 
   matchingProfile: Observable<MatchingItems> = this.requestProfile.pipe(
-    mergeMap(req => this.http.post('/api/request', req)),
+    mergeMap((req) => this.http.post('/api/request', req)),
     map(MatchingItemsC.decode),
     filter(isRight),
-    map(r => r.right),
-    shareReplay(1)
-  )
+    map((r) => r.right),
+  );
 
-  findProfile(req: ChildhoodProfile) {
-    this.matchingProfileInput.next(some(req));
+
+  currentProfile = this.matchingProfile.pipe(shareReplay(1));
+  constructor(private http: HttpClient) {}
+
+  findProfile(req: Nullable<ChildhoodProfileOutput>) {
+    this.matchingProfileInput.next(req);
+
   }
 
-  constructor(private http: HttpClient) {}
 }

@@ -7,11 +7,12 @@ import { parentalSituationType } from './parental-situation';
 import { bedroomSituationType } from './bedroom-situation';
 import { dwellingSituationType } from './dwelling-situation';
 import { homeMovesType } from './home-moves';
-import { DateOnlyInput } from '../type';
+import { numberInRange } from '@becoming-german/tools';
+
 
 export const ChildhoodProfile = t.exact(
   t.type({
-    birthDate: DateOnlyInput,
+    birthYear: numberInRange(1900, new Date().getFullYear() - 10),
     gender: genderType.literals,
     parents: parentalSituationType.literals,
     siblings: siblingStateType.literals,

@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
-import { isLeft, isRight } from 'fp-ts/Either';
-import { filter, firstValueFrom, map, startWith } from 'rxjs';
-import { LiteralPropertiesRecord, childhoodProfileTranslations, labels } from '../i18n/translation';
-import { PersonService } from '../person.service';
+import { firstValueFrom, Subject } from 'rxjs';
+import { childhoodProfileTranslations, labels, LiteralPropertiesRecord } from '../i18n/translation';
+import { isRight } from 'fp-ts/Either';
+import * as R from 'fp-ts/Record';
+import { Nullable, PersonService } from '../person.service';
+import { pipe } from 'fp-ts/function';
+import {v4 as uuid} from 'uuid';
 
 export type FormGroupMap<T> = FormGroup<{
   [Property in keyof T]: T[Property] extends (infer U)[] ? FormArray<FormGroupMap<U>> : FormControl<T[Property]>;
@@ -17,26 +20,17 @@ const getF =
 
 const optionFields = getF(childhoodProfileTranslations);
 
-const defaultProfile: ChildhoodProfileOutput = {
-  bedroomSituation: 'brother',
-  birthDate: '1973-10-11',
-  dwellingSituation: 'city',
-  favoriteColor: 'black',
-  gender: 'male',
-  hobby: 'roleplaying',
-  moves: '1',
-  parents: 'parents',
-  siblingPosition: 'youngest',
-  siblings: 'two',
-};
-
 @Component({
   selector: 'bgn-request',
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.scss', '../standard-layout/standard-layout.component.scss'],
 })
 export class RequestComponent {
-  form = this.fb.nonNullable.group(defaultProfile);
+  val: Nullable<ChildhoodProfileOutput> = pipe(
+    ChildhoodProfile.type.props,
+    R.map(() => null),
+  );
+  form: FormGroupMap<Nullable<ChildhoodProfileOutput>> = this.fb.group(this.val);
   labels = labels();
   value = $localize`:@@label.gender:Geschlecht`;
   options = [
@@ -48,25 +42,36 @@ export class RequestComponent {
     optionFields('dwellingSituation', this.labels.dwellingSituation),
     optionFields('moves', this.labels.moves),
   ];
-  updates = this.form.valueChanges.pipe(
-    map((v) => ChildhoodProfile.decode(v)),
-    startWith(ChildhoodProfile.decode(defaultProfile)),
-  );
-  valid = this.updates.pipe(
-    filter(isRight),
-    map((v) => v.right),
-  );
-  disabled = this.updates.pipe(map(isLeft));
 
+  currentYear = new Date().getFullYear();
+
+  submit = new Subject<boolean>();
 
   constructor(
     private fb: FormBuilder,
     private service: PersonService,
-    private router: Router
+    private router: Router,
   ) {}
 
-  async getProfile() {
-    this.service.findProfile(await firstValueFrom(this.valid));
-    return this.router.navigate(['result'])
+  async doUpdate() {
+    const result = ChildhoodProfile.decode({ ...this.form.getRawValue(), id: uuid() });
+
+    if (isRight(result)) {
+      this.service.findProfile(result.right);
+
+      await firstValueFrom(this.service.requestProfile);
+      await this.router.navigate(['result']);
+    }
+  }
+
+  modifiedYear(amount: number) {
+    const current = this.form.controls['birthYear'].value;
+    const newVal = (current || 0) + amount;
+    if (newVal < 1900) return 1900;
+    return newVal > this.currentYear - 10 ? this.currentYear - 10 : newVal;
+  }
+
+  modYear(amount: number) {
+    this.form.controls['birthYear'].setValue(this.modifiedYear(amount), { emitEvent: true, onlySelf: false });
   }
 }

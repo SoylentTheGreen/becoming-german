@@ -2,13 +2,14 @@ import * as t from 'io-ts';
 import { ChildhoodProfile } from './childhood-profile';
 import { germanStateType } from './german-state';
 import { itemProps } from './item-type-map';
+import { NullableTranslatableC } from './nullableTranslatable';
 
 export const DonatedProfile = t.intersection([
   ChildhoodProfile,
   t.exact(
     t.type({
       germanState: germanStateType.literals,
-      dwellingSituationComment: t.string,
+      dwellingSituationComment: NullableTranslatableC(t.string),
       ...itemProps,
     }),
   ),

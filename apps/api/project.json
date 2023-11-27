@@ -16,7 +16,9 @@
         "tsConfig": "apps/api/tsconfig.app.json",
         "assets": ["apps/api/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/api/webpack.config.js"
+        "webpackConfig": "apps/api/webpack.config.js",
+        "generatePackageJson": true
+
       },
       "configurations": {
         "development": {},
@@ -45,6 +47,32 @@
         "lintFilePatterns": ["apps/api/**/*.ts"]
       }
     },
+    "serve-both": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx serve api"
+          },
+          {
+            "command": "nx serve becoming-german"
+          }
+        ],
+        "parallel": true
+      }
+    },
+    "zip": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "cd dist/apps/api; zip -r ../../../becoming-german-api.zip ."
+          }
+        ]
+      }
+    },
+
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

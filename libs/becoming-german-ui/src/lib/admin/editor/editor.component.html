@@ -5,9 +5,9 @@
   </div>
   <div class="data row" *ngFor="let person of people | async" (click)="active.next(person)">
 
-    <div class="cell {{field}}" *ngFor="let field of fields">{{ format(field, person[field])}}</div>
+    <div class="cell {{field}}" *ngFor="let field of fields">{{person[field]}}</div>
     <ng-container *ngIf="itemsStatus(person) as stats">
-      <div class="cell stat {{stat[0]}}" *ngFor="let stat of stats;" >{{stat[1] ? 'X' : ''}}</div>
+      <div class="cell stat {{stat[0]}}" *ngFor="let stat of stats;">{{stat[1] ? 'X' : ''}}</div>
     </ng-container>
 
   </div>
