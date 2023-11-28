@@ -1,31 +1,23 @@
-import { Grandparents } from './grandparents';
-import { Holiday } from './holiday';
-import { Memory } from './memory';
-import { Book } from './book';
-import { Song } from './song';
-import { AudioBook } from './audio-book';
-import { Party } from './party';
-import { NullableTranslatableC } from './nullableTranslatable';
+import { NullableTranslatable, NullableTranslatableC } from './nullableTranslatable';
 import * as t from 'io-ts';
-import { Item } from './item';
+import { Item, itemPropsRaw } from './item';
+import { pipe } from 'fp-ts/function';
+import { toEntries } from 'fp-ts/Record';
+import * as A from 'fp-ts/Array';
 
-export const itemProps = {
-  book: NullableTranslatableC(Book),
-  grandparents: NullableTranslatableC(Grandparents),
-  holidays: NullableTranslatableC(Holiday),
-  memory: NullableTranslatableC(Memory),
-  party: NullableTranslatableC(Party),
-  song: NullableTranslatableC(Song),
-  speaking_book: NullableTranslatableC(AudioBook),
-};
+export const itemProps = pipe(
+  itemPropsRaw,
+  toEntries,
+  A.reduce({}, (r, [k, v]) => ({ ...r, [k]: NullableTranslatableC(v) })),
+) as { [K in Item]: t.Type<NullableTranslatable<(typeof itemPropsRaw)[K]>> };
+
 
 const ItemsC = t.type(itemProps);
+export const items: Item[] = Object.keys(itemProps) as Item[];
 export type ChildhoodItems = t.TypeOf<typeof ItemsC>;
 export type HasChildhoodItems = {
   [K in Item]: boolean;
 };
-
-
 
 export const getItemStatus: <T extends ChildhoodItems>(items: T) => HasChildhoodItems = (i) => ({
   book: i.book != null,

@@ -1,5 +1,5 @@
 {
-  "name": "becoming-german-model",
+  "name": "@becoming-german/model",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/becoming-german-model/src",
   "projectType": "library",

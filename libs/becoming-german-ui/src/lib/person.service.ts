@@ -41,13 +41,12 @@ export class PersonService {
 
   private matchingProfileInput = new BehaviorSubject<Nullable<ChildhoodProfileOutput>>(
     pipe(
-      ChildhoodProfile.type.props,
+      ChildhoodProfile.props,
       R.map(() => null),
     ),
   );
 
   profileInput: Observable<Nullable<ChildhoodProfileOutput>> = this.matchingProfileInput.pipe(shareReplay(1));
-
 
   requestProfile = this.matchingProfileInput.pipe(
     map(flow(ChildhoodProfile.decode, fromEither)),
@@ -72,4 +71,10 @@ export class PersonService {
 
   }
 
+  resetInput() {
+    this.matchingProfileInput.next(pipe(
+      ChildhoodProfile.props,
+      R.map(() => null),
+    ))
+  }
 }

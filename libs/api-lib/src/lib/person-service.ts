@@ -20,7 +20,11 @@ import {
   QueryResponse,
 } from '@becoming-german/model';
 import { BehaviorSubject } from 'rxjs';
-import { ChildhoodProfileTable } from './childhood-profile-table';
+import {
+  ChildhoodProfileRequestTable,
+  ChildhoodProfileRequestTableC,
+  ChildhoodProfileTable,
+} from './childhood-profile-table';
 import { BookItem } from './book-item';
 import { SongItem } from './song-item';
 import { AudioBookItem } from './audio-book-item';
@@ -203,7 +207,7 @@ export class PersonService {
     return getRes;
   }
 
-  async findMatchingItem(profile: ChildhoodProfileTable) {
+  async findMatchingItem(profile: ChildhoodProfileRequestTable) {
     const exe = async (sql: string): Promise<MatchRow[]> => {
       const conn = await this.pool.getConnection();
       const [rows] = await conn.execute(sql);

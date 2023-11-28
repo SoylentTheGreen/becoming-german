@@ -10,7 +10,11 @@ import {
   NullableTranslatableC,
 } from '@becoming-german/model';
 import { fMapping } from './field-mapping';
-import { ChildhoodProfileTable } from './childhood-profile-table';
+import {
+  ChildhoodProfileRequestTable,
+  ChildhoodProfileRequestTableC,
+  ChildhoodProfileTable,
+} from './childhood-profile-table';
 import { pipe } from 'fp-ts/function';
 import { toEntries } from 'fp-ts/Record';
 import * as A from 'fp-ts/Array';
@@ -93,8 +97,8 @@ export const getPersonSql = (offset = 0, limit = 10) => {
 const fieldName = (k: keyof ChildhoodProfileTable): string =>
   k === 'gender' ? 'sex' : k === 'moves' ? 'homeMoves' : k;
 
-export const getSearch = (p: ChildhoodProfileTable) => {
-  const data = ChildhoodProfileTable.encode(p);
+export const getSearch = (p: ChildhoodProfileRequestTable) => {
+  const data = ChildhoodProfileRequestTableC.encode(p);
 
   const weightField = `
       IF(
@@ -145,7 +149,7 @@ export const getSearch = (p: ChildhoodProfileTable) => {
   // `,
   //     ),
   //   ).join(' UNION ');
-
+  console.log(sql);
   return sql;
 };
 

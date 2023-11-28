@@ -1,16 +1,17 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
-import { ChildhoodProfileTable, PersonService, UpdateResult } from '@becoming-german/api-lib';
+import { ChildhoodProfileRequestTableC, PersonService, UpdateResult } from '@becoming-german/api-lib';
 import * as t from 'io-ts';
 import { flow } from 'fp-ts/function';
 import { fold, isRight } from 'fp-ts/Either';
-import { ChildhoodProfile, NumberFromStringOrNumber, NumberInRange } from '@becoming-german/model';
+import { ChildhoodProfile } from '@becoming-german/model';
 import { PathReporter } from 'io-ts/PathReporter';
 import { Observable, Subject } from 'rxjs';
 import { Response as ExResp } from 'express';
+import { NumberFromStringOrNumber, numberInRange } from '@becoming-german/tools';
 
 const getReqC = t.type({
   offset: NumberFromStringOrNumber,
-  limit: NumberInRange(1, 500),
+  limit: numberInRange(1, 500),
 });
 type GetRec = t.TypeOf<typeof getReqC>;
 const decodeOrDefault = <T>(c: t.Type<T>, def: T) =>
@@ -45,7 +46,7 @@ export class AppController {
   async getChildhoodRequest(@Body() request: unknown) {
     const profile = ChildhoodProfile.decode(request);
     if (isRight(profile)) {
-      const table = ChildhoodProfileTable.decode(profile.right);
+      const table = ChildhoodProfileRequestTableC.decode(profile.right);
       if (isRight(table)) {
         return this.service.findMatchingItem(table.right);
       }

@@ -7,6 +7,3 @@ export const NumberFromStringOrNumber = new t.Type<number, number>(
   (v, c) => (typeof v === 'number' ? t.number.validate(v, c) : NumberFromString.validate(v, c)),
   t.identity,
 );
-
-export const NumberInRange = (min: number, max: number) =>
-  t.refinement(NumberFromStringOrNumber, (n): n is number => n >= min && n <= max);

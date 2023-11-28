@@ -14,12 +14,17 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/becoming-german",
         "index": "apps/becoming-german/src/index.html",
         "main": "apps/becoming-german/src/main.ts",
-        "polyfills": ["zone.js", "apps/becoming-german/src/polyfills.ts"],
+        "polyfills": [
+          "zone.js",
+          "apps/becoming-german/src/polyfills.ts"
+        ],
         "tsConfig": "apps/becoming-german/tsconfig.app.json",
         "assets": [
           "apps/becoming-german/src/favicon.ico",
@@ -30,7 +35,9 @@
             "output": "assets"
           }
         ],
-        "styles": ["apps/becoming-german/src/styles.scss"],
+        "styles": [
+          "apps/becoming-german/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -86,14 +93,25 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/becoming-german/**/*.ts", "apps/becoming-german/**/*.html"]
+        "lintFilePatterns": [
+          "apps/becoming-german/**/*.ts",
+          "apps/becoming-german/**/*.html"
+        ]
       }
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "command": "aws s3 sync --delete dist/apps/becoming-german/ s3://becoming-german/ --profile belinda"
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/becoming-german/jest.config.ts",
         "passWithNoTests": true

@@ -1,8 +1,25 @@
 import { literalStringArrayTyping } from '@becoming-german/tools';
+import { Book } from './book';
+import { Grandparents } from './grandparents';
+import { Holiday } from './holiday';
+import { Memory } from './memory';
+import { Party } from './party';
+import { Song } from './song';
+import { AudioBook } from './audio-book';
+import * as t from 'io-ts';
 
-export const items = ['book', 'grandparents', 'holidays', 'memory', 'song', 'party', 'speaking_book'] as const;
-export type Item = (typeof items)[number];
-export const itemsType = literalStringArrayTyping('Item', [...items]);
+export const itemPropsRaw = {
+  book: Book,
+  grandparents: Grandparents,
+  holidays: Holiday,
+  memory: Memory,
+  party: Party,
+  song: Song,
+  speaking_book: AudioBook,
+};
+export const ItemC = t.keyof(itemPropsRaw);
+export type Item = t.TypeOf<typeof ItemC>;
+export const itemsType = literalStringArrayTyping('Item', Object.keys(itemPropsRaw));
 
 export const ItemToggleValue: Record<Item, number> = {
   book: 1,

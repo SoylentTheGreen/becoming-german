@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
@@ -25,9 +25,9 @@ const optionFields = getF(childhoodProfileTranslations);
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.scss', '../standard-layout/standard-layout.component.scss'],
 })
-export class RequestComponent {
+export class RequestComponent implements OnDestroy {
   val: Nullable<ChildhoodProfileOutput> = pipe(
-    ChildhoodProfile.type.props,
+    ChildhoodProfile.props,
     R.map(() => null),
   );
   form: FormGroupMap<Nullable<ChildhoodProfileOutput>> = this.fb.group(this.val);
@@ -47,11 +47,17 @@ export class RequestComponent {
 
   submit = new Subject<boolean>();
 
+  subscription = this.service.profileInput.subscribe((p) => this.form.patchValue(p));
+
   constructor(
     private fb: FormBuilder,
     private service: PersonService,
     private router: Router,
   ) {}
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   async doUpdate() {
     const result = ChildhoodProfile.decode({ ...this.form.getRawValue(), id: uuid() });
@@ -73,5 +79,9 @@ export class RequestComponent {
 
   modYear(amount: number) {
     this.form.controls['birthYear'].setValue(this.modifiedYear(amount), { emitEvent: true, onlySelf: false });
+  }
+
+  reset() {
+    this.service.resetInput();
   }
 }

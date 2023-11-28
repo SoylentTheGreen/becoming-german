@@ -1,6 +1,6 @@
 import { ChildhoodProfile } from './childhood-profile';
 import { decodeOrNull } from '../decode-or-null';
-import { fold, isLeft, isRight } from 'fp-ts/Either';
+import { fold } from 'fp-ts/Either';
 import * as t from 'io-ts';
 import { pipe } from 'fp-ts/function';
 

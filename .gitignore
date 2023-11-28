@@ -43,3 +43,8 @@ Thumbs.db
 /libs/api-lib/src/lib/config.ts
 /.nx/
 /.vscode/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

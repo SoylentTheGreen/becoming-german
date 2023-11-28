@@ -31,14 +31,7 @@
         <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>
       </select>
     </ng-container>
-    <label i18n="@@label.hobby">Hobby</label>
-    <input type="text" formControlName="hobby" />
-
-    <label i18n="@@label.favoriteColor">Favorite Color</label>
-    <input type="text" formControlName="favoriteColor" />
-
   </div>
-  <!--<button [disabled]="disabled | async" i18n="@@label.submit" (click)="getProfile()">Submit</button>-->
   <div class="container">
     <div class="text">
       Um Erinnerungen an eine Kindheit in Deutschland zu empfangen, klicke auf den Kirschlutscher
@@ -47,5 +40,6 @@
     <div class="image">
       <img src="../assets/pix/kirschlutscher_kl.gif" alt="Submit form" (click)="doUpdate()" />
     </div>
+    <button class="reset" type="reset" i18n="@@request.reset" (click)="reset()">Reset</button>
   </div>
 </div>

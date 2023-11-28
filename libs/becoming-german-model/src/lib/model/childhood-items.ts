@@ -2,7 +2,7 @@ import * as t from 'io-ts';
 import { Book } from './book';
 import { Item } from './item';
 import { Grandparents } from './grandparents';
-import { Holidays } from './holiday';
+import { Holiday } from './holiday';
 import { Memory } from './memory';
 import { Party } from './party';
 import { Song } from './song';
