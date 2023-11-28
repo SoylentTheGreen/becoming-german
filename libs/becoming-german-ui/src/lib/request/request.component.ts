@@ -66,7 +66,7 @@ export class RequestComponent implements OnDestroy {
       this.service.findProfile(result.right);
 
       await firstValueFrom(this.service.requestProfile);
-      await this.router.navigate(['result']);
+      await this.router.navigate(['request', 'result']);
     }
   }
 

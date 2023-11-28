@@ -63,7 +63,7 @@ export const appRoutes: Routes = [
         component: RequestComponent,
       },
       {
-        path: 'result',
+        path: 'request/result',
         component: ResultComponent,
       },
       {
