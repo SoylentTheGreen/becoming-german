@@ -25,7 +25,9 @@ import * as A from 'fp-ts/Array';
 import { LiteralMeta } from '@becoming-german/tools';
 
 export type LiteralTranslation<T extends string> = () => Record<T, string>;
-
+export type LiteralPropertiesRecord<T> = {
+  [K in keyof T]: T[K] extends string ? Record<T[K], string> : string
+}
 export const siblings: LiteralTranslation<SiblingState> = () => ({
   none: $localize`:@@childhood.siblings.none:keine`,
   one: $localize`:@@childhood.siblings.one:eins`,
@@ -112,16 +114,17 @@ const childhoodAge: LiteralTranslation<ChildhoodAge> = () => ({
 
 const translationSort = <T>(o: Ord<T>) => A.sort(contramap((i: [T, string]) => i[0])(o));
 export type LiteralPropertyType<T> = T extends string ? T : never;
-export type LiteralPropertiesRecord<T> = {
+
+
+export type LiteralPropertiesEntries<T> = {
   [K in keyof T]: [LiteralPropertyType<T[K]>, string][];
 };
 
 const transFor = <Y extends string>(meta: LiteralMeta<Y>, tr: LiteralTranslation<Y>): [Y, string][] =>
   pipe(tr(), toEntries, translationSort(meta.ord));
 
-export const childhoodProfileTranslations: LiteralPropertiesRecord<
-  Omit<ChildhoodProfile, 'id' | 'birthYear' | 'hobby' | 'favoriteColor'>
-> = {
+export type CPOptions = Omit<ChildhoodProfile, 'id' | 'birthYear' | 'hobby' | 'favoriteColor' | 'germanState'>
+export const childhoodProfileTranslations: LiteralPropertiesEntries<CPOptions> = {
   siblings: transFor(siblingStateType, siblings),
   siblingPosition: transFor(siblingPositionType, siblingPosition),
   bedroomSituation: transFor(bedroomSituationType, bedroomSituation),
@@ -130,6 +133,17 @@ export const childhoodProfileTranslations: LiteralPropertiesRecord<
   moves: transFor(homeMovesType, moves),
   parents: transFor(parentalSituationType, parents),
 };
+export const childhoodProfileTranslationsMapped: LiteralPropertiesRecord<CPOptions> = {
+  siblings: siblings(),
+  siblingPosition: siblingPosition(),
+  bedroomSituation: bedroomSituation(),
+  dwellingSituation: dwellingSituation(),
+  gender: gender(),
+  moves: moves(),
+  parents: parents(),
+}
+
+
 // germanState: transFor(germanStateType, state),
 
 export const labels: () => Record<keyof Person, string> = () => ({

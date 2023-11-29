@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
 import { firstValueFrom, Subject } from 'rxjs';
-import { childhoodProfileTranslations, labels, LiteralPropertiesRecord } from '../i18n/translation';
+import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../i18n/translation';
 import { isRight } from 'fp-ts/Either';
 import * as R from 'fp-ts/Record';
 import { Nullable, PersonService } from '../person.service';
@@ -12,14 +12,14 @@ import { v4 as uuid } from 'uuid';
 import { fpFormGroup } from '@becoming-german/tools';
 
 const getF =
-  <T, K extends keyof T>(trans: LiteralPropertiesRecord<T>) =>
+  <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
   (
     k: K,
     t: string,
   ): {
     k: K;
     t: string;
-    o: LiteralPropertiesRecord<T>[K];
+    o: LiteralPropertiesEntries<T>[K];
   } => ({ k, t, o: trans[k] });
 
 const optionFields = getF(childhoodProfileTranslations);
@@ -73,17 +73,6 @@ export class RequestComponent implements OnDestroy {
       await firstValueFrom(this.service.requestProfile);
       await this.router.navigate(['request', 'result']);
     }
-  }
-
-  modifiedYear(amount: number) {
-    const current = this.form.controls.birthYear.value;
-    const newVal = (current || 0) + amount;
-    if (newVal < 1900) return 1900;
-    return newVal > this.currentYear - 10 ? this.currentYear - 10 : newVal;
-  }
-
-  modYear(amount: number) {
-    this.form.controls['birthYear'].setValue(this.modifiedYear(amount), { emitEvent: true, onlySelf: false });
   }
 
   reset() {

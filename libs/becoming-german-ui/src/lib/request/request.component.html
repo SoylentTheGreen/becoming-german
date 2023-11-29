@@ -28,7 +28,7 @@
     <ng-container class="selector radio" *ngFor="let opt of options">
       <label>{{ opt.t }}</label>
       <select formControlName="{{ opt.k }}">
-        <option value="null">--</option>
+        <option [value]="null">--</option>
         <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>
       </select>
     </ng-container>
