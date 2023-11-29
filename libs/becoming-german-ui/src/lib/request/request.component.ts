@@ -27,7 +27,7 @@ const optionFields = getF(childhoodProfileTranslations);
 @Component({
   selector: 'bgn-request',
   templateUrl: './request.component.html',
-  styleUrls: ['./request.component.scss', '../standard-layout/standard-layout.component.scss'],
+  styleUrls: ['./request.component.scss'],
 })
 export class RequestComponent implements OnDestroy {
   val: Nullable<ChildhoodProfileOutput> = pipe(
@@ -77,6 +77,7 @@ export class RequestComponent implements OnDestroy {
 
   reset() {
     this.service.resetInput();
+    this.form.reset();
   }
 
   yearOnly(event: KeyboardEvent, currentValue: string | null) {

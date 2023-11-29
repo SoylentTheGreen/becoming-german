@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NewsComponent } from './news/news.component';
@@ -78,7 +78,7 @@ export const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule],
+  imports: [CommonModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule, NgOptimizedImage],
   declarations: [
     HomeComponent,
     NewsComponent,

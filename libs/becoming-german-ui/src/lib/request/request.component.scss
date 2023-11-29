@@ -1,6 +1,21 @@
+:host {
+  display: flex;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.intro {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
 .options {
+  max-width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  flex-wrap: wrap;
+  grid-template-columns: min-content minmax(45%, 0.95fr);
   grid-gap: 1rem;
   input,
   select {
@@ -16,10 +31,11 @@ input.year {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  align-items: center;
+  align-items: flex-start;
 }
 
 input[type=image] {
+  border: 0;
   max-width: 20rem;
   width: 40%;
   justify-content: center;
@@ -31,12 +47,13 @@ input[type=image] {
 
 
 input, select {
+  border: 1px solid hsla(0, 0%, 50%, 0.6);
+  border-radius: 2px;
   &.ng-invalid.ng-touched {
     &, option {
       background-color: hsl(10, 90%, 90%);
-      border: 1px solid red;
+      border-color: hsl(10, 90%, 70%);
     }
-
   }
 }
 

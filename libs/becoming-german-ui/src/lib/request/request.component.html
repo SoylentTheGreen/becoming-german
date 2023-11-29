@@ -1,5 +1,6 @@
-<div>
-  <img src="../assets/pix/header/kindheit_empfangen_DE.png" alt="Kindheit Empfangen" i18n-alt="@@request.image.alt">
+<div class="intro">
+  <img [ngSrc]="'../assets/pix/header/kindheit_empfangen_DE.png'" alt="Kindheit Empfangen" i18n-alt="@@request.image.alt"
+       height="58" width="397">
   <a class="spendentext" routerLink="../spenden" i18n="@@request.donate.or.text">... oder doch lieber spenden?</a>
 </div>
 <div i18n="@@request.intro">
@@ -41,5 +42,4 @@
          alt="Submit form"
          i18n-alt="@@request.submit.alt"
          (click)="doUpdate()" />
-  <button class="reset" type="reset" i18n="@@request.reset" (click)="reset()">Reset</button>
 </div>

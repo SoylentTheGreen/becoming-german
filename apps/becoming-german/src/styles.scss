@@ -11,30 +11,23 @@ html {
 }
 
 html, body {
-  display: flex;
-  flex-direction: column;
   font-family: Verdana, Geneva, Arial, helvetica, sans-serif;
   padding: 0;
   margin: 0;
   width: 100%;
+  height: 100%;
+  min-height: 100vh;
 }
 
 a {
-  text-decoration: none;
   color: blue;
   text-decoration: underline;
 }
 
-.spendentext {
+.textheading {
   font-style: italic;
-  text-decoration: none;
-  color: red;
-}
-
-.empfangentext {
-  font-style: italic;
-  text-decoration: none;
-  color: green;
+  font-weight: bold;
+  color: blue;
 }
 
 

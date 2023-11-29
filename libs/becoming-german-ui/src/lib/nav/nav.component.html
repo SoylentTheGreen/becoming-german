@@ -1,9 +1,9 @@
 <nav>
-  <div class="row_1">
+  <div class="row main">
     <a routerLink="/start">
-      <img src="assets/pix/header/home_2.png" alt="Home">
+      <img [ngSrc]="'../assets/pix/header/home_2.png'" alt="Home" i18n-alt="@@nav.home.alt" height="25" width="35">
     </a>
-    <a class="MainNav" [class]="link[0]" *ngFor="let link of links" routerLink="/{{link[0]}}" routerLinkActive="active">
+    <a class="lolly-link" [class]="link[0]" *ngFor="let link of links" routerLink="/{{link[0]}}" routerLinkActive="active">
       <div class="ball"></div>
       {{ link[1] }}
     </a>
