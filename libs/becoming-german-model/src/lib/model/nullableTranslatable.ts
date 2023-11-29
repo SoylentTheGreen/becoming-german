@@ -9,6 +9,6 @@ export const TranslatableC = <T extends t.Mixed>(codec: T): t.Type<Translatable<
 
 export type NullableTranslatable<T> = null | Record<Language, T | null>
 
-export const NullableTranslatableC = <T extends t.Mixed>(codec: T): t.Type<NullableTranslatable<t.TypeOf<T>>> =>
+export const NullableTranslatableC = <T, O = T>(codec: t.Type<T, O>): t.Type<NullableTranslatable<T>, NullableTranslatable<O>> =>
   t.union([t.null, t.record(languageType.literals, t.union([codec, t.null]))]);
 

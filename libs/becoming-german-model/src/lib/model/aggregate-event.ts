@@ -5,7 +5,6 @@ import * as O from 'fp-ts/Option';
 import { ChildhoodProfile } from './childhood-profile';
 import { pipe } from 'fp-ts/function';
 import { Book } from './book';
-import { Holiday } from './holiday';
 import { ChildhoodItems } from './item-type-map';
 import { Item, ItemC, itemPropsRaw } from './item';
 import { toEntries } from 'fp-ts/Record';
@@ -43,7 +42,7 @@ export type AggregateConfig<I, A extends string, IO, E extends string, ET, EO> =
   aggregateBuilder: t.Type<I, IO>;
   key: E;
   eventCodec: t.Type<AggregateEvent<A, E, ET>, AggregateEvent<A, E, EO>>;
-  reducer: (s: Partial<I>, e: AggregateEvent<A, E, ET>) => Partial<I>;
+  reducer: (s: Partial<IO>, e: AggregateEvent<A, E, ET>) => Partial<IO>;
 };
 
 const buildEventReducer = <I, A extends string, IO = I>(aggregate: A, aggregateType: t.Type<I, IO>) => {
@@ -52,7 +51,7 @@ const buildEventReducer = <I, A extends string, IO = I>(aggregate: A, aggregateT
   return <E extends string, T, O>(
     key: E,
     p: t.Type<T, O>,
-    reducer: (s: Partial<I>, e: AggregateEvent<A, E, T>) => Partial<I>,
+    reducer: (s: Partial<IO>, e: AggregateEvent<A, E, T>) => Partial<IO>,
   ): AggregateConfig<I, A, IO, E, T, O> => {
     const eventCodec: t.Type<AggregateEvent<A, E, T>, AggregateEvent<A, E, O>> = aggBuilder(key, p);
     return {
@@ -115,15 +114,15 @@ const ItemUpdateCodec = t.type({ key: ItemC, value: t.union(theTypes) });
 //   (a) => a,
 // );
 
-export class DonatedProfileAggregateBuilder {
-  private eventReducerBuilder = buildEventReducer('DonatedProfile', DonatedProfile);
-  private updateProfile = dBuilder('UpdateProfile', t.partial(ChildhoodProfile.props), (s, e) => ({
-    ...s,
-    ...e.payload,
-  }));
-  private addProfile = dBuilder('AddProfile', ChildhoodProfile, (s, e) => ({ ...s, ...e.payload }));
-  private addItem = dBuilder('AddItem', t.partial(itemPropsRaw), (s, e) => ({ ...s }));
-  private addHoliday = dBuilder('AddHoliday', Holiday, (s, e) => ({ ...s, holidays: { de: e.payload, en: null } }));
-
-  constructor() {}
-}
+// export class DonatedProfileAggregateBuilder {
+//   private eventReducerBuilder = buildEventReducer('DonatedProfile', DonatedProfile);
+//   private updateProfile = dBuilder('UpdateProfile', t.partial(ChildhoodProfile.props), (s, e) => ({
+//     ...s,
+//     ...e.payload,
+//   }));
+//   private addProfile = dBuilder('AddProfile', ChildhoodProfile, (s, e) => ({ ...s, ...e.payload }));
+//   private addItem = dBuilder('AddItem', t.partial(itemPropsRaw), (s, e) => ({ ...s }));
+//   private addHoliday = dBuilder('AddHoliday', Holiday, (s, e) => ({ ...s, holidays: { de: e.payload, en: null } }));
+//
+//   constructor() {}
+// }

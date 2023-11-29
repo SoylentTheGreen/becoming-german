@@ -36,14 +36,12 @@ const itemsProps = {
 };
 
 export const PersonTable = t.intersection([
-  t.exact(
-    t.type({
-      id: t.number,
-      dwellingSituationComment: NullableTranslatableC(t.string),
-      germanState: germanStateType.fromNumber,
-      ...itemsProps
-    }),
-  ),
+  t.type({
+    id: t.number,
+    dwellingSituationComment: NullableTranslatableC(t.string),
+    germanState: germanStateType.fromNumber,
+    ...itemsProps,
+  }),
   ChildhoodProfileTable,
 ]);
 export type PersonTable = t.TypeOf<typeof PersonTable>;
@@ -64,12 +62,11 @@ const personTableMappingConfig: ([keyof PersonTable, string?] | [keyof PersonTab
 ];
 const personTableMapping = personTableMappingConfig.map(([a, b]) => fMapping(a, `p.${b || a}`));
 
-
 export const countPersonSql = `SELECT count(*) as total from tbl_german_person WHERE isQuarantined=0`;
 
 export const getNormalizePersonSql = (offset = 0, limit = 10) => {
   return `select id, jsonData from tbl_german_person where id > ${offset} AND isQuarantined = false limit ${limit}`;
-}
+};
 
 export const getPersonSql = (offset = 0, limit = 10) => {
   const items = pipe(

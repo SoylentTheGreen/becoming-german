@@ -1,12 +1,10 @@
 import * as t from 'io-ts';
 import { ChildhoodProfile } from './childhood-profile';
-import { germanStateType } from './german-state';
 import { itemProps } from './item-type-map';
 import { NullableTranslatableC } from './nullableTranslatable';
 
 export const DonatedProfile = t.type({
   ...ChildhoodProfile.props,
-  germanState: germanStateType.literals,
   dwellingSituationComment: NullableTranslatableC(t.string),
   ...itemProps,
 });
