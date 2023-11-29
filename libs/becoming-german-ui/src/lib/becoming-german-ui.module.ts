@@ -24,15 +24,10 @@ import { AudiobookComponent } from './result/items/audiobook.component';
 import { StartComponent } from './start/start.component';
 import { SpendenHomeComponent } from './spenden/item/spenden-home.component';
 
-
 export const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
-  },
-  {
-    path: 'start',
-    component: StartComponent,
   },
   {
     path: 'admin',
@@ -42,6 +37,10 @@ export const appRoutes: Routes = [
     path: '',
     component: StandardLayoutComponent,
     children: [
+      {
+        path: 'start',
+        component: StartComponent,
+      },
       {
         path: 'project',
         loadChildren: () => import('./project/project.module').then((m) => m.ProjectModule),
@@ -73,7 +72,7 @@ export const appRoutes: Routes = [
       {
         path: 'spenden-home',
         component: SpendenHomeComponent,
-      }
+      },
     ],
   },
 ];

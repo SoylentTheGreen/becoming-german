@@ -8,19 +8,42 @@
   }
 }
 
+input.year {
+  width: 4rem;
+}
+.input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+input[type=image] {
+  max-width: 20rem;
+  width: 40%;
+  justify-content: center;
+
+  &:disabled {
+    opacity: 0.3;
+  }
+}
+
+
+input, select {
+  &.ng-invalid.ng-touched {
+    &, option {
+      background-color: hsl(10, 90%, 90%);
+      border: 1px solid red;
+    }
+
+  }
+}
+
 .spenden {
   font-style: italic;
   text-transform: lowercase;
   text-decoration: none;
   color: red;
-}
-
-.container {
-  display: flex;
-  justify-self: space-between;
-  align-items: center;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
 }
 
 .text {

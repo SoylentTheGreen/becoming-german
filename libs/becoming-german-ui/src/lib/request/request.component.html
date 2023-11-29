@@ -1,9 +1,10 @@
 <div>
-  <img src="../assets/pix/header/kindheit_empfangen_DE.png">
-  <a class="spendentext" routerLink="../spenden">... oder doch lieber spenden?</a>
+  <img src="../assets/pix/header/kindheit_empfangen_DE.png" alt="Kindheit Empfangen" i18n-alt="@@request.image.alt">
+  <a class="spendentext" routerLink="../spenden" i18n="@@request.donate.or.text">... oder doch lieber spenden?</a>
 </div>
-<div>
-  Du möchtest eine Kindheit in Deutschland nachempfinden und Dir das Erinnerungsgut dieser Kindheit aneignen? Fülle dieses
+<div i18n="@@request.intro">
+  Du möchtest eine Kindheit in Deutschland nachempfinden und Dir das Erinnerungsgut dieser Kindheit aneignen? Fülle
+  dieses
   Formular aus und empfange die auf Deinen Angaben beruhende Kindheit in Deutschland.
 </div>
 <div class="separator"></div>
@@ -18,29 +19,27 @@
 
     <ng-container class="selector">
       <label i18n="@@label.birthDate">Geburtstag</label>
-      <div class="year-input">
+      <input class="year"
+             (keydown)="yearOnly($event, year.value)"
+             formControlName="birthYear"
+             #year />
 
-        <!--<button (click)="modYear(-10)">-10</button>-->
-        <input type="number" min="1900" max="2010" formControlName="birthYear" #year/>
-       <!--<button (click)="modYear(10)">+10</button>-->
-      </div>
     </ng-container>
     <ng-container class="selector radio" *ngFor="let opt of options">
       <label>{{ opt.t }}</label>
       <select formControlName="{{ opt.k }}">
-        <option>--</option>
+        <option value="null">--</option>
         <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>
       </select>
     </ng-container>
   </div>
-  <div class="container">
-    <div class="text">
-      Um Erinnerungen an eine Kindheit in Deutschland zu empfangen, klicke auf den Kirschlutscher
-      ...<br /><br />
-    </div>
-    <div class="image">
-      <img src="../assets/pix/kirschlutscher_kl.gif" alt="Submit form" (click)="doUpdate()" />
-    </div>
-    <button class="reset" type="reset" i18n="@@request.reset" (click)="reset()">Reset</button>
+
+  <div class="text" i18n="@@request.cta"
+  >Um Erinnerungen an eine Kindheit in Deutschland zu empfangen, klicke auf den Kirschlutscher ...
   </div>
+  <input [disabled]="!form.valid" type="image" src="../assets/pix/kirschlutscher_kl.gif"
+         alt="Submit form"
+         i18n-alt="@@request.submit.alt"
+         (click)="doUpdate()" />
+  <button class="reset" type="reset" i18n="@@request.reset" (click)="reset()">Reset</button>
 </div>

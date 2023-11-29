@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
 import { firstValueFrom, Subject } from 'rxjs';
@@ -8,15 +8,19 @@ import { isRight } from 'fp-ts/Either';
 import * as R from 'fp-ts/Record';
 import { Nullable, PersonService } from '../person.service';
 import { pipe } from 'fp-ts/function';
-import {v4 as uuid} from 'uuid';
-
-export type FormGroupMap<T> = FormGroup<{
-  [Property in keyof T]: T[Property] extends (infer U)[] ? FormArray<FormGroupMap<U>> : FormControl<T[Property]>;
-}>;
+import { v4 as uuid } from 'uuid';
+import { fpFormGroup } from '@becoming-german/tools';
 
 const getF =
   <T, K extends keyof T>(trans: LiteralPropertiesRecord<T>) =>
-  (k: K, t: string): { k: K; t: string; o: LiteralPropertiesRecord<T>[K] } => ({ k, t, o: trans[k] });
+  (
+    k: K,
+    t: string,
+  ): {
+    k: K;
+    t: string;
+    o: LiteralPropertiesRecord<T>[K];
+  } => ({ k, t, o: trans[k] });
 
 const optionFields = getF(childhoodProfileTranslations);
 
@@ -30,7 +34,8 @@ export class RequestComponent implements OnDestroy {
     ChildhoodProfile.props,
     R.map(() => null),
   );
-  form: FormGroupMap<Nullable<ChildhoodProfileOutput>> = this.fb.group(this.val);
+  form = this.fb.group(fpFormGroup(ChildhoodProfile.props));
+
   labels = labels();
   value = $localize`:@@label.gender:Geschlecht`;
   options = [
@@ -71,7 +76,7 @@ export class RequestComponent implements OnDestroy {
   }
 
   modifiedYear(amount: number) {
-    const current = this.form.controls['birthYear'].value;
+    const current = this.form.controls.birthYear.value;
     const newVal = (current || 0) + amount;
     if (newVal < 1900) return 1900;
     return newVal > this.currentYear - 10 ? this.currentYear - 10 : newVal;
@@ -83,5 +88,16 @@ export class RequestComponent implements OnDestroy {
 
   reset() {
     this.service.resetInput();
+  }
+
+  yearOnly(event: KeyboardEvent, currentValue: string | null) {
+    const allowedKeys = ['Delete', 'Backspace', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+    const pattern = /[0-9]/;
+
+    if (allowedKeys.includes(event.key)) return;
+    if (pattern.test(event.key) && (currentValue || '').length < 4) return;
+
+    event.preventDefault();
+    return;
   }
 }

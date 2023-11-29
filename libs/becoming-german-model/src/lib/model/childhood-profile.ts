@@ -9,6 +9,7 @@ import { bedroomSituationType } from './bedroom-situation';
 import { dwellingSituationType } from './dwelling-situation';
 import { homeMovesType } from './home-moves';
 
+const NonEmptyString = t.refinement(t.string, (n) => n.trim() !== '');
 
 export const ChildhoodProfile =
   t.type({
@@ -20,8 +21,8 @@ export const ChildhoodProfile =
     bedroomSituation: bedroomSituationType.literals,
     dwellingSituation: dwellingSituationType.literals,
     moves: homeMovesType.literals,
-    hobby: t.string,
-    favoriteColor: t.string,
+    hobby: NonEmptyString,
+    favoriteColor: NonEmptyString,
   });
 
 export type ChildhoodProfile = t.TypeOf<typeof ChildhoodProfile>;
