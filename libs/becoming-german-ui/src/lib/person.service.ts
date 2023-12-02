@@ -54,6 +54,13 @@ export class PersonService {
     map(getValue),
   );
 
+  spendenProfile = this.matchingProfileInput.pipe(
+    map(flow(ChildhoodProfile.decode, fromEither)),
+    filter(isSome),
+    map(getValue),
+  );
+
+
 
   matchingProfile: Observable<MatchingItems> = this.requestProfile.pipe(
     mergeMap((req) => this.http.post('/api/request', req)),

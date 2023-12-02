@@ -27,7 +27,7 @@ const optionFields = getF(childhoodProfileTranslations);
 @Component({
   selector: 'bgn-request',
   templateUrl: './request.component.html',
-  styleUrls: ['./request.component.scss'],
+  styleUrls: ['./request.component.scss', '../start/start.component.scss'],
 })
 export class RequestComponent implements OnDestroy {
   val: Nullable<ChildhoodProfileOutput> = pipe(

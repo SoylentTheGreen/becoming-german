@@ -23,6 +23,9 @@ import { PartyComponent } from './result/items/party.component';
 import { AudiobookComponent } from './result/items/audiobook.component';
 import { StartComponent } from './start/start.component';
 import { SpendenHomeComponent } from './spenden/item/spenden-home.component';
+import { SpendenItemComponent } from './spenden/item/spenden-item.component';
+import { SpendenDankeComponent } from './spenden/item/spenden-danke.component';
+
 
 export const appRoutes: Routes = [
   {
@@ -72,6 +75,14 @@ export const appRoutes: Routes = [
       {
         path: 'spenden-home',
         component: SpendenHomeComponent,
+      },
+      {
+        path: 'spenden/spenden-item',
+        component: SpendenItemComponent,
+      },
+      {
+        path: 'spenden/spenden-danke',
+        component: SpendenDankeComponent,
       },
     ],
   },

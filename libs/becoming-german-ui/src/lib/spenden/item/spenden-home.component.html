@@ -1,30 +1,70 @@
+<div class="empfangen teaser">
+  <img src="../assets/pix/header/kindheit_spenden_DE.png" />
+  <a class="empfangentext" routerLink="../request" i18n="@@language.lieber_empfangen"
+    >... oder doch lieber empfangen?</a
+  >
+</div>
 <div>
-    <img src="../assets/pix/header/kindheit_spenden_DE.png" />
-    <a class="empfangentext" routerLink="../request">... oder doch lieber empfangen?</a>
+  <!--<span i18n="@@language.lieber_empfangen" (click)="">... oder doch lieber empfangen</span>-->
+</div>
+<div i18n="@@spenden.intro">
+  <p>
+    Du bist in Deutschland aufgewachsen? Spende Deine Kindheit, indem Du dieses Formular ausfüllst. Die Daten werden
+    vertraulich behandelt und nur im Rahmen dieses Projektes verwendet. Aus allen Spender-Einträgen werden neue
+    Kindheiten für "Becoming German"-Interessenten zusammengestellt.
+  </p>
+  <p>Wenn mehrere Antworten möglich sind, dann spontan die Wichtigste eingeben.</p>
+</div>
+<div class="separator"></div>
+<div>Wer bist du?</div>
+<!--<div class="input-form" [formGroup]="form">-->
+<div class="input-form">
+  <div class="options">
+    <label i18n="@@label.softToy">Lieblingsstofftier:</label>
+    <!--<input type="text" formControlName="softToy" />-->
+    <input type="text" />
+
+    <label i18n="@@label.hatedFood">Hass-Essen:</label>
+    <!--<input type="text" formControlName="hatedFood" />-->
+    <input type="text" />
+    <label i18n="@@label.hobby">Hobby:</label>
+    <!--<input type="text" formControlName="hobby" />-->
+    <input type="text" />
+
+    <label i18n="@@label.favoriteColor">Lieblingsfarbe:</label>
+    <!--<input type="text" formControlName="favoriteColor" />-->
+    <input type="text" />
+
+    <ng-container class="selector">
+      <label i18n="@@label.birthDate">Geburtstag</label>
+      <!--<input class="year" (keydown)="yearOnly($event, year.value)" formControlName="birthYear" #year />-->
+      <input class="year" />
+    </ng-container>
+    <ng-container class="selector radio" *ngFor="let opt of options">
+      <label>{{ opt.t }}</label>
+      <!--<select formControlName="{{ opt.k }}">-->
+      <select>
+        <option [value]="null">--</option>
+        <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>
+      </select>
+    </ng-container>
+    <label class="input-form" i18n="@@label.germanState">Bundesland:</label>
+    <!--<input type="text" formControlName="germanState" />-->
+    <input type="text" />
+  </div>
+  <div class="text" i18n="@@spenden.cta">
+    Um Erinnerungen an deine Kindheit in Deutschland zu spenden, klicke auf den Kirschlutscher ...
   </div>
   <div>
-    <!--<span i18n="@@language.lieber_empfangen" (click)="">... oder doch lieber empfangen</span>-->
+    <img src="../assets/pix/kirschlutscher_kl.gif" routerlink="" style="cursor: pointer" />
+    >> spenden[spenden-item]
+    <!--<input
+    [disabled]="!form.valid"
+    type="image"
+    src="../assets/pix/kirschlutscher_kl.gif"
+    alt="Submit form"
+    i18n-alt="@@spenden.submit.alt"
+    (click)="doUpdate()"
+  />-->
   </div>
-  <div class="content">
-    <p class="textheading">Erinnerungsbereiche:</p>
-    <p>
-      Bitte wähle einen Bereich aus, in dem Du spenden möchtest.<br>
-      Du kannst so viele Erinnerungen eintragen wie Du
-      möchtest.<br />
-      <br />
-      Wenn alle Erinnerungen gespendet sind, klicke <a>HIER</a>!<br /><br />
-    </p>
-      <ul>
-        <li><a>Großeltern</a></li>
-        <li><a>Ferien</a></li>
-        <li><a>Lieblingsbuch</a></li>
-        <li><a>Lieblingshörbuch</a></li>
-        <li><a>Lieblingslied</a></li>
-        <li><a>Kindergeburtstag/Party</a></li>
-        <li><a>Andere Erinnerungen</a></li>
-      </ul>
-      <p>
-        <br>
-        Wenn alle Erinnerungen gespendet sind, klicke <a>HIER</a>!<br /><br />
-      </p>
-  </div>
+</div>
