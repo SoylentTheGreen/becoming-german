@@ -3,6 +3,7 @@
   min-width: 100%;
   align-items: center;
   border: 1px solid red;
+  
   img {
     max-width: 100%;
     height: auto;
@@ -12,6 +13,11 @@
     color: blue;
     font-style: italic;
   }
+
+  .container {
+    display: flex;
+    justify-content: flex-end;
+  }
   /* Green horizontal lines */
   .line {
     height: 2px;
@@ -19,21 +25,31 @@
     margin: 0.8rem 0;
     min-width: 100%;
   }
+  .firstLine {
+    height: 2px;
+    background-color: lightgreen;
+    margin: 6rem 0 0.8rem 0;
+    min-width: 100%;
+  }
 
   /* Images overlayed on the lines */
   .left-image,
   .right-image {
+    display: flex;
     top: 50%;
-    transform: translateY(-50%);
     max-width: 100%; 
     height: auto;
   }
 
   .left-image {
-    left: 0;
+    justify-content: flex-start;
+    transform: translateY(-150%);
+    padding-left: 0.5rem;
+    margin-right: auto;
   }
 
   .right-image {
-    align-content: flex-end;
+    justify-content: flex-end;
+    transform: translateY(-150%);
   }
 }
