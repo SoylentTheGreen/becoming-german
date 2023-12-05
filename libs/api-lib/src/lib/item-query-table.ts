@@ -6,11 +6,11 @@ import { PartyItem } from './party-item';
 import { AudioBookItem } from './audio-book-item';
 
 export const itemQueryTable: Record<Item, string> = {
-  speaking_book: itemJoinQuery('speaking_book', AudioBookItem.type),
+  speaking_book: itemJoinQuery('speaking_book', AudioBookItem),
   book: itemJoinQuery('book', BookItem),
-  grandparents: itemJoinQuery('grandparents', Grandparents.type),
-  holidays: itemJoinQuery('holidays', Holiday.type),
-  memory: itemJoinQuery('memory', Memory.type),
-  song: itemJoinQuery('song', SongItem.type),
-  party: itemJoinQuery('party', PartyItem.type),
+  grandparents: itemJoinQuery('grandparents', Grandparents),
+  holidays: itemJoinQuery('holidays', Holiday),
+  memory: itemJoinQuery('memory', Memory),
+  song: itemJoinQuery('song', SongItem),
+  party: itemJoinQuery('party', PartyItem),
 };
