@@ -1,4 +1,18 @@
-.startpage {
+.container {
     display: flex;
+    align-items: center;
     justify-content: center; 
+    min-height: 100vh;
+}
+
+.startpage {
+    font-style: italic;
+    font-size: 1.2rem;
+    color: blue;
+    text-align: left;
+}
+
+.startpage img {
+    max-width: 100%;
+    height: auto;
 }
