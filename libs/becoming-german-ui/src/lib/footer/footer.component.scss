@@ -1,9 +1,39 @@
 :host {
   display: flex;
-  max-width: 100%;
+  min-width: 100%;
   align-items: center;
+  border: 1px solid red;
   img {
     max-width: 100%;
     height: auto;
+    border: 1px solid red;
+  }
+  p {
+    color: blue;
+    font-style: italic;
+  }
+  /* Green horizontal lines */
+  .line {
+    height: 2px;
+    background-color: lightgreen;
+    margin: 0.8rem 0;
+    min-width: 100%;
+  }
+
+  /* Images overlayed on the lines */
+  .left-image,
+  .right-image {
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 100%; 
+    height: auto;
+  }
+
+  .left-image {
+    left: 0;
+  }
+
+  .right-image {
+    align-content: flex-end;
   }
 }
