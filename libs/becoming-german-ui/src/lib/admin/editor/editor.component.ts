@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { PersonService } from '../../person.service';
-import { getItemStatus, items, Person, ymd } from '@becoming-german/model';
+import { getItemStatus, items, SearchableProfile } from '@becoming-german/model';
 import { Observable, shareReplay, Subject } from 'rxjs';
+import { PersonService } from '../../person.service';
 
-
-export const labels: Record<keyof Person, string> = {
+export const labels: Record<keyof SearchableProfile, string> = {
   id: $localize`:@@label.admin.id:ID`,
   birthYear: $localize`:@@label.admin.birthDate:Born`,
   gender: $localize`:@@label.admin.gender:Sex`,
@@ -36,7 +35,7 @@ export class EditorComponent {
 
   people = this.service.people;
   labels = labels;
-  fields: (keyof Person)[] = [
+  fields: (keyof SearchableProfile)[] = [
     'birthYear',
     'gender',
     'siblings',
@@ -47,13 +46,13 @@ export class EditorComponent {
     'parents',
     'germanState',
   ];
-  active = new Subject<Person>();
-  activePerson: Observable<Person> = this.active.pipe(shareReplay(1));
+  active = new Subject<SearchableProfile>();
+  activePerson: Observable<SearchableProfile> = this.active.pipe(shareReplay(1));
 
   constructor(private service: PersonService) {}
 
-  itemsStatus(person: Person): [keyof Person, boolean][] {
-    const stats = getItemStatus(person)
+  itemsStatus(SearchableProfile: SearchableProfile): [keyof SearchableProfile, boolean][] {
+    const stats = getItemStatus(SearchableProfile)
     return items.map(i => [i, stats[i]])
   }
 

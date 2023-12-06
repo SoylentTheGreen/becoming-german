@@ -17,7 +17,7 @@ export * from './matching-item';
 export * from './memory';
 export * from './parental-situation';
 export * from './party';
-export * from './person';
+export * from './donated-profile';
 export * from './query-response';
 export * from './sibling-position';
 export * from './sibling-states';

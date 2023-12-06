@@ -1,25 +1,29 @@
 import { Component } from '@angular/core';
 import { PersonService } from '../person.service';
-import { ChildhoodProfile, items } from '@becoming-german/model';
+import { ChildhoodProfile, ChildhoodProfileOptionProps, items } from '@becoming-german/model';
 import { childhoodProfileTranslationsMapped } from '../i18n/translation';
 import { map, Observable } from 'rxjs';
 import { pipe } from 'fp-ts/function';
 import * as R from 'fp-ts/Record';
 import * as O from 'fp-ts/Option';
+import { keyof } from 'io-ts';
 
-const translated = (p: ChildhoodProfile) =>
+const isKeyOf =
+  <T extends object>(type: T) =>
+  (key: unknown): key is keyof T =>
+    (Object.keys(type) as unknown[]).includes(key);
+
+const isOptionKey = isKeyOf(ChildhoodProfileOptionProps);
+const translated =
+  (p: ChildhoodProfile) =>
   (k: keyof ChildhoodProfile): string | number => {
     const value = p[k];
-    if(value === null) return '';
-    if(typeof value != 'string') return value;
-    return pipe(
-      childhoodProfileTranslationsMapped,
-      R.lookup(k),
-      O.chain(R.lookup(value)),
-      O.getOrElse(() => value)
-    );
-  }
-
+    if (value === null) return '';
+    if (isOptionKey(k) && isKeyOf(childhoodProfileTranslationsMapped[k])(value))
+      return childhoodProfileTranslationsMapped[k][value];
+    if()
+    return 'nope';
+  };
 
 @Component({
   selector: 'bgn-result',
@@ -33,5 +37,4 @@ export class ResultComponent {
   translated = this.request.pipe(map(translated));
 
   constructor(private service: PersonService) {}
-
 }

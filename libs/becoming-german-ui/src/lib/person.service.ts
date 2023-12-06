@@ -5,10 +5,11 @@ import * as A from 'fp-ts/Array';
 import {
   ChildhoodProfile,
   ChildhoodProfileOutput,
+  DonatedProfile,
   MatchingItems,
   MatchingItemsC,
-  Person,
-  QueryResponse,
+  QueryResponse, SearchableProfile,
+  SearchableProfileC,
 } from '@becoming-german/model';
 import { flow, pipe } from 'fp-ts/function';
 import { Type } from 'io-ts';
@@ -33,9 +34,9 @@ const getValue = <T>(i: Some<T>) => i.value;
   providedIn: 'root',
 })
 export class PersonService {
-  people: Observable<Person[]> = this.http.get<QueryResponse<unknown>>('/api/admin/profiles/0/50').pipe(
+  people: Observable<SearchableProfile[]> = this.http.get<QueryResponse<unknown>>('/api/admin/profiles/0/50').pipe(
     map((v) => v.result),
-    map(flow(A.map(decodeResultToOption(Person)), A.compact)),
+    map(flow(A.map(decodeResultToOption(SearchableProfileC)), A.compact)),
     shareReplay(1),
   );
 

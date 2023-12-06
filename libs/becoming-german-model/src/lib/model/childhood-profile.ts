@@ -9,11 +9,9 @@ import { bedroomSituationType } from './bedroom-situation';
 import { dwellingSituationType } from './dwelling-situation';
 import { homeMovesType } from './home-moves';
 import { germanStateType } from './german-state';
+import { TranslatableC } from './nullableTranslatable';
 
-const NonEmptyString = t.refinement(t.string, (n) => n.trim() !== '');
-
-export const ChildhoodProfile = t.type({
-  birthYear: numberInRange(1900, new Date().getFullYear() - 10),
+export const ChildhoodProfileOptionProps = {
   gender: genderType.literals,
   parents: parentalSituationType.literals,
   siblings: siblingStateType.literals,
@@ -21,9 +19,17 @@ export const ChildhoodProfile = t.type({
   bedroomSituation: bedroomSituationType.literals,
   dwellingSituation: dwellingSituationType.literals,
   moves: homeMovesType.literals,
-  hobby: NonEmptyString,
-  favoriteColor: NonEmptyString,
-  germanState: t.union([t.null, germanStateType.literals]),
+  germanState: germanStateType.literals,
+}
+const temp = t.type(ChildhoodProfileOptionProps);
+export type ChildhoodProfileOptionProps = t.TypeOf<typeof temp>
+
+
+export const ChildhoodProfile = t.type({
+  birthYear: numberInRange(1900, new Date().getFullYear() - 10),
+  hobby: t.refinement(TranslatableC(t.string), (v) => v.de !== null && v.de !== ''),
+  favoriteColor: t.refinement(TranslatableC(t.string), (v) => v.de !== null && v.de !== ''),
+  ...ChildhoodProfileOptionProps
 });
 
 export type ChildhoodProfile = t.TypeOf<typeof ChildhoodProfile>;
