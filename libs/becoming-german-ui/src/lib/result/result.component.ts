@@ -21,7 +21,6 @@ const translated =
     if (value === null) return '';
     if (isOptionKey(k) && isKeyOf(childhoodProfileTranslationsMapped[k])(value))
       return childhoodProfileTranslationsMapped[k][value];
-    if()
     return 'nope';
   };
 
