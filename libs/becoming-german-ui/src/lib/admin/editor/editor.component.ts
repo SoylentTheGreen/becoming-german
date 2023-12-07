@@ -14,7 +14,7 @@ export const labels: Record<keyof SearchableProfile, string> = {
   dwellingSituationComment: $localize`:@@label.admin.dwelling-comment:Dwelling Comment`,
   moves: $localize`:@@label.admin.moves:Moves`,
   parents: $localize`:@@label.admin.parents:Parent`,
-  germanState: $localize`:@@label.admin.state:State`,
+  // germanState: $localize`:@@label.admin.state:State`,
   memory: $localize`:@@label.admin.memory:Memory`,
   hobby: $localize`:@@label.admin.hobby:Hobby`,
   favoriteColor: $localize`:@@label.admin.favoriteColor:Favourite Colour`,
@@ -44,7 +44,7 @@ export class EditorComponent {
     'dwellingSituation',
     'moves',
     'parents',
-    'germanState',
+
   ];
   active = new Subject<SearchableProfile>();
   activePerson: Observable<SearchableProfile> = this.active.pipe(shareReplay(1));

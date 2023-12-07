@@ -16,14 +16,12 @@ import {
   ItemToggleValue,
   MatchingItemC,
   MatchingItems,
-  Memory, Person,
-  QueryResponse,
+  Memory,
+  QueryResponse, SearchableProfile, SearchableProfileC,
 } from '@becoming-german/model';
 import { BehaviorSubject } from 'rxjs';
 import {
   ChildhoodProfileRequestTable,
-  ChildhoodProfileRequestTableC,
-  ChildhoodProfileTable,
 } from './childhood-profile-table';
 import { BookItem } from './book-item';
 import { SongItem } from './song-item';
@@ -62,8 +60,8 @@ const processPerson = (row: unknown): Either<number, PersonTable> => {
   );
 };
 
-const processNormalizedPerson = (row: {id: number, jsonData: unknown}): Either<number, Person> => {
-  const validationResult = Person.decode(row.jsonData);
+const processNormalizedPerson = (row: {id: number, jsonData: unknown}): Either<number, SearchableProfile> => {
+  const validationResult = SearchableProfileC.decode(row.jsonData);
   if(isLeft(validationResult)) {
     console.log('failed decoding', PathReporter.report(validationResult));
   }
@@ -113,7 +111,7 @@ export class PersonService {
     console.warn(upResult['changedRows'], 'entries in german_person quarantined', ids);
   }
 
-  async getNormalizedData(offset: number, limit: number):Promise<QueryResponse<Person>> {
+  async getNormalizedData(offset: number, limit: number):Promise<QueryResponse<SearchableProfile>> {
     const conn = await this.pool.getConnection();
     try {
       if (this.totalRows.getValue() === 0) this.totalRows.next((await conn.execute(countPersonSql))[0][0]['total']);

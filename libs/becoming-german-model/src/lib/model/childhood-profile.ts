@@ -9,7 +9,6 @@ import { bedroomSituationType } from './bedroom-situation';
 import { dwellingSituationType } from './dwelling-situation';
 import { homeMovesType } from './home-moves';
 import { germanStateType } from './german-state';
-import { TranslatableC } from './nullableTranslatable';
 
 export const ChildhoodProfileOptionProps = {
   gender: genderType.literals,
@@ -19,16 +18,15 @@ export const ChildhoodProfileOptionProps = {
   bedroomSituation: bedroomSituationType.literals,
   dwellingSituation: dwellingSituationType.literals,
   moves: homeMovesType.literals,
-  germanState: germanStateType.literals,
-}
+};
 const temp = t.type(ChildhoodProfileOptionProps);
 export type ChildhoodProfileOptionProps = t.TypeOf<typeof temp>
 
 
 export const ChildhoodProfile = t.type({
   birthYear: numberInRange(1900, new Date().getFullYear() - 10),
-  hobby: t.refinement(TranslatableC(t.string), (v) => v.de !== null && v.de !== ''),
-  favoriteColor: t.refinement(TranslatableC(t.string), (v) => v.de !== null && v.de !== ''),
+  hobby: t.string,
+  favoriteColor: t.string,
   ...ChildhoodProfileOptionProps
 });
 

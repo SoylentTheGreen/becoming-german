@@ -141,7 +141,6 @@ export const childhoodProfileTranslationsMapped: LiteralPropertiesRecord<Childho
   gender,
   moves,
   parents,
-  germanState,
 };
 
 // germanState: transFor(germanStateType, state),
