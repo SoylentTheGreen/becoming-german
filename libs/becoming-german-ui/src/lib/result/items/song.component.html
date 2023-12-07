@@ -2,7 +2,7 @@
   <div class="heading" i18n="@@match.song.heading">Dein Lieblingslied war:</div>
   <div class="item">
     <span class="data"> {{ song.title }} </span>
-    <span i18n="@@match.song.artist">und wurde gesungen von</span>
+    <span i18n="@@match.song.artist" *ngIf="song.artist">und wurde gesungen von</span>
     <span class="data"> {{ song.artist }}</span>.
   </div>
   <div class="item">
@@ -15,12 +15,12 @@
   <div class="item" *ngIf="song.melody" i18n="@@match.song.melody">
     Die Melody geht so: <span class="data"> {{ song.melody }}</span>
   </div>
-  <div class="item">
+  <div class="item" *ngIf="song.listeningSituation">
     <span i18n="@@match.song.listeningSituation">Die Situation in der Du das Lied immer gehört hast war</span>:
     <span class="data"> {{ song.listeningSituation }}</span> 
   </div>
   <div class="item" i18n="@@match.song.ageWhenImportant">
-    Das Lied/Song war wichtig für Dich als du<span class="data"> {{ tr('childhoodAge', song.ageWhenImportant) }} </span> 
+    Das Lied war wichtig für Dich als du<span class="data"> {{ tr('childhoodAge', song.ageWhenImportant) }} </span> 
     Jahre alt warst.
   </div>
 </div>

@@ -1,4 +1,12 @@
-<div class="back"><a routerLink="/request">new request</a></div>
+<div class="intro spenden teaser">
+  <img [ngSrc]="'../assets/pix/header/kindheit_empfangen_DE.png'" alt="Kindheit Empfangen" i18n-alt="@@request.image.alt"
+       height="58" width="397">
+  <!--<a routerLink="../spenden" i18n="@@request.donate.or.text">... oder doch lieber spenden?</a>-->
+</div>
+
+<div>
+  <a>Ostdeutsche Erinnerungen</a> | <a>Westdeutsche Erinnerungen</a>
+</div>
 
 <div class="profile results" *ngIf="translated | async as profile">
   <div class="result-item">
@@ -22,19 +30,21 @@
 
   <div *ngIf="result | async as matches" class="results">
     <div class="separator"></div>
-    <bgn-book [item]="matches.book.item.de"></bgn-book>
-    <div class="separator"></div>
     <bgn-grandparents [item]="matches.grandparents.item.de"></bgn-grandparents>
     <div class="separator"></div>
     <bgn-holidays [item]="matches.holidays.item.de"></bgn-holidays>
     <div class="separator"></div>
-    <bgn-song [item]="matches.song.item.de"></bgn-song>
-    <div class="separator"></div>
-    <bgn-memory [item]="matches.memory.item.de"></bgn-memory>
-    <div class="separator"></div>
-    <bgn-party [item]="matches.party.item.de"></bgn-party>
+    <bgn-book [item]="matches.book.item.de"></bgn-book>
     <div class="separator"></div>
     <bgn-audiobook [item]="matches.speaking_book.item.de"></bgn-audiobook>
     <div class="separator"></div>
+    <bgn-song [item]="matches.song.item.de"></bgn-song>
+    <div class="separator"></div>
+    <bgn-party [item]="matches.party.item.de"></bgn-party>
+    <div class="separator"></div>
+    <bgn-memory [item]="matches.memory.item.de"></bgn-memory>
+    <div class="separator"></div>
   </div>
 </div>
+
+<div class="back"><a routerLink="/request">Nochmal probieren?</a></div>
