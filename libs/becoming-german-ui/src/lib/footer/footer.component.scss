@@ -1,55 +1,52 @@
 :host {
   display: flex;
-  min-width: 100%;
+  max-width: 100%;
   align-items: center;
   border: 1px solid red;
-  
-  img {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid red;
-  }
-  p {
-    color: blue;
-    font-style: italic;
-  }
+}
 
-  .container {
-    display: flex;
-    justify-content: flex-end;
-  }
-  /* Green horizontal lines */
-  .line {
-    height: 2px;
-    background-color: lightgreen;
-    margin: 0.8rem 0;
-    min-width: 100%;
-  }
-  .firstLine {
-    height: 2px;
-    background-color: lightgreen;
-    margin: 6rem 0 0.8rem 0;
-    min-width: 100%;
-  }
+img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid red;
+}
 
-  /* Images overlayed on the lines */
-  .left-image,
-  .right-image {
-    display: flex;
-    top: 50%;
-    max-width: 100%; 
-    height: auto;
-  }
+p {
+  color: blue;
+  font-style: italic;
+}
 
-  .left-image {
-    justify-content: flex-start;
-    transform: translateY(-150%);
-    padding-left: 0.5rem;
-    margin-right: auto;
-  }
+/* Green horizontal lines */
+.line {
+  height: 2px;
+  background-color: lightgreen;
+  margin: 0.8rem 0;
+  min-width: 100%;
+}
+.firstLine {
+  height: 2px;
+  background-color: lightgreen;
+  margin: 6rem 0 0.8rem 0;
+  min-width: 100%;
+}
 
-  .right-image {
-    justify-content: flex-end;
-    transform: translateY(-150%);
-  }
+/* Images overlayed on the lines */
+.left-image,
+.right-image {
+  display: flex;
+  top: 50%;
+  max-width: 100%;
+  height: auto;
+}
+
+.left-image {
+  justify-content: flex-start;
+  transform: translateY(-150%);
+  padding-left: 0.5rem;
+  margin-right: auto;
+}
+
+.right-image {
+  justify-content: flex-end;
+  transform: translateY(-150%);
 }

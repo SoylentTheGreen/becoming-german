@@ -21,8 +21,6 @@ nav {
     }
   }
 
-
-
   .lolly-link {
     display: flex;
     justify-self: flex-end;
@@ -57,13 +55,13 @@ nav {
       }
     }
   }
-  @media only screen and (max-width: 720px){
+  @media only screen and (max-width: 720px) {
     nav .row {
       flex-wrap: wrap;
     }
     .lolly-link {
       padding: 0;
-      .ball{
+      .ball {
         display: none;
       }
     }
