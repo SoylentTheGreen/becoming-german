@@ -1,52 +1,43 @@
 :host {
-  display: flex;
-  max-width: 100%;
-  align-items: center;
-  border: 1px solid red;
-}
+  position: relative;
+  display: grid;
+  width: 100%;
+  justify-content: end;
+  grid-template-columns: 1fr 5rem auto 1rem auto 1rem;
+  grid-template-rows: 25% 25% 2rem auto;
+  grid-template-areas:
+            "... ... ... ... trl ..."
+            "... ... ... ... trl ..."
+            "txt txt ... ... trl ..."
+            "... att att ... trl ...";
 
-img {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid red;
-}
 
-p {
-  color: blue;
-  font-style: italic;
-}
+  .lined-paper {
+    background-color: transparent;
+    background-image: linear-gradient(lightgreen .1rem, transparent .1rem);
+    background-size: 100% 1.2rem;
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    z-index: -1;
+  }
 
-/* Green horizontal lines */
-.line {
-  height: 2px;
-  background-color: lightgreen;
-  margin: 0.8rem 0;
-  min-width: 100%;
-}
-.firstLine {
-  height: 2px;
-  background-color: lightgreen;
-  margin: 6rem 0 0.8rem 0;
-  min-width: 100%;
-}
+  /* Images overlayed on the lines */
+  .text-img {
+    grid-area: txt;
+  }
 
-/* Images overlayed on the lines */
-.left-image,
-.right-image {
-  display: flex;
-  top: 50%;
-  max-width: 100%;
-  height: auto;
-}
+  .trolly {
+    grid-area: trl;
+  }
 
-.left-image {
-  justify-content: flex-start;
-  transform: translateY(-150%);
-  padding-left: 0.5rem;
-  margin-right: auto;
-}
+  .attribution {
+    grid-area: att;
+    color: blue;
+    font-style: italic;
+  }
 
-.right-image {
-  justify-content: flex-end;
-  transform: translateY(-150%);
 }
