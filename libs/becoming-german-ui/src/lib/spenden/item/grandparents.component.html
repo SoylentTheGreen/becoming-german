@@ -1,23 +1,23 @@
 <div class="textheading" i18n="@@match.spenden.gp.heading">Deine Großeltern</div>
-<div class="options">
+<div class="options" [formGroup]="form">
   <label for="who"i18n="@@match.spenden.gp.who">Was haben deine Großeltern beruflich gemacht?</label>
-  <input type="text" id="who" />
-
+  <input type="text" id="who" formControlName="who">
   <label for="didYouMeet"i18n="@@match.spenden.gp.didYouMeet">Hast du sie kennengelernt?</label>
-  <input type="text" id="didYouMeet" />
+  <input type="text" id="didYouMeet" formControlName="didYouMeet"/>
 
   <label for="getOn" i18n="@@match.spenden.gp.getOn">Wie habt ihr euch verstanden?</label>
-  <input type="text" id="getOn" />
+  <input type="text" id="getOn" formControlName="getOn" />
 
   <label for="activity" i18n="@@match.spenden.gp.activity">Was habt Ihr gemacht, wenn ihr Euch gesehen habt?</label>
-  <input type="text" id="activity" />
+  <input type="text" id="activity" formControlName="activity"/>
 
   <label for="smell" i18n="@@match.spenden.gp.smell">Welchen Geruch verbindest du mit deinen Großeltern?</label>
-  <input type="text" id="smell" />
+  <input type="text" id="smell" formControlName="smell"/>
 
   <label for="association" i18n="@@match.spenden.gp.association">Weitere Assoziationen zu deinen Großeltern?</label>
-  <input type="text" id="association" />
+  <input type="text" id="association" formControlName="association"/>
 
   <label for="specialMemory" i18n="@@match.spenden.gp.specialMemory">Besondere Erinnerungen?</label>
-  <input type="text" id="specialMemory" />
+  <input type="text" id="specialMemory" formControlName="specialMemory"/>
+  <button [disabled]="form.invalid" (click)="update()">Add Grandparents</button>>
 </div>

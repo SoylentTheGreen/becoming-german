@@ -113,7 +113,7 @@ export const appRoutes: Routes = [
     AudiobookComponent,
     StartComponent,
   ],
-  exports: [NavComponent],
+  exports: [NavComponent, BookComponent, MemoryComponent, GrandparentsComponent],
   providers: [I18nModule.setLocale(), I18nModule.setLocaleId()],
 })
 export class LibsBecomingGermanUiModule {}

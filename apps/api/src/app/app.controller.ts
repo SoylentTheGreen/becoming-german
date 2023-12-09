@@ -2,21 +2,14 @@ import { Body, Controller, Get, HttpException, Param, Post, Res } from '@nestjs/
 import { ChildhoodProfileRequestTableC, MyRepo, PersonService, UpdateResult } from '@becoming-german/api-lib';
 import * as t from 'io-ts';
 import { flow, pipe } from 'fp-ts/function';
-import { fold, isRight } from 'fp-ts/Either';
-import {
-  AggregateEvent,
-  ChildhoodAggregate,
-  ChildhoodSituationC,
-  MatchingProfileRequestC,
-} from '@becoming-german/model';
-import { PathReporter } from 'io-ts/PathReporter';
+import * as E from 'fp-ts/Either';
+import { fold } from 'fp-ts/Either';
+import { AggregateEvent, AggregateState, ChildhoodAggregate, MatchingProfileRequestC } from '@becoming-german/model';
 import { Observable, Subject } from 'rxjs';
 import { Response as ExResp } from 'express';
 import { NumberFromStringOrNumber, numberInRange } from '@becoming-german/tools';
 import * as O from 'fp-ts/Option';
-import * as E from 'fp-ts/Either';
 import * as TE from 'fp-ts/TaskEither';
-import { AggregateState } from '../../../../libs/becoming-german-model/src/lib/model/childhood-aggregate';
 
 const getReqC = t.type({
   offset: NumberFromStringOrNumber,
@@ -90,11 +83,12 @@ export class AppController {
 
   @Get('/read/:id')
   async getChildhood(@Param() params: {id: string}) {
-    return await pipe(
+    const result = await pipe(
       this.repo.findByAggregateId(params.id),
-      TE.map(flow(ChildhoodAggregate.fromEvents, E.toUnion, agg => agg.state)),
-      TE.toUnion
+      TE.map(data => pipe(ChildhoodAggregate.build(data)(ChildhoodAggregate.newState), r => r[1], E.toUnion)),
     )();
+    if(E.isLeft(result)) throw result.left
+    return result.right;
 
   }
 
@@ -124,7 +118,7 @@ export class AppController {
           try {
             for await (const value of asyncCollection()) {
               subscriber.next(value);
-              // if(value[value.length-1].id > 100) break;
+              // if(value[value.length-1].id > 100) break;<
             }
             subscriber.complete();
             console.log('subscription completed');

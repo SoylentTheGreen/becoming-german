@@ -38,6 +38,7 @@ class MysqlAggregateRepository {
       'payload', payload) as event from event_store WHERE aggregateId = ? ORDER BY aggregateVersion`,
       id,
     );
+
     if (result[0] && Array.isArray(result[0]) && result[0].length)
       return result[0].map((row) => ({...row['event'], payload: JSON.parse(row['event']['payload'])}));
     throw new Error('no results found');

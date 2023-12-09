@@ -19,6 +19,7 @@ import { v4 as uuid } from 'uuid';
 import { UUID } from 'io-ts-types';
 import { languageType } from './language';
 import { fromJS } from 'immutable';
+import { AggregateState } from './event/aggregate-state';
 
 //list of operations
 /**
@@ -52,11 +53,6 @@ const ChildhoodEvents = {
   // 'profile-translated': t.type({ language: languageType.literals, profile: ChildhoodProfileC }),
 };
 
-export type AggregateState<T> = {
-  version: number;
-  state: T;
-};
-
 export type ChildhoodEventType = keyof typeof ChildhoodEvents;
 
 const ChildhoodEventC = <T extends t.Mixed>(key: ChildhoodEventType, payload: T) =>
@@ -77,7 +73,7 @@ const profileMigratedC = ChildhoodEventC('profile-migrated', t.type({ legacyId: 
 export type ProfileMigrated = t.TypeOf<typeof profileMigratedC> & AggregateEvent;
 
 const itemAddedC = ChildhoodEventC('item-added', itemAddedPayloadC);
-type ItemAdded = t.TypeOf<typeof itemAddedC>;
+export type ItemAdded = t.TypeOf<typeof itemAddedC>;
 
 export type ChildhoodEvent = t.TypeOf<typeof profileCreatedC | typeof profileMigratedC | typeof itemAddedC>;
 
@@ -139,20 +135,12 @@ const profileMigratedStateMapper =
 const itemAddedStateMapper =
   (event: ItemAdded): StateMapper =>
   (s) => {
-    console.log('event is ', event);
     const arrgghhh: O.Option<DonatedProfile> = pipe(
       s,
       E.toUnion,
       (acc: AggregateState<unknown>) => {
         if (acc.version + 1 !== event.aggregateVersion) return O.none;
-        const jsObj = fromJS(acc.state);
-        const current = jsObj.getIn(['profile', event.payload.language, event.payload.type]);
-        console.log('current is', current);
-        if (current) {
-          console.log('object currently is', current);
-          return O.none;
-        }
-        return O.some(acc);
+        return O.some(acc)
       },
       O.chain((acc) =>
         pipe(
@@ -200,7 +188,7 @@ const getStateMapper = (event: { type: string }): StateMapper =>
     eventCodecs,
     R.lookup(event.type),
     O.chain((f) => f(event)),
-    O.fold(unchanged, (v) => v),
+    O.getOrElse(unchanged),
   );
 export const create = (p: unknown) =>
   pipe(p, profileCreatedEventBuilder, O.map(profileCreatedStateMapper), O.fold(unchanged, identity));
@@ -209,6 +197,7 @@ export const addItem = (version: number) => (payload: unknown) =>
   pipe(itemAddedEventBuilder(version)(payload), O.map(itemAddedStateMapper), O.fold(unchanged, identity));
 
 export const build = (events: AggregateEvent[]) => pipe(events.map(getStateMapper), S.sequenceArray);
+export const nextEvent = flow(getStateMapper)
 
 export const fromEvents = (events: ChildhoodEvent[]) =>
   pipe(E.left({ version: 0, state: null }), build(events), (r) => r[1]);

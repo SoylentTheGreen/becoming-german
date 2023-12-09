@@ -1,17 +1,63 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { AfterContentInit, Component, OnDestroy } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Childhood, ChildhoodProfileC, ChildhoodSituationC } from '@becoming-german/model';
-import { firstValueFrom, Subject, Subscription } from 'rxjs';
+import { ChildhoodProfileC, ChildhoodSituationC, Item } from '@becoming-german/model';
+import { Subject, Subscription } from 'rxjs';
 import { PersonService } from '../../person.service';
-import { v4 as uuid } from 'uuid';
 import { fpFormGroup } from '@becoming-german/tools';
-import * as t from 'io-ts';
 import * as E from 'fp-ts/Either';
 import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../../i18n/translation';
 import { UUID } from 'io-ts-types';
 import { pipe } from 'fp-ts/function';
-import { reporter } from 'io-ts-reporters';
+import * as TE from 'fp-ts/TaskEither';
+
+const testData = {
+  id: "14dd0444-4428-4a36-ba11-cbb4525729e5",
+  legacyId: null,
+  situation: {
+    gender: 'female',
+    bedroomSituation: 'brother',
+    moves: '2',
+    favoriteColor: 'asdfa',
+    parents: 'mother',
+    siblingPosition: 'middle',
+    germanState: 'NW',
+    birthDate: '1970-01-01T11:00:00.000Z',
+    dwellingSituation: 'small_town',
+    siblings: 'two',
+    hobby: 'asdasf',
+  },
+  profile: {
+    de: {
+      memory: null,
+      party: null,
+      favoriteColor: 'Cerulean',
+      book: null,
+      dwellingSituationComment: null,
+      hobby: null,
+      softToy: null,
+      song: null,
+      hatedFood: 'Brussel sprouts',
+      holidays: null,
+      grandparents: null,
+      audioBook: null,
+    },
+    en: {
+      memory: null,
+      party: null,
+      favoriteColor: null,
+      book: null,
+      dwellingSituationComment: null,
+      hobby: null,
+      softToy: null,
+      song: null,
+      hatedFood: null,
+      holidays: null,
+      grandparents: null,
+      audioBook: null,
+    },
+  },
+};
 
 const getF =
   <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
@@ -26,19 +72,6 @@ const getF =
 
 const optionFields = getF(childhoodProfileTranslations);
 
-const testValues = {
-  birthDate: '1970-01-02',
-  gender: 'female',
-  parents: 'mother',
-  siblings: 'two',
-  siblingPosition: 'middle',
-  bedroomSituation: 'brother',
-  dwellingSituation: 'small_town',
-  moves: '2',
-  hobby: 'asdasf',
-  favoriteColor: 'asdfa',
-  germanState: 'NW',
-};
 
 @Component({
   selector: 'bgn-spenden-home',
@@ -49,12 +82,14 @@ const testValues = {
     '../../request/request.component.scss',
   ],
 })
-export class SpendenHomeComponent implements OnDestroy {
+export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
   form = this.fb.group({
     ...fpFormGroup({id: UUID}),
     situation: this.fb.group(fpFormGroup(ChildhoodSituationC.props)),
     profile: this.fb.group(fpFormGroup(ChildhoodProfileC.props)),
   });
+
+  active: Item | null = null;
 
 
   labels = labels();
@@ -69,38 +104,19 @@ export class SpendenHomeComponent implements OnDestroy {
     optionFields('moves', this.labels.moves),
     optionFields('germanState', this.labels.germanState),
   ];
-
+  profileAdded = false;
   submit = new Subject<boolean>();
   subscription = new Subscription();
-
-  @HostListener('input[', ['$event.target.valueAsDate']) onChange = (_: unknown) => {
-    console.log('something changed', _);
-  }
-  // subscription = this.service.profileInput.subscribe((p) => this.form.patchValue(p));
 
   constructor(
     private fb: FormBuilder,
     private service: PersonService,
     private router: Router,
   ) {
-    this.form.patchValue({
-      situation: {
-        birthDate: new Date('1970-01-02'),
-        gender: 'female',
-        parents: 'mother',
-        siblings: 'two',
-        siblingPosition: 'middle',
-        bedroomSituation: 'brother',
-        dwellingSituation: 'small_town',
-        moves: '2',
-        germanState: 'NW',
-      },
-      profile: {
-        hobby: 'my hobby',
-        favoriteColor: 'fav color',
-      }
-    });
+
   }
+
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -109,18 +125,21 @@ export class SpendenHomeComponent implements OnDestroy {
   async doUpdate() {
 
     const result =
-      pipe(
+      await pipe(
         this.form.getRawValue(),
-        v => v.id ? E.left(new Error('id already set.')) : E.right(v),
-        E.chain(v => pipe(ChildhoodSituationC.decode(v.situation), E.mapLeft(() => new Error('parsing failed')))),
+        E.fromPredicate(v => v.id === null, () => new Error('id already set.')),
+        E.chainW(v => ChildhoodSituationC.decode(v.situation)),
+        TE.fromEither,
+        TE.chainW(v => TE.fromTask( () => this.service.addProfile(v))),
+        TE.map(v => {
+          this.profileAdded = true;
+          this.active = 'book';
+          return v;
+        })
+      )();
 
-      );
-    if(E.isRight(result)) {
-      const res = await firstValueFrom(this.service.addProfile(result.right))
-      this.form.patchValue(res.payload as any)
-    } else {
-      console.log(result)
-    }
+
+
 
     // if (isRight(result)) {
     //   this.service.findProfile(result.right);
@@ -133,5 +152,9 @@ export class SpendenHomeComponent implements OnDestroy {
   reset() {
     this.service.resetInput();
     this.form.reset();
+  }
+
+  ngAfterContentInit(): void {
+    this.form.patchValue(testData as any)
   }
 }

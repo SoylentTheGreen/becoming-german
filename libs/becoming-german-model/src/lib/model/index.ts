@@ -25,4 +25,5 @@ export * from './sibling-position';
 export * from './sibling-states';
 export * from './song';
 export * from './nullableTranslatable';
+export * from './message';
 
