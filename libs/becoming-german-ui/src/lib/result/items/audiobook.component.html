@@ -2,7 +2,7 @@
   <div i18n="@@match.audiobook.heading" class="heading">Dein Lieblingshörbuch:</div>
   <div class="item">
     <span class="data"> {{audiobook.title }}</span>
-    <span i18n="@@match.audiobook.by" *ngIf="audiobook.author">von</span> 
+    <span i18n="@@match.audiobook.by" *ngIf="audiobook.author">von</span>
     <span class="data"> {{audiobook.author}}</span>
   </div>
   <div class="item" *ngIf="audiobook.themeMusic">
@@ -22,7 +22,7 @@
     <span class="data"> {{audiobook.listeningSituation }}</span>
 </div>
   <div class="item" i18n="@@match.audiobook.ageWhenImportant" *ngIf="audiobook.ageWhenImportant">
-    Das Hörbuch war wichtig für dich als du 
+    Das Hörbuch war wichtig für dich als du
     <span class="data"> {{tr('childhoodAge', audiobook.ageWhenImportant) }}</span> alt warst.
   </div>
 </ng-container>

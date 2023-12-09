@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
-import { getItemStatus, items, SearchableProfile } from '@becoming-german/model';
+import {
+  Childhood,
+  ChildhoodProfile,
+  ChildhoodSituation,
+  getItemStatus,
+  items,
+  MatchingProfileRequest,
+} from '@becoming-german/model';
 import { Observable, shareReplay, Subject } from 'rxjs';
 import { PersonService } from '../../person.service';
+import { pipe } from 'fp-ts/function';
+import * as O from 'fp-ts/Option';
 
-export const labels: Record<keyof SearchableProfile, string> = {
-  id: $localize`:@@label.admin.id:ID`,
+export const labels: () => Record<keyof ChildhoodProfile | keyof ChildhoodSituation, string> = () => ({
   birthYear: $localize`:@@label.admin.birthDate:Born`,
   gender: $localize`:@@label.admin.gender:Sex`,
   siblings: $localize`:@@label.admin.siblings:Sibs`,
@@ -14,7 +22,7 @@ export const labels: Record<keyof SearchableProfile, string> = {
   dwellingSituationComment: $localize`:@@label.admin.dwelling-comment:Dwelling Comment`,
   moves: $localize`:@@label.admin.moves:Moves`,
   parents: $localize`:@@label.admin.parents:Parent`,
-  // germanState: $localize`:@@label.admin.state:State`,
+  germanState: $localize`:@@label.admin.state:State`,
   memory: $localize`:@@label.admin.memory:Memory`,
   hobby: $localize`:@@label.admin.hobby:Hobby`,
   favoriteColor: $localize`:@@label.admin.favoriteColor:Favourite Colour`,
@@ -23,8 +31,10 @@ export const labels: Record<keyof SearchableProfile, string> = {
   song: $localize`:@@label.admin.song:Favorite Song`,
   holidays: $localize`:@@label.admin.holidays:Holidays`,
   party: $localize`:@@label.admin.party:Party`,
-  speaking_book: $localize`:@@label.admin.audiobook:Favorite Audiobook`,
-};
+  audioBook: $localize`:@@label.admin.audiobook:Favorite Audiobook`,
+  birthDate: $localize`:@@label.admin.birthDate:Birthdate`,
+  hatedFood: $localize`:@@label.admin.germanState:German State`,
+});
 
 @Component({
   selector: 'bgn-editor',
@@ -32,11 +42,9 @@ export const labels: Record<keyof SearchableProfile, string> = {
   styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent {
-
   people = this.service.people;
-  labels = labels;
-  fields: (keyof SearchableProfile)[] = [
-    'birthYear',
+  labels = labels();
+  situationFields: (keyof ChildhoodSituation)[] = [
     'gender',
     'siblings',
     'siblingPosition',
@@ -44,16 +52,22 @@ export class EditorComponent {
     'dwellingSituation',
     'moves',
     'parents',
-
   ];
-  active = new Subject<SearchableProfile>();
-  activePerson: Observable<SearchableProfile> = this.active.pipe(shareReplay(1));
+  active = new Subject<Childhood>();
+  activePerson: Observable<Childhood> = this.active.pipe(shareReplay(1));
 
   constructor(private service: PersonService) {}
 
-  itemsStatus(SearchableProfile: SearchableProfile): [keyof SearchableProfile, boolean][] {
-    const stats = getItemStatus(SearchableProfile)
-    return items.map(i => [i, stats[i]])
+  itemsStatus(childhood: Childhood): [keyof ChildhoodProfile, boolean][] {
+    return pipe(
+      childhood.profile.de,
+      O.fromNullable,
+      O.map(getItemStatus),
+      O.fold(
+        () => items.map((i) => [i, false]),
+        (stats) => items.map((i) => [i, stats[i]]),
+      ),
+    );
   }
 
   protected readonly getItemStatus = getItemStatus;

@@ -3,17 +3,17 @@ import {
   bedroomSituationType,
   ChildhoodAge,
   ChildhoodProfile,
-  ChildhoodProfileOptionProps,
+  ChildhoodSituation,
   DwellingSituation,
   dwellingSituationType,
   Gender,
   genderType,
   GermanState,
+  germanStateType,
   HomeMoves,
   homeMovesType,
   ParentalSituation,
   parentalSituationType,
-  SearchableProfile,
   SiblingPosition,
   siblingPositionType,
   SiblingState,
@@ -123,7 +123,7 @@ export type LiteralPropertiesEntries<T> = {
 const transFor = <Y extends string>(meta: LiteralMeta<Y>, tr: LiteralTranslation<Y>): [Y, string][] =>
   pipe(tr, toEntries, translationSort(meta.ord));
 
-export type CPOptions = Omit<ChildhoodProfile, 'id' | 'birthYear' | 'hobby' | 'favoriteColor' | 'germanState'>;
+export type CPOptions = Omit<ChildhoodSituation, 'birthDate'>;
 export const childhoodProfileTranslations: LiteralPropertiesEntries<CPOptions> = {
   siblings: transFor(siblingStateType, siblings),
   siblingPosition: transFor(siblingPositionType, siblingPosition),
@@ -132,8 +132,9 @@ export const childhoodProfileTranslations: LiteralPropertiesEntries<CPOptions> =
   gender: transFor(genderType, gender),
   moves: transFor(homeMovesType, moves),
   parents: transFor(parentalSituationType, parents),
+  germanState: transFor(germanStateType, germanState),
 };
-export const childhoodProfileTranslationsMapped: LiteralPropertiesRecord<ChildhoodProfileOptionProps> = {
+export const childhoodProfileTranslationsMapped = {
   siblings,
   siblingPosition,
   bedroomSituation,
@@ -141,11 +142,13 @@ export const childhoodProfileTranslationsMapped: LiteralPropertiesRecord<Childho
   gender,
   moves,
   parents,
+  germanState,
 };
 
 // germanState: transFor(germanStateType, state),
 
-export const labels: () => Record<keyof SearchableProfile, string> = () => ({
+export const labels: () => Record<keyof ChildhoodSituation, string> = () => ({
+  birthDate: $localize`:@@label.birthDate:Geburtsdatum`,
   birthYear: $localize`:@@label.birthDate:Geburtsjahr`,
   gender: $localize`:@@label.gender:Geschlecht`,
   siblings: $localize`:@@label.siblings:Geschwister`,
@@ -163,7 +166,7 @@ export const labels: () => Record<keyof SearchableProfile, string> = () => ({
   memory: '',
   party: '',
   song: '',
-  speaking_book: '',
+  audioBook: '',
   dwellingSituationComment: '',
   id: '',
 });

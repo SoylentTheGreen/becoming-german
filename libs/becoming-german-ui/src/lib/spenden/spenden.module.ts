@@ -10,6 +10,7 @@ import { PartyComponent } from './item/party.component';
 import { SongComponent } from './item/song.component';
 import { SpendenComponent } from './spenden.component';
 import { SpendenHomeComponent } from './item/spenden-home.component';
+import { OptionsComponent } from '../form/options.component';
 
 const routes: Routes = [
   {
@@ -39,7 +40,7 @@ const routes: Routes = [
     SongComponent,
     SpendenHomeComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule.forChild(routes), OptionsComponent],
 })
 export class SpendenModule {}
 

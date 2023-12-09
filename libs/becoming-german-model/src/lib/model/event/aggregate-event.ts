@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 
-type AggregateEvent<T = unknown> = {
+export type AggregateEvent<T = unknown> = {
   id: string;
   type: string;
   aggregateId: string;

@@ -1,4 +1,4 @@
-import { ChildhoodProfile } from './childhood-profile';
+import { ChildhoodSituationC } from './childhood-situation';
 import { decodeOrNull } from '../decode-or-null';
 import { fold } from 'fp-ts/Either';
 import * as t from 'io-ts';
@@ -6,7 +6,7 @@ import { pipe } from 'fp-ts/function';
 
 describe('ChildhoodProfile', () => {
   describe('decode', () => {
-    const fromDecoder = decodeOrNull(ChildhoodProfile);
+    const fromDecoder = decodeOrNull(ChildhoodSituationC);
     const validInput = {
       bedroomSituation: 'own',
       dwellingSituation: 'town',
@@ -56,7 +56,7 @@ describe('ChildhoodProfile', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { parents: _, ...falseInp } = { ...validInput, parents: 0 };
 
-      const result = validate(ChildhoodProfile.decode(falseInp));
+      const result = validate(ChildhoodSituationC.decode(falseInp));
       expect(result.errors.length).toBe(1);
       expect(result.errors[0][0]).toBe('parents');
       expect(result.errors[0][1]).toBe('what');

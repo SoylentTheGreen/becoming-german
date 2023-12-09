@@ -35,14 +35,14 @@
       <!--<input class="year" (keydown)="yearOnly($event, year.value)" formControlName="birthYear" #year />-->
       <input class="year" />
     </ng-container>
-    <ng-container class="selector radio" *ngFor="let opt of options">
-      <label>{{ opt.t }}</label>
+
+    <bgn-options type="siblings"></bgn-options>
       <!--<select formControlName="{{ opt.k }}">-->
-      <select>
-        <option [value]="null">--</option>
-        <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>
-      </select>
-    </ng-container>
+<!--      <select>-->
+<!--        <option [value]="null">&#45;&#45;</option>-->
+<!--        <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>-->
+<!--      </select>-->
+
     <label class="input-form" i18n="@@label.germanState">Bundesland:</label>
     <!--<input type="text" formControlName="germanState" />-->
     <input type="text" />

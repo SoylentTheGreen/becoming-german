@@ -1,1 +1,1 @@
-export * from './mysql-aggregate-repository'
+export * as MyRepo from './mysql-aggregate-repository'

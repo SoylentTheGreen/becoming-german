@@ -25,6 +25,7 @@ import { StartComponent } from './start/start.component';
 import { SpendenHomeComponent } from './spenden/item/spenden-home.component';
 import { SpendenItemComponent } from './spenden/item/spenden-item.component';
 import { SpendenDankeComponent } from './spenden/item/spenden-danke.component';
+import { OptionsComponent } from './form/options.component';
 
 
 export const appRoutes: Routes = [

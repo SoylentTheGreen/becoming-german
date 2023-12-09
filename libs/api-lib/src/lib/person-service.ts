@@ -3,12 +3,14 @@ import { flow, pipe } from 'fp-ts/function';
 import * as A from 'fp-ts/Array';
 import { last } from 'fp-ts/Array';
 import * as E from 'fp-ts/Either';
-import { Either, isLeft, isRight, mapLeft } from 'fp-ts/Either';
+import { Either, isLeft, mapLeft } from 'fp-ts/Either';
 import * as O from 'fp-ts/Option';
 import * as TE from 'fp-ts/TaskEither';
-
+import { formatValidationErrors } from 'io-ts-reporters';
 import { countPersonSql, getNormalizePersonSql, getPersonSql, getSearch, PersonTable } from './person-table';
 import {
+  Childhood,
+  ChildhoodC,
   Grandparents,
   Holiday,
   Item,
@@ -16,13 +18,11 @@ import {
   ItemToggleValue,
   MatchingItemC,
   MatchingItems,
-  Memory,
-  QueryResponse, SearchableProfile, SearchableProfileC,
+  QueryResponse,
+  SearchableProfile,
 } from '@becoming-german/model';
 import { BehaviorSubject } from 'rxjs';
-import {
-  ChildhoodProfileRequestTable,
-} from './childhood-profile-table';
+import { ChildhoodProfileRequestTable } from './childhood-profile-table';
 import { BookItem } from './book-item';
 import { SongItem } from './song-item';
 import { AudioBookItem } from './audio-book-item';
@@ -31,38 +31,24 @@ import * as t from 'io-ts';
 import { dbConfig } from './config';
 import { PathReporter } from 'io-ts/PathReporter';
 
-// const processEntry = (row: unknown): Either<number, Entry> => {
-//   const item = row['jsonItem'];
-//   const validationResult = EntryC.decode(item);
-//
-//   if (isLeft(validationResult)) {
-//     const failedPropertyNames = validationResult.left.map((error) => error.context[error.context.length - 1].key);
-//
-//     console.log('failed parsing', failedPropertyNames);
-//   }
-//   return pipe(
-//     validationResult,
-//     mapLeft(() => row['id']),
-//   );
-// };
+const processPerson = (row: unknown): Either<number, Childhood> => {
 
-const processPerson = (row: unknown): Either<number, PersonTable> => {
-  const item = row['json_mapping'];
-  const validationResult = PersonTable.decode(item);
-
-  if (isLeft(validationResult)) {
-    // const failedPropertyNames = validationResult.left.map((error) => error.context[error.context.length - 1].key);
-    console.log('failed parsing', item['id']);
-  }
   return pipe(
-    validationResult,
-    mapLeft(() => item['id']),
-  );
+    row['json_mapping'],
+    PersonTable.decode,
+    E.map(v => {
+      console.log('we made it this far', v);
+      return v;
+    }),
+    E.chain(ChildhoodC.decode),
+    E.mapLeft(() => row['id'])
+  )
+
 };
 
-const processNormalizedPerson = (row: {id: number, jsonData: unknown}): Either<number, SearchableProfile> => {
-  const validationResult = SearchableProfileC.decode(row.jsonData);
-  if(isLeft(validationResult)) {
+const processNormalizedPerson = (row: { id: number; jsonData: unknown }): Either<number, SearchableProfile> => {
+  const validationResult = ChildhoodC.decode(row.jsonData);
+  if (isLeft(validationResult)) {
     console.log('failed decoding', PathReporter.report(validationResult));
   }
 
@@ -70,18 +56,21 @@ const processNormalizedPerson = (row: {id: number, jsonData: unknown}): Either<n
     validationResult,
     mapLeft(() => row.id),
   );
-}
+};
 // const mQuery =
 //   (connection: Pool) =>
 //   <T>(sql: string): Promise<T> =>
 //     new Promise((res, rej) => connection.query(sql, (e, r) => (e ? rej(e) : res(r))));
-export type UpdateResult = { id: number; error?: Error };
+export type UpdateResult = {
+  id: number;
+  error?: Error;
+};
 
-const itemBitSum = (pt: PersonTable) => items.reduce((r, i: Item) => (pt[i] != null ? r + ItemToggleValue[i] : r), 0);
+const itemBitSum = (pt: Childhood) => items.reduce((r, i: Item) => (pt.profile[i] != null ? r + ItemToggleValue[i] : r), 0);
 
 const updateJsonWithPool =
   (pool: Pool) =>
-  (person: PersonTable): TE.TaskEither<UpdateResult, UpdateResult> => {
+  (person: Childhood): TE.TaskEither<UpdateResult, UpdateResult> => {
     return pipe(
       TE.tryCatch(
         async (): Promise<UpdateResult> => {
@@ -91,9 +80,9 @@ const updateJsonWithPool =
           const conn = await pool.getConnection();
           await conn.execute(sql, [JSON.stringify(person), items_de, person.id]);
           conn.release();
-          return { id: person.id };
+          return { id: person.legacyId };
         },
-        (error: Error): UpdateResult => ({ error, id: person.id }),
+        (error: Error): UpdateResult => ({ error, id: person.legacyId}),
       ),
     );
   };
@@ -111,17 +100,13 @@ export class PersonService {
     console.warn(upResult['changedRows'], 'entries in german_person quarantined', ids);
   }
 
-  async getNormalizedData(offset: number, limit: number):Promise<QueryResponse<SearchableProfile>> {
+  async getNormalizedData(offset: number, limit: number): Promise<QueryResponse<SearchableProfile>> {
     const conn = await this.pool.getConnection();
     try {
       if (this.totalRows.getValue() === 0) this.totalRows.next((await conn.execute(countPersonSql))[0][0]['total']);
       const sql = getNormalizePersonSql(offset, limit);
       console.log(sql);
-      const res = pipe(
-        await conn.execute(sql),
-        (r) => r[0] as unknown[],
-        A.partitionMap(processNormalizedPerson),
-      );
+      const res = pipe(await conn.execute(sql), (r) => r[0] as unknown[], A.partitionMap(processNormalizedPerson));
       conn.release();
       return {
         status: 'ok',
@@ -131,23 +116,25 @@ export class PersonService {
         endId: res.right.length > 0 ? res.right[res.right.length - 1].id : offset,
         result: res.right,
       };
-    } catch(e: unknown) {
+    } catch (e: unknown) {
       console.error(e);
       return { total: this.totalRows.getValue(), errors: 0, offset, endId: offset, result: [], status: 'error' };
     }
   }
 
-
-  async getData(offset: number, limit: number): Promise<QueryResponse<PersonTable>> {
+  async getData(offset: number, limit: number): Promise<QueryResponse<Childhood>> {
     const conn = await this.pool.getConnection();
     try {
       if (this.totalRows.getValue() === 0) this.totalRows.next((await conn.execute(countPersonSql))[0][0]['total']);
 
+      const sql = getPersonSql(offset, limit);
       const res = pipe(
-        await conn.execute(getPersonSql(offset, limit)),
+        await conn.execute(sql),
         (r) => r[0] as unknown[],
+
         A.partitionMap(processPerson),
       );
+
       if (res.left.length > 0) await this.addQuarantined(res.left);
       conn.release();
       return {
@@ -173,7 +160,7 @@ export class PersonService {
         (error: Error): UpdateResult => ({ error, id }),
       );
     const queryToUpdate = flow(
-      (r: QueryResponse<PersonTable>) => r.result,
+      (r: QueryResponse<Childhood>) => r.result,
       A.map(update),
       A.map(TE.fold(TE.right, TE.right)),
       A.sequence(TE.ApplicativePar),
@@ -205,18 +192,25 @@ export class PersonService {
     return getRes;
   }
 
-  async findMatchingItem(profile: ChildhoodProfileRequestTable) {
+  private async _findMatchingItem(profile: ChildhoodProfileRequestTable) {
     const exe = async (sql: string): Promise<MatchRow[]> => {
       const conn = await this.pool.getConnection();
       const [rows] = await conn.execute(sql);
       conn.release();
       return rows as MatchRow[];
     };
-
     const results = (await Promise.all(getSearch(profile).map(exe))).flat();
-    console.log(results);
-
     return processMatchingItem(results);
+  }
+
+  findMatchingItem(profile: ChildhoodProfileRequestTable): TE.TaskEither<Error, MatchingItems> {
+    return pipe(
+      TE.tryCatch(
+        () => this._findMatchingItem(profile),
+        (e) => (e instanceof Error ? e : new Error(`${e}`)),
+      ),
+      TE.chain(TE.fromEither),
+    );
   }
 }
 
@@ -224,31 +218,24 @@ export const MatchingItemsDBC = t.type({
   book: MatchingItemC(BookItem),
   grandparents: MatchingItemC(Grandparents),
   holidays: MatchingItemC(Holiday),
-  memory: MatchingItemC(Memory),
+  memory: MatchingItemC(t.string),
   party: MatchingItemC(PartyItem),
   song: MatchingItemC(SongItem),
-  speaking_book: MatchingItemC(AudioBookItem),
+  audioBook: MatchingItemC(AudioBookItem),
 });
 
-export type MatchRow = { jsonItem: Partial<MatchingItems> };
+export type MatchRow = {
+  jsonItem: Partial<MatchingItems>;
+};
 
-const processMatchingItem = (rows: MatchRow[]) => {
-  const dbResult = pipe(
+const processMatchingItem = (rows: MatchRow[]): Either<Error, MatchingItems> => {
+  console.log(JSON.stringify(rows, undefined, 2));
+  return pipe(
     rows,
     A.map((r) => r.jsonItem),
-    A.reduce({} as Partial<MatchingItems>, (r, v) => ({ ...r, ...v })),
+    A.reduce({}, (r, v) => ({ ...r, ...v })),
+    MatchingItemsDBC.decode,
+    E.mapLeft(formatValidationErrors),
+    E.mapLeft((errors) => new Error(errors.join('\n'))),
   );
-  const validationResult = MatchingItemsDBC.decode(dbResult);
-  if (isRight(validationResult)) return validationResult.right;
-
-  if (isLeft(validationResult)) {
-    // console.log('failed parsing', item);
-    console.error(
-      `Validation failed! on ${JSON.stringify(dbResult)}`,
-      validationResult.left.map((error) => error.context[error.context.length - 1].key),
-      // JSON.stringify(PathReporter.report(validationResult), undefined, 4),
-      // JSON.stringify(item, undefined, 4),
-    );
-  }
-  return null;
 };

@@ -1,17 +1,23 @@
-import { Pool } from 'mysql2/promise';
-//
-// const TryCatch = <T>(cb: () => Promise<T>): TE.TaskEither<Error, T> =>
-//   TE.tryCatch(cb, (error) => (error instanceof Error ? error : new Error(`Unexpected error: ${error}`)));
+import { createPool, Pool } from 'mysql2/promise';
+import { AggregateEvent } from '@becoming-german/model';
+import { toEntries } from 'fp-ts/Record';
+import * as TE from 'fp-ts/TaskEither';
+import { dbConfig } from '../config';
 
-export class MysqlAggregateRepository  {
+export const getRepository = (config = dbConfig) => new MysqlAggregateRepository(createPool(config));
+const TryCatch = <T>(cb: () => Promise<T>): TE.TaskEither<Error, T> =>
+  TE.tryCatch(cb, (error) => (error instanceof Error ? error : new Error(`Unexpected error: ${error}`)));
+
+class MysqlAggregateRepository {
   constructor(private pool: Pool) {}
 
-  // private async q(q: string, ...args: unknown[]) {
-  //   const conn = await this.pool.getConnection();
-  //   const res = await conn.execute(q, args);
-  //   conn.release();
-  //   return res;
-  // }
+  private async q(sql: string, ...args: unknown[]) {
+    const conn = await this.pool.getConnection();
+    const res = await conn.execute(sql, args);
+    conn.release();
+    return res;
+  }
+
   //
   // private async _aggregateExists(id: string): Promise<boolean> {
   //   const res = await this.q(`SELECT EXISTS( SELECT 1 FROM event_store WHERE aggregateId = ? ) AS 'exists'; `, id);
@@ -20,14 +26,25 @@ export class MysqlAggregateRepository  {
   //
   // aggregateExists = (id: string) => TryCatch(() => this._aggregateExists(id));
   //
-  // private async _findByAggregateId(id: string): Promise<AggregateEvent[]> {
-  //   return pipe(
-  //     await this.q('SELECT * from event_store WHERE aggregateId = ? ORDER BY aggregateVersion', id),
-  //     A.filterMap(flow(EventTypeC.decode, O.fromEither)),
-  //   );
-  // }
+  private async _findByAggregateId(id: string): Promise<AggregateEvent[]> {
+    const result = await this.q(
+      `SELECT json_object(
+      'id', id, 
+      'type', type, 
+      'aggregateId', aggregateId, 
+      'aggregateType', aggregateType, 
+      'aggregateVersion', aggregateVersion, 
+      'timestamp', timestamp, 
+      'payload', payload) as event from event_store WHERE aggregateId = ? ORDER BY aggregateVersion`,
+      id,
+    );
+    if (result[0] && Array.isArray(result[0]) && result[0].length)
+      return result[0].map((row) => ({...row['event'], payload: JSON.parse(row['event']['payload'])}));
+    throw new Error('no results found');
+  }
+
   //
-  // findByAggregateId = (id: string) => TryCatch(() => this._findByAggregateId(id));
+  findByAggregateId = (id: string) => TryCatch(() => this._findByAggregateId(id));
   //
   // private _findWithSnapshot<T>(
   //   id: string,
@@ -97,20 +114,20 @@ export class MysqlAggregateRepository  {
   // nextAggregateVersion = (id: string, type: string): TE.TaskEither<Error, number> =>
   //   TryCatch(() => this._nextAggregateVersion(id, type));
   //
-  // private async _save<T>(event: AggregateEvent<T>) {
-  //   const asEntries = toEntries({ ...event, payload: JSON.stringify(event.payload) });
-  //
-  //   const res = await this.q(
-  //     `
-  //   INSERT INTO event_store ( ${asEntries.map(([k]) => k).join(',')} )
-  //   VALUES (?, ?, ?, ?, ?, ?, ?)
-  //   ON DUPLICATE KEY UPDATE
-  //   aggregateVersion = VALUES(aggregateVersion)`,
-  //     ...asEntries.map(([, v]) => v),
-  //   );
-  //   if (res[0]['affectedRows'] !== 1) throw new Error(`DB returned error: ${JSON.stringify(res[0])}`);
-  //   return event;
-  // }
-  //
-  // save = <E>(event: AggregateEvent<E>) => TryCatch(() => this._save(event));
+  private async _save(event: AggregateEvent) {
+    const asEntries = toEntries({ ...event, payload: JSON.stringify(event.payload) });
+
+    const res = await this.q(
+      `
+    INSERT INTO event_store ( ${asEntries.map(([k]) => k).join(',')} )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+    aggregateVersion = VALUES(aggregateVersion)`,
+      ...asEntries.map(([, v]) => v),
+    );
+    if (res[0]['affectedRows'] !== 1) throw new Error(`DB returned error: ${JSON.stringify(res[0])}`);
+    return event;
+  }
+
+  save = (event: AggregateEvent) => TryCatch(() => this._save(event));
 }

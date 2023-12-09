@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, filter, map, mergeMap, Observable, shareReplay } from 'rxjs';
+import { BehaviorSubject, filter, map, mergeMap, Observable, shareReplay, tap } from 'rxjs';
 import * as A from 'fp-ts/Array';
 import {
-  ChildhoodProfile,
-  ChildhoodProfileOutput,
-  DonatedProfile,
+  Childhood,
+  ChildhoodC,
+  ChildhoodSituationC,
   MatchingItems,
   MatchingItemsC,
-  QueryResponse, SearchableProfile,
-  SearchableProfileC,
+  MatchingProfileRequest,
+  MatchingProfileRequestC,
+  QueryResponse,
 } from '@becoming-german/model';
 import { flow, pipe } from 'fp-ts/function';
-import { Type } from 'io-ts';
+import * as t from 'io-ts';
 import { fromEither, isSome, none, Option, Some, some } from 'fp-ts/Option';
-import { isRight } from 'fp-ts/Either';
+import * as E from 'fp-ts/Either';
 import * as R from 'fp-ts/Record';
+import { Empty } from '@angular-devkit/core/src/virtual-fs/host';
 
 const decodeResultToOption =
-  <T, O>(codec: Type<T, O>) =>
+  <T, O>(codec: t.Type<T, O>) =>
   (inp: unknown): Option<T> => {
     const v = codec.decode(inp);
-    if (isRight(v)) return some(v.right);
+    if (E.isRight(v)) return some(v.right);
 
     console.log('error mapping person from server', inp);
     return none;
@@ -29,60 +31,56 @@ const decodeResultToOption =
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null };
 const getValue = <T>(i: Some<T>) => i.value;
-
+const emptyReq =  pipe(
+  MatchingProfileRequestC.props,
+  R.map(() => null),
+);
 @Injectable({
   providedIn: 'root',
 })
 export class PersonService {
-  people: Observable<SearchableProfile[]> = this.http.get<QueryResponse<unknown>>('/api/admin/profiles/0/50').pipe(
+  people: Observable<Childhood[]> = this.http.get<QueryResponse<unknown>>('/api/admin/profiles/0/50').pipe(
     map((v) => v.result),
-    map(flow(A.map(decodeResultToOption(SearchableProfileC)), A.compact)),
+    map(flow(A.map(decodeResultToOption(ChildhoodC)), A.compact)),
     shareReplay(1),
   );
 
-  private matchingProfileInput = new BehaviorSubject<Nullable<ChildhoodProfileOutput>>(
-    pipe(
-      ChildhoodProfile.props,
-      R.map(() => null),
-    ),
-  );
+  private matchingProfileInput = new BehaviorSubject<Nullable<MatchingProfileRequest>>(emptyReq);
 
-  profileInput: Observable<Nullable<ChildhoodProfileOutput>> = this.matchingProfileInput.pipe(shareReplay(1));
+  profileInput: Observable<Nullable<MatchingProfileRequest>> = this.matchingProfileInput.pipe(shareReplay(1));
 
   requestProfile = this.matchingProfileInput.pipe(
-    map(flow(ChildhoodProfile.decode, fromEither)),
-    filter(isSome),
-    map(getValue),
+    map(flow(MatchingProfileRequestC.decode)),
+    filter(E.isRight),
+    map(e => e.right),
   );
 
   spendenProfile = this.matchingProfileInput.pipe(
-    map(flow(ChildhoodProfile.decode, fromEither)),
-    filter(isSome),
-    map(getValue),
+    map(ChildhoodSituationC.decode),
+    filter(E.isRight),
+    map(r => r.right),
   );
 
-
-
   matchingProfile: Observable<MatchingItems> = this.requestProfile.pipe(
-    mergeMap((req) => this.http.post('/api/request', req)),
+    tap(console.log),
+    mergeMap((req) => {
+      console.log(`we are about to make a request with ${req}`);
+      return this.http.post('/api/request', req)
+    }),
     map(MatchingItemsC.decode),
-    filter(isRight),
-    map((r) => r.right),
+    filter(E.isRight),
+    map(r => r.right),
   );
 
 
   currentProfile = this.matchingProfile.pipe(shareReplay(1));
   constructor(private http: HttpClient) {}
 
-  findProfile(req: Nullable<ChildhoodProfileOutput>) {
+  findProfile(req: Nullable<MatchingProfileRequest>) {
     this.matchingProfileInput.next(req);
-
   }
 
   resetInput() {
-    this.matchingProfileInput.next(pipe(
-      ChildhoodProfile.props,
-      R.map(() => null),
-    ))
+    this.matchingProfileInput.next(emptyReq)
   }
 }

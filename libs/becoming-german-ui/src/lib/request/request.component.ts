@@ -1,15 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ChildhoodProfile, ChildhoodProfileOutput } from '@becoming-german/model';
+import { ChildhoodProfile, ChildhoodProfileC, MatchingProfileRequestC } from '@becoming-german/model';
 import { firstValueFrom, Subject } from 'rxjs';
-import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../i18n/translation';
 import { isRight } from 'fp-ts/Either';
-import * as R from 'fp-ts/Record';
-import { Nullable, PersonService } from '../person.service';
-import { pipe } from 'fp-ts/function';
+import { PersonService } from '../person.service';
 import { v4 as uuid } from 'uuid';
 import { fpFormGroup } from '@becoming-german/tools';
+import { pipe } from 'fp-ts/function';
+import * as R from 'fp-ts/Record';
+import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../i18n/translation';
 
 const getF =
   <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
@@ -30,11 +30,11 @@ const optionFields = getF(childhoodProfileTranslations);
   styleUrls: ['./request.component.scss', '../start/start.component.scss'],
 })
 export class RequestComponent implements OnDestroy {
-  val: Nullable<ChildhoodProfileOutput> = pipe(
-    ChildhoodProfile.props,
+  val: ChildhoodProfile = pipe(
+    ChildhoodProfileC.props,
     R.map(() => null),
   );
-  form = this.fb.group(fpFormGroup(ChildhoodProfile.props));
+  form = this.fb.group(fpFormGroup(MatchingProfileRequestC.props));
 
   labels = labels();
   value = $localize`:@@label.gender:Geschlecht`;
@@ -48,12 +48,8 @@ export class RequestComponent implements OnDestroy {
     optionFields('moves', this.labels['moves']),
   ];
 
-  currentYear = new Date().getFullYear();
-
   submit = new Subject<boolean>();
-
   subscription = this.service.profileInput.subscribe((p) => this.form.patchValue(p));
-
   constructor(
     private fb: FormBuilder,
     private service: PersonService,
@@ -65,12 +61,13 @@ export class RequestComponent implements OnDestroy {
   }
 
   async doUpdate() {
-    const result = ChildhoodProfile.decode({ ...this.form.getRawValue(), id: uuid() });
+    const result = MatchingProfileRequestC.decode({ ...this.form.getRawValue(), id: uuid() });
 
     if (isRight(result)) {
       this.service.findProfile(result.right);
 
-      await firstValueFrom(this.service.requestProfile);
+      const output = await firstValueFrom(this.service.matchingProfile);
+      console.log(output);
       await this.router.navigate(['request', 'result']);
     }
   }

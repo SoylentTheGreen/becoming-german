@@ -2,24 +2,11 @@ import { literalStringArrayTyping } from '@becoming-german/tools';
 import { Book } from './book';
 import { Grandparents } from './grandparents';
 import { Holiday } from './holiday';
-import { Memory } from './memory';
 import { Party } from './party';
 import { Song } from './song';
 import { AudioBook } from './audio-book';
 import * as t from 'io-ts';
-
-export const itemPropsRaw = {
-  book: Book,
-  grandparents: Grandparents,
-  holidays: Holiday,
-  memory: Memory,
-  party: Party,
-  song: Song,
-  speaking_book: AudioBook,
-};
-export const ItemC = t.keyof(itemPropsRaw);
-export type Item = t.TypeOf<typeof ItemC>;
-export const itemsType = literalStringArrayTyping('Item', Object.keys(itemPropsRaw));
+import { keys } from 'fp-ts/lib/ReadonlyRecord';
 
 export const ItemToggleValue: Record<Item, number> = {
   book: 1,
@@ -28,6 +15,23 @@ export const ItemToggleValue: Record<Item, number> = {
   memory: 8,
   party: 16,
   song: 32,
-  speaking_book: 64,
+  audioBook: 64,
 };
+const nullable =  <T extends t.Mixed>(val: T) => t.union([t.null, val]);
+export const searchableItems = {
+  memory: nullable(t.string),
+  book: nullable(Book),
+  grandparents: nullable(Grandparents),
+  holidays: nullable(Holiday),
+  party: nullable(Party),
+  song: nullable(Song),
+  audioBook: nullable(AudioBook)
+}
+
+export const ItemC = t.keyof(searchableItems);
+export type Item = t.TypeOf<typeof ItemC>;
+export const items = keys(ItemToggleValue);
+export const itemsType = literalStringArrayTyping('Item', Object.keys(ItemToggleValue));
+
+
 

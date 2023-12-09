@@ -1,11 +1,11 @@
 <div class="table">
   <div class="title row">
-    <div class="cell {{field}}" *ngFor="let field of fields">{{labels[field]}}</div>
+    <div class="cell {{field}}" *ngFor="let field of situationFields">{{labels[field]}}</div>
     <div>memory</div>
   </div>
   <div class="data row" *ngFor="let person of people | async" (click)="active.next(person)">
 
-    <div class="cell {{field}}" *ngFor="let field of fields">{{person[field]}}</div>
+    <div class="cell {{field}}" *ngFor="let field of situationFields">{{person.situation[field]}}</div>
     <ng-container *ngIf="itemsStatus(person) as stats">
       <div class="cell stat {{stat[0]}}" *ngFor="let stat of stats;">{{stat[1] ? 'X' : ''}}</div>
     </ng-container>
@@ -16,6 +16,6 @@
 <div class="editor" *ngIf="(activePerson | async) as ap">
   <div class="block memory">
     <div class="cell memory">{{labels.memory}}</div>
-    <textarea class="cell">{{ap.memory?.de}}</textarea>
+    <textarea class="cell">{{ap.profile.de?.memory}}</textarea>
   </div>
 </div>

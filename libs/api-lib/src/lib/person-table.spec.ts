@@ -2,7 +2,7 @@ import * as t from 'io-ts';
 import { isRight } from 'fp-ts/Either';
 import { PathReporter } from 'io-ts/PathReporter';
 import { BookItem } from './book-item';
-import { Memory, NullableTranslatableC } from '@becoming-german/model';
+import { ChildhoodC } from '@becoming-german/model';
 
 type BookTableOut = t.OutputOf<typeof BookItem>;
 describe('mapping', () => {
@@ -24,8 +24,5 @@ describe('mapping', () => {
   });
 
   it('can resolve the type of Translated', () => {
-    const example = NullableTranslatableC(Memory);
-
-    const e: t.TypeOf<typeof example> = {de: {diverse: 'test'}};
-  })
+  });
 });
