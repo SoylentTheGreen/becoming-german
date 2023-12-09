@@ -34,18 +34,18 @@ import { fromJS } from 'immutable';
 
 export const itemAddedPayloadC = t.refinement(
   t.type({
-    id      : UUID,
-    type    : t.keyof(childhoodProfileProps),
+    id: UUID,
+    type: t.keyof(childhoodProfileProps),
     language: languageType.literals,
-    item    : t.union([t.string, t.null, ...Object.values(childhoodProfileProps)]),
+    item: t.union([t.string, t.null, ...Object.values(childhoodProfileProps)]),
   }),
   (v) => E.isRight(childhoodProfileProps[v.type].decode(v.item) as Validation<unknown>),
   'ItemAddedPayload',
 );
 const ChildhoodEvents = {
   'profile-migrated': DonatedProfileC,
-  'profile-created' : DonatedProfileC,
-  'item-added'      : itemAddedPayloadC,
+  'profile-created': DonatedProfileC,
+  'item-added': itemAddedPayloadC,
   // 'snapshot-created': ChildhoodC,
   // 'situation-updated': ChildhoodSituationC,
   // 'item-updated': itemAddedC,
@@ -61,13 +61,13 @@ export type ChildhoodEventType = keyof typeof ChildhoodEvents;
 
 const ChildhoodEventC = <T extends t.Mixed>(key: ChildhoodEventType, payload: T) =>
   t.type({
-    id              : UUID,
-    type            : t.literal(key),
-    aggregateType   : t.literal(ChildhoodC.name),
-    aggregateId     : UUID,
+    id: UUID,
+    type: t.literal(key),
+    aggregateType: t.literal(ChildhoodC.name),
+    aggregateId: UUID,
     aggregateVersion: t.number,
     payload,
-    timestamp       : t.number,
+    timestamp: t.number,
   });
 
 const profileCreatedC = ChildhoodEventC('profile-created', DonatedProfileC);
@@ -87,13 +87,13 @@ const makeEvent = <T>(
   aggregateId: string,
   aggregateVersion: number,
 ): AggregateEvent => ({
-  id           : uuid(),
+  id: uuid(),
   type,
   aggregateType: ChildhoodC.name,
-  aggregateId  : aggregateId,
+  aggregateId: aggregateId,
   aggregateVersion,
   payload,
-  timestamp    : Date.now(),
+  timestamp: Date.now(),
 });
 export type ChildhoodState = E.Either<AggregateState<unknown>, AggregateState<Childhood>>;
 export type StateReturn = [O.Option<ChildhoodEvent>, ChildhoodState];
@@ -111,7 +111,7 @@ const emptyProfile: (id: string, situation: ChildhoodSituationOut) => t.OutputOf
 export type StateMapper = S.State<ChildhoodState, O.Option<ChildhoodEvent>>;
 const unchanged =
   () =>
-    (s: ChildhoodState): StateReturn => [O.none, s];
+  (s: ChildhoodState): StateReturn => [O.none, s];
 
 const profileCreatedEventBuilder = flow(
   ChildhoodSituationC.decode,
@@ -130,69 +130,69 @@ const itemAddedEventBuilder = (previousVersion: number) => (payload: unknown) =>
 
 const profileCreatedStateMapper =
   (event: ProfileCreated): StateMapper =>
-    () => [O.some(event), E.left({ version: 1, state: event.payload })];
+  () => [O.some(event), E.left({ version: 1, state: event.payload })];
 
 const profileMigratedStateMapper =
   (event: ProfileMigrated): StateMapper =>
-    () => [O.some(event), E.left({ version: 1, state: event.payload.state })];
+  () => [O.some(event), E.left({ version: 1, state: event.payload.state })];
 
 const itemAddedStateMapper =
   (event: ItemAdded): StateMapper =>
-    (s) => {
-      console.log('event is ', event);
-      const arrgghhh: O.Option<DonatedProfile> =
-        pipe(s, E.toUnion,
-          (acc: AggregateState<unknown>) => {
-            if(acc.version + 1 !== event.aggregateVersion)  return O.none
-            const jsObj = fromJS(acc.state);
-            const current = jsObj.getIn(['profile', event.payload.language, event.payload.type]);
-            console.log('current is', current);
-            if(current) {
-              console.log('object currently is', current);
-              return O.none;
-            }
-            return O.some(acc)
-          },
-          O.chain(acc =>
-            pipe(
-              fromJS(acc.state)
-                  .setIn(['profile', event.payload.language, event.payload.type], event.payload.item)
-                  .toJS(),
-              DonatedProfileC.decode,
-              O.fromEither,
-            ),
-          )
-        );
-      if (O.isNone(arrgghhh)) return [O.none, s];
-      const newV = <T>(state: T): AggregateState<T> => ({ version: event.aggregateVersion, state });
-
-      return [
-        O.some(event),
+  (s) => {
+    console.log('event is ', event);
+    const arrgghhh: O.Option<DonatedProfile> = pipe(
+      s,
+      E.toUnion,
+      (acc: AggregateState<unknown>) => {
+        if (acc.version + 1 !== event.aggregateVersion) return O.none;
+        const jsObj = fromJS(acc.state);
+        const current = jsObj.getIn(['profile', event.payload.language, event.payload.type]);
+        console.log('current is', current);
+        if (current) {
+          console.log('object currently is', current);
+          return O.none;
+        }
+        return O.some(acc);
+      },
+      O.chain((acc) =>
         pipe(
-          ChildhoodC.decode(arrgghhh.value),
-          E.mapLeft(() => newV<unknown>(arrgghhh.value)),
-          E.map(newV),
+          fromJS(acc.state).setIn(['profile', event.payload.language, event.payload.type], event.payload.item).toJS(),
+          DonatedProfileC.decode,
+          O.fromEither,
         ),
-      ];
-    };
+      ),
+    );
+    if (O.isNone(arrgghhh)) return [O.none, s];
+    const newV = <T>(state: T): AggregateState<T> => ({ version: event.aggregateVersion, state });
+
+    return [
+      O.some(event),
+      pipe(
+        ChildhoodC.decode(arrgghhh.value),
+        E.mapLeft(() => newV<unknown>(arrgghhh.value)),
+        E.map(newV),
+      ),
+    ];
+  };
 const emptyChildhoodProfile: ChildhoodProfile = {
-  memory                  : null,
-  book                    : null,
-  grandparents            : null,
-  holidays                : null,
-  party                   : null,
-  song                    : null,
-  audioBook               : null,
-  hobby                   : null,
-  favoriteColor           : null,
-  hatedFood               : null,
+  memory: null,
+  book: null,
+  grandparents: null,
+  holidays: null,
+  party: null,
+  song: null,
+  audioBook: null,
+  hobby: null,
+  favoriteColor: null,
+  hatedFood: null,
   dwellingSituationComment: null,
+  softToy: null,
 };
 
 const eventCodecs: Record<ChildhoodEventType, (e: unknown) => O.Option<StateMapper>> = {
-  'profile-created' : flow(profileCreatedC.decode, O.fromEither, O.map(profileCreatedStateMapper)),
+  'profile-created': flow(profileCreatedC.decode, O.fromEither, O.map(profileCreatedStateMapper)),
   'profile-migrated': flow(profileMigratedC.decode, O.fromEither, O.map(profileMigratedStateMapper)),
-  'item-added'      : flow(itemAddedC.decode, O.fromEither, O.map(itemAddedStateMapper)),
+  'item-added': flow(itemAddedC.decode, O.fromEither, O.map(itemAddedStateMapper)),
 };
 
 const getStateMapper = (event: { type: string }): StateMapper =>

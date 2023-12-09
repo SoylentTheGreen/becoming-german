@@ -1,12 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  Childhood,
-  ChildhoodProfile,
-  ChildhoodSituation,
-  getItemStatus,
-  items,
-  MatchingProfileRequest,
-} from '@becoming-german/model';
+import { Childhood, ChildhoodProfile, ChildhoodSituation, getItemStatus, items } from '@becoming-german/model';
 import { Observable, shareReplay, Subject } from 'rxjs';
 import { PersonService } from '../../person.service';
 import { pipe } from 'fp-ts/function';
@@ -34,6 +27,7 @@ export const labels: () => Record<keyof ChildhoodProfile | keyof ChildhoodSituat
   audioBook: $localize`:@@label.admin.audiobook:Favorite Audiobook`,
   birthDate: $localize`:@@label.admin.birthDate:Birthdate`,
   hatedFood: $localize`:@@label.admin.germanState:German State`,
+  softToy: $localize`:@@label.admin.softToy:Stofftier`,
 });
 
 @Component({

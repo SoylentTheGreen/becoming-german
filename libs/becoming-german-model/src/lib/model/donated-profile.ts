@@ -11,6 +11,7 @@ export const childhoodProfileProps = {
   hobby: t.union([t.null, t.string]),
   favoriteColor: t.union([t.null, t.string]),
   hatedFood: t.union([t.null, t.string]),
+  softToy: t.union([t.null, t.string]),
   dwellingSituationComment: t.union([t.null, t.string]),
   ...searchableItems,
 };
