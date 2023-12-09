@@ -31,7 +31,16 @@ a {
 }
 
 
-
+input, select {
+  border: 1px solid hsla(0, 0%, 50%, 0.6);
+  border-radius: 2px;
+  &.ng-invalid.ng-touched {
+    &, option {
+      background-color: hsl(10, 90%, 90%);
+      border-color: hsl(10, 90%, 70%);
+    }
+  }
+}
 
 
 

@@ -3,9 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, mergeMap, Observable, shareReplay, tap } from 'rxjs';
 import * as A from 'fp-ts/Array';
 import {
+  AggregateEvent,
   Childhood,
+  ChildhoodAggregate,
   ChildhoodC,
+  ChildhoodSituation,
   ChildhoodSituationC,
+  DonatedProfileC,
   MatchingItems,
   MatchingItemsC,
   MatchingProfileRequest,
@@ -18,6 +22,7 @@ import { fromEither, isSome, none, Option, Some, some } from 'fp-ts/Option';
 import * as E from 'fp-ts/Either';
 import * as R from 'fp-ts/Record';
 import { Empty } from '@angular-devkit/core/src/virtual-fs/host';
+import { ProfileCreated } from 'libs/becoming-german-model/src/lib/model/childhood-aggregate';
 
 const decodeResultToOption =
   <T, O>(codec: t.Type<T, O>) =>
@@ -82,5 +87,9 @@ export class PersonService {
 
   resetInput() {
     this.matchingProfileInput.next(emptyReq)
+  }
+
+  addProfile(cp: ChildhoodSituation) {
+    return this.http.post<ProfileCreated>('/api/donate', cp);
   }
 }

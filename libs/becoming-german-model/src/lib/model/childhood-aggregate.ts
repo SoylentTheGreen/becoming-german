@@ -71,10 +71,10 @@ const ChildhoodEventC = <T extends t.Mixed>(key: ChildhoodEventType, payload: T)
   });
 
 const profileCreatedC = ChildhoodEventC('profile-created', DonatedProfileC);
-type ProfileCreated = t.TypeOf<typeof profileCreatedC> & AggregateEvent;
+export type ProfileCreated = t.TypeOf<typeof profileCreatedC> & AggregateEvent;
 
 const profileMigratedC = ChildhoodEventC('profile-migrated', t.type({ legacyId: t.number, state: ChildhoodC }));
-type ProfileMigrated = t.TypeOf<typeof profileMigratedC> & AggregateEvent;
+export type ProfileMigrated = t.TypeOf<typeof profileMigratedC> & AggregateEvent;
 
 const itemAddedC = ChildhoodEventC('item-added', itemAddedPayloadC);
 type ItemAdded = t.TypeOf<typeof itemAddedC>;
