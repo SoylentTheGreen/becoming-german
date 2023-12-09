@@ -5,4 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './wanderschaft.component.html',
   styleUrls: ['./wanderschaft.component.scss'],
 })
+
+
 export class WanderschaftComponent {}
+
