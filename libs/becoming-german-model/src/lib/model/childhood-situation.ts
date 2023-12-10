@@ -7,7 +7,6 @@ import { bedroomSituationType } from './bedroom-situation';
 import { dwellingSituationType } from './dwelling-situation';
 import { homeMovesType } from './home-moves';
 import { germanStateType } from './german-state';
-import { DateOnlyInput } from '../type';
 import { NumberFromStringOrNumber } from '@becoming-german/tools';
 
 export const ChildhoodSituationProps = {
@@ -21,9 +20,8 @@ export const ChildhoodSituationProps = {
 };
 
 export const ChildhoodSituationC = t.type({
-  birthDate: t.refinement(
-    DateOnlyInput,
-    (d) => d.getFullYear() > 1900 && d.getFullYear() < new Date().getFullYear() - 10,
+  birthYear: t.refinement(
+    NumberFromStringOrNumber, (n) => t.Integer.is(n) && n > 1900 && n < new Date().getFullYear() - 15
   ),
   germanState: germanStateType.literals,
   ...ChildhoodSituationProps,

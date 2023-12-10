@@ -123,7 +123,7 @@ export type LiteralPropertiesEntries<T> = {
 const transFor = <Y extends string>(meta: LiteralMeta<Y>, tr: LiteralTranslation<Y>): [Y, string][] =>
   pipe(tr, toEntries, translationSort(meta.ord));
 
-export type CPOptions = Omit<ChildhoodSituation, 'birthDate'>;
+export type CPOptions = Omit<ChildhoodSituation, 'birthYear'>;
 export const childhoodProfileTranslations: LiteralPropertiesEntries<CPOptions> = {
   siblings: transFor(siblingStateType, siblings),
   siblingPosition: transFor(siblingPositionType, siblingPosition),

@@ -12,6 +12,7 @@ import { SpendenComponent } from './spenden.component';
 import { SpendenHomeComponent } from './item/spenden-home.component';
 import { OptionsComponent } from '../form/options.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CollapsibleComponent } from './item/collapsible.component';
 
 const routes: Routes = [
   {
@@ -41,7 +42,7 @@ const routes: Routes = [
     SongComponent,
     SpendenHomeComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), OptionsComponent, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule.forChild(routes), OptionsComponent, ReactiveFormsModule, CollapsibleComponent],
 })
 export class SpendenModule {}
 

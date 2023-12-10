@@ -1,0 +1,6 @@
+<div [ngClass]="{expanded: this.active === this.name}">
+  <div (click)="out.emit(name)" class="title textheading">{{lbl}}</div>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+</div>

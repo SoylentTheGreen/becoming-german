@@ -43,6 +43,8 @@ export const itemAddedPayloadC = t.refinement(
   (v) => E.isRight(childhoodProfileProps[v.type].decode(v.item) as Validation<unknown>),
   'ItemAddedPayload',
 );
+
+
 const ChildhoodEvents = {
   'profile-migrated': DonatedProfileC,
   'profile-created': DonatedProfileC,
@@ -68,6 +70,7 @@ const ChildhoodEventC = <T extends t.Mixed>(key: ChildhoodEventType, payload: T)
 
 const profileCreatedC = ChildhoodEventC('profile-created', DonatedProfileC);
 export type ProfileCreated = t.TypeOf<typeof profileCreatedC> & AggregateEvent;
+
 
 const profileMigratedC = ChildhoodEventC('profile-migrated', t.type({ legacyId: t.number, state: ChildhoodC }));
 export type ProfileMigrated = t.TypeOf<typeof profileMigratedC> & AggregateEvent;

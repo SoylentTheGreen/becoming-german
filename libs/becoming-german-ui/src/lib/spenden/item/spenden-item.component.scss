@@ -1,15 +1,13 @@
 .options {
-    max-width: 100%;
-    display: grid;
-    flex-wrap: wrap;
-    grid-template-columns: 100%;
-    grid-gap: 1rem;
-    input,
-    select {
-      padding: 0.2rem;
-    }
-  }
+  max-width: 100%;
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: 100%;
+  grid-gap: 1rem;
 
-textarea {
-  height: 4rem;
+  input,
+  select {
+    padding: 0.2rem;
+  }
 }
+

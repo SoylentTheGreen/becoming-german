@@ -31,7 +31,7 @@ export const PersonTable = t.type({
 export type PersonTable = t.TypeOf<typeof PersonTable>;
 const personTableMappingConfig: ([keyof ChildhoodSituation, string?] | [keyof PersonTable])[] = [
   ['bedroomSituation'],
-  ['birthDate'],
+  ['birthYear', 'YEAR(birthDate)'],
   ['dwellingSituation'],
   ['parents'],
   ['gender', 'sex'],

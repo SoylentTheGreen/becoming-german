@@ -1,10 +1,10 @@
 import { AfterContentInit, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ChildhoodProfileC, ChildhoodSituationC, Item } from '@becoming-german/model';
-import { Subject, Subscription } from 'rxjs';
+import { ChildhoodC, ChildhoodProfileC, ChildhoodSituationC, DonatedProfileC, Item } from '@becoming-german/model';
+import { filter, map, shareReplay, Subject, Subscription } from 'rxjs';
 import { PersonService } from '../../person.service';
-import { fpFormGroup, fpValidator } from '@becoming-german/tools';
+import { fpFormGroup } from '@becoming-german/tools';
 import * as E from 'fp-ts/Either';
 import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../../i18n/translation';
 import { UUID } from 'io-ts-types';
@@ -21,7 +21,7 @@ const testData = {
     parents: 'mother',
     siblingPosition: 'middle',
     germanState: 'NW',
-    birthDate: '1970-01-01T11:00:00.000Z',
+    birthYear: 1971,
     dwellingSituation: 'small_town',
     siblings: 'two',
     hobby: 'asdasf',
@@ -71,7 +71,6 @@ const getF =
 
 const optionFields = getF(childhoodProfileTranslations);
 
-
 @Component({
   selector: 'bgn-spenden-home',
   templateUrl: './spenden-home.component.html',
@@ -83,15 +82,29 @@ const optionFields = getF(childhoodProfileTranslations);
 })
 export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
   form = this.fb.group({
-    ...fpFormGroup({id: UUID}),
+    ...fpFormGroup({ id: UUID }),
     situation: this.fb.group(fpFormGroup(ChildhoodSituationC.props)),
     profile: this.fb.group(fpFormGroup(ChildhoodProfileC.props)),
   });
 
-  birthYear = new FormControl(1970, [Validators.min(1900),  Validators.max(2010), Validators.required])
+  childhood = this.service.donation.pipe(
+    filter(E.isRight),
+    map(v => ChildhoodC.decode(v.right.state)),
+    filter(E.isRight),
+    map(v => v.right)
+  );
+
+  state = this.service.donation.pipe(
+    map(E.toUnion),
+    map((v) => DonatedProfileC.decode(v.state)),
+    filter(E.isRight),
+    map((v) => v.right),
+    shareReplay(1),
+  );
+
+  birthYear = new FormControl(1970, [Validators.min(1900), Validators.max(2010), Validators.required]);
 
   active: Item | null = null;
-
 
   labels = labels();
   value = $localize`:@@label.gender:Geschlecht`;
@@ -113,31 +126,28 @@ export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
     private fb: FormBuilder,
     private service: PersonService,
     private router: Router,
-  ) {
-
-  }
+  ) {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   async doUpdate() {
-
-      return pipe(
-        this.form.getRawValue(),
-        E.fromPredicate(v => v.id === null, () => new Error('id already set.')),
-        E.chainW(v => ChildhoodSituationC.decode(v.situation)),
-        TE.fromEither,
-        TE.chainW(v => TE.fromTask( () => this.service.addProfile(v))),
-        TE.map(v => {
-          this.profileAdded = true;
-          this.active = 'book';
-          return v;
-        })
-      )();
-
-
-
+    return pipe(
+      this.form.getRawValue(),
+      E.fromPredicate(
+        (v) => v.id === null,
+        () => new Error('id already set.'),
+      ),
+      E.chainW((v) => ChildhoodSituationC.decode(v.situation)),
+      TE.fromEither,
+      TE.chainW((v) => TE.fromTask(() => this.service.addProfile(v))),
+      TE.map((v) => {
+        this.profileAdded = true;
+        this.active = 'book';
+        return v;
+      }),
+    )();
 
     // if (isRight(result)) {
     //   this.service.findProfile(result.right);
@@ -153,6 +163,17 @@ export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    this.form.patchValue(testData as any)
+    this.form.patchValue(testData as any);
+  }
+
+  yearOnly(event: KeyboardEvent, currentValue: string | null) {
+    const allowedKeys = ['Delete', 'Backspace', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+    const pattern = /[0-9]/;
+
+    if (allowedKeys.includes(event.key)) return;
+    if (pattern.test(event.key) && (currentValue || '').length < 4) return;
+
+    event.preventDefault();
+    return;
   }
 }

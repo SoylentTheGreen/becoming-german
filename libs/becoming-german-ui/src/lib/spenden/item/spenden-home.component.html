@@ -14,9 +14,8 @@
   [ngClass]="{ expanded: active === null }"
   class="situation collapsible input-form"
   [formGroup]="form"
-  *ngIf="!profileAdded"
 >
-  <div i18n="@@donate.situation.header" class="textheading">Wer bist du?</div>
+  <div i18n="@@donate.situation.header" class="banner textheading">Wer bist du?</div>
   <div class="content">
     <div class="options">
       <ng-container formGroupName="profile">
@@ -34,7 +33,11 @@
       </ng-container>
       <ng-container formGroupName="situation">
         <label i18n="@@label.birthDate">Geburtsdatum</label>
-        <input type="date" min="01.01.1900" max="12.12.2013" class="date" formControlName="birthDate" />
+        <input
+          class="year"
+          (keydown)="yearOnly($event, year.value)"
+          number="birthYear"
+          formControlName="birthYear" #year>
 
         <ng-container *ngFor="let opt of options">
           <label>{{ opt.t }}</label>
@@ -57,21 +60,11 @@
         i18n-alt="@@donate.submit.alt"
         (click)="doUpdate()"
       />
-
-      <!--<input
-      [disabled]="!form.valid"
-      type="image"
-      src="../assets/pix/kirschlutscher_kl.gif"
-      alt="Submit form"
-      i18n-alt="@@spenden.submit.alt"
-      (click)="doUpdate()"
-    />-->
     </div>
   </div>
 </div>
-<!--<ng-container *ngIf="profileAdded">-->
-<ng-container>
-  <div class="book collapsible" [ngClass]="{ expanded: active === 'grandparents' }" (click)="active = 'grandparents'">
+<ng-container *ngIf="state | async">
+    <div class="book collapsible" [ngClass]="{ expanded: active === 'grandparents' }" (click)="active = 'grandparents'">
     <div class="banner textheading" i18n="@@match.spenden.gp.heading">Deine Großeltern</div>
     <div class="content">
       <bgn-grandparents></bgn-grandparents>
@@ -83,7 +76,8 @@
       <bgn-holidays></bgn-holidays>
     </div>
   </div>
-  <div class="book collapsible" [ngClass]="{expanded: active === 'book', complete: complete('book')}" (click)="active = 'book'">
+  <div class="book collapsible" [ngClass]="{expanded: active === 'book'}"
+       (click)="active = 'book'">
     <div class="banner textheading" i18n="@@match.spenden.book.heading">Lieblingsbuch</div>
     <div class="content">
       <bgn-book></bgn-book>
@@ -107,10 +101,13 @@
       <bgn-party></bgn-party>
     </div>
   </div>
-  <div class="book collapsible" [ngClass]="{expanded: active === 'memory', complete: }" (click)="active = 'memory'">
+  <div class="book collapsible" [ngClass]="{expanded: active === 'memory', complete: childhood}"
+       (click)="active = 'memory'">
     <div class="banner textheading" i18n="@@match.spenden.memory.heading">Weitere Erinnerungen?</div>
     <div class="content">
       <bgn-memory></bgn-memory>
     </div>
   </div>
 </ng-container>
+
+<div>{{(state | async)?.id}}</div>
