@@ -1,15 +1,62 @@
-import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { AfterContentInit, Component, OnDestroy } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChildhoodProfileC, ChildhoodSituationC, Item } from '@becoming-german/model';
 import { Subject, Subscription } from 'rxjs';
 import { PersonService } from '../../person.service';
-import { fpFormGroup } from '@becoming-german/tools';
+import { fpFormGroup, fpValidator } from '@becoming-german/tools';
 import * as E from 'fp-ts/Either';
 import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../../i18n/translation';
 import { UUID } from 'io-ts-types';
 import { pipe } from 'fp-ts/function';
 import * as TE from 'fp-ts/TaskEither';
+
+const testData = {
+  legacyId: null,
+  situation: {
+    gender: 'female',
+    bedroomSituation: 'brother',
+    moves: '2',
+    favoriteColor: 'asdfa',
+    parents: 'mother',
+    siblingPosition: 'middle',
+    germanState: 'NW',
+    birthDate: '1970-01-01T11:00:00.000Z',
+    dwellingSituation: 'small_town',
+    siblings: 'two',
+    hobby: 'asdasf',
+  },
+  profile: {
+    de: {
+      memory: null,
+      party: null,
+      favoriteColor: 'Cerulean',
+      book: null,
+      dwellingSituationComment: null,
+      hobby: null,
+      softToy: null,
+      song: null,
+      hatedFood: 'Brussel sprouts',
+      holidays: null,
+      grandparents: null,
+      audioBook: null,
+    },
+    en: {
+      memory: null,
+      party: null,
+      favoriteColor: null,
+      book: null,
+      dwellingSituationComment: null,
+      hobby: null,
+      softToy: null,
+      song: null,
+      hatedFood: null,
+      holidays: null,
+      grandparents: null,
+      audioBook: null,
+    },
+  },
+};
 
 const getF =
   <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
@@ -34,12 +81,14 @@ const optionFields = getF(childhoodProfileTranslations);
     '../../request/request.component.scss',
   ],
 })
-export class SpendenHomeComponent implements OnDestroy {
+export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
   form = this.fb.group({
     ...fpFormGroup({id: UUID}),
     situation: this.fb.group(fpFormGroup(ChildhoodSituationC.props)),
     profile: this.fb.group(fpFormGroup(ChildhoodProfileC.props)),
   });
+
+  birthYear = new FormControl(1970, [Validators.min(1900),  Validators.max(2010), Validators.required])
 
   active: Item | null = null;
 
@@ -74,8 +123,7 @@ export class SpendenHomeComponent implements OnDestroy {
 
   async doUpdate() {
 
-    const result =
-      await pipe(
+      return pipe(
         this.form.getRawValue(),
         E.fromPredicate(v => v.id === null, () => new Error('id already set.')),
         E.chainW(v => ChildhoodSituationC.decode(v.situation)),
@@ -102,5 +150,9 @@ export class SpendenHomeComponent implements OnDestroy {
   reset() {
     this.service.resetInput();
     this.form.reset();
+  }
+
+  ngAfterContentInit(): void {
+    this.form.patchValue(testData as any)
   }
 }

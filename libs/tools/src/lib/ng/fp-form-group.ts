@@ -4,9 +4,8 @@ import { toEntries } from 'fp-ts/Record';
 import * as A from 'fp-ts/Array';
 import { FormControl, ValidatorFn } from '@angular/forms';
 import * as E from 'fp-ts/Either';
-import { PathReporter } from 'io-ts/PathReporter';
 
-const fpValidator: (codec: t.Mixed) => ValidatorFn = (c) =>
+export const fpValidator: (codec: t.Mixed) => ValidatorFn = (c) =>
   flow(
     (ctl) => ctl.value,
     c.decode,

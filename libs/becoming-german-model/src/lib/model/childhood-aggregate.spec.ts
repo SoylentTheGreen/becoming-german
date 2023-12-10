@@ -1,6 +1,7 @@
 import * as CA from './childhood-aggregate';
 import * as E from 'fp-ts/Either';
 import * as O from 'fp-ts/Option';
+import * as S from  'fp-ts/State';
 
 export const assertRight = <T>(i: E.Either<unknown, T>): i is E.Right<T> => {
   expect(E.isRight(i)).toBe(true);
@@ -69,7 +70,9 @@ describe('ChildhoodAggregate', () => {
       expect(addItemEvent[1].right.state.profile.de?.memory).toBe('This is the memory');
 
     });
+  });
 
+  it('converts promises', () => {
 
   });
 });

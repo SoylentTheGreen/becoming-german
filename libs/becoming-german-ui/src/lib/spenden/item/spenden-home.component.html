@@ -83,7 +83,7 @@
       <bgn-holidays></bgn-holidays>
     </div>
   </div>
-  <div class="book collapsible" [ngClass]="{ expanded: active === 'book' }" (click)="active = 'book'">
+  <div class="book collapsible" [ngClass]="{expanded: active === 'book', complete: complete('book')}" (click)="active = 'book'">
     <div class="banner textheading" i18n="@@match.spenden.book.heading">Lieblingsbuch</div>
     <div class="content">
       <bgn-book></bgn-book>
@@ -107,7 +107,7 @@
       <bgn-party></bgn-party>
     </div>
   </div>
-  <div class="book collapsible" [ngClass]="{ expanded: active === 'memory' }" (click)="active = 'memory'">
+  <div class="book collapsible" [ngClass]="{expanded: active === 'memory', complete: }" (click)="active = 'memory'">
     <div class="banner textheading" i18n="@@match.spenden.memory.heading">Weitere Erinnerungen?</div>
     <div class="content">
       <bgn-memory></bgn-memory>

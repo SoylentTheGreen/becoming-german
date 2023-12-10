@@ -11,10 +11,13 @@ import * as E from 'fp-ts/Either';
 export class MemoryComponent {
 
   memory = new FormControl('', [Validators.required]);
-
+  sub = this.service.donation.subscribe((s) =>
+    console.log(E.isRight(s) ? s.right.state : s.left.state)
+  );
   constructor(
     private service: PersonService
   ) {}
+
   async update() {
     if(this.memory.invalid) return;
     const result = await this.service.addItem('memory', this.memory.getRawValue())();

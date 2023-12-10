@@ -8,13 +8,15 @@ import {
   mergeMap,
   Observable,
   scan,
-  shareReplay, startWith,
+  shareReplay,
   Subject,
+  tap,
 } from 'rxjs';
 import * as A from 'fp-ts/Array';
 import {
   AddItem,
   AggregateEvent,
+  AggregateState,
   Childhood,
   ChildhoodAggregate,
   ChildhoodC,
@@ -33,6 +35,7 @@ import { none, Option, some } from 'fp-ts/Option';
 import * as E from 'fp-ts/Either';
 import * as R from 'fp-ts/Record';
 import * as TE from 'fp-ts/TaskEither';
+import { mapOneOrManyArgs } from 'rxjs/internal/util/mapOneOrManyArgs';
 
 const decodeResultToOption =
   <T, O>(codec: t.Type<T, O>) =>
@@ -51,12 +54,6 @@ const emptyReq = pipe(
   R.map(() => null),
 );
 
-const newState = {
-  state: {id: '36be10de-8264-4e6a-9c10-809925fa54fe'},
-  version: 0
-}
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -70,17 +67,18 @@ export class PersonService {
   private matchingProfileInput = new BehaviorSubject<Nullable<MatchingProfileRequest>>(emptyReq);
   private donateProfileInput = new Subject<AggregateEvent>();
   profileInput: Observable<Nullable<MatchingProfileRequest>> = this.matchingProfileInput.pipe(shareReplay(1));
-  private donation = this.donateProfileInput.pipe(
+  donation = this.donateProfileInput.pipe(
     scan((events, ev) => [...events, ev], [] as AggregateEvent[]),
-    map((ev) => pipe(ChildhoodAggregate.newState, ChildhoodAggregate.build(ev), (s) => s[1])),
-    map(
-      flow(
-        E.mapLeft((l) => l.state),
-        E.map((r) => r.state),
-      ),
-    ),
-    startWith(E.right(newState.state)),
-    shareReplay(1)
+    map(ChildhoodAggregate.build),
+    map((c) => c(ChildhoodAggregate.newState)),
+    map((r) => r[1]),
+    // map(
+    //   flow(
+    //     E.mapLeft((l) => l.state),
+    //     E.map((r) => r.state),
+    //   ),
+    // ),
+    shareReplay(1),
   );
 
   requestProfile = this.matchingProfileInput.pipe(
@@ -124,16 +122,27 @@ export class PersonService {
     id: string,
     req: AddItem<T, K>,
   ): TE.TaskEither<Error, ChildhoodAggregate.ItemAdded> {
-    return TE.fromTask(() => firstValueFrom(this.http.post<ChildhoodAggregate.ItemAdded>(`/api/${id}/addItem`, req)));
+    return TE.tryCatch(
+      () => firstValueFrom(
+        this.http.post<ChildhoodAggregate.ItemAdded>(`/api/${id}/addItem`, req).pipe(
+          tap((v) => this.donateProfileInput.next(v))
+        )
+      ),
+      (e) => (e instanceof Error ? e : new Error('error retrieving ')),
+    );
   }
 
   addItem<K extends keyof ChildhoodProfile>(type: K, item: ChildhoodProfile[K]) {
+    const hasId = (v: unknown): v is { id: string | null } => Object.prototype.hasOwnProperty.call(v, 'id');
     return pipe(
-      TE.tryCatch(() => firstValueFrom(this.donation), () => new Error('hmmm')),
-
-      TE.chainW(flow(tap, TE.fromEither)),
-      TE.chainW((s) => this._addItem(s.id, { language: 'de', item, type })),
+      TE.tryCatch(
+        () => firstValueFrom(this.donation.pipe(map(E.toUnion))),
+        (e) => (e instanceof Error ? e : new Error('error retrieving ')),
+      ),
+      TE.chain((s: AggregateState<unknown>) =>
+        hasId(s.state) && !!s.state.id ? TE.right({ id: s.state.id, item, type }) : TE.left(new Error('no id')),
+      ),
+      TE.chain((s) => this._addItem(s.id, { ...s, language: 'de' })),
     );
   }
 }
-const tap = <T>(v: T): T => {console.log(v); return v;}

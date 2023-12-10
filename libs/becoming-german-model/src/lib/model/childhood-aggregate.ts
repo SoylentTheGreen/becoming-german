@@ -183,7 +183,7 @@ const eventCodecs: Record<ChildhoodEventType, (e: unknown) => O.Option<StateMapp
   'item-added': flow(itemAddedC.decode, O.fromEither, O.map(itemAddedStateMapper)),
 };
 
-const getStateMapper = (event: { type: string }): StateMapper =>
+export const getStateMapper = (event: { type: string }): StateMapper =>
   pipe(
     eventCodecs,
     R.lookup(event.type),
@@ -202,3 +202,4 @@ export const nextEvent = flow(getStateMapper)
 export const fromEvents = (events: ChildhoodEvent[]) =>
   pipe(E.left({ version: 0, state: null }), build(events), (r) => r[1]);
 export const newState: ChildhoodState = E.left({ version: 0, state: null });
+export const begin = S.of([O.none, newState]);
