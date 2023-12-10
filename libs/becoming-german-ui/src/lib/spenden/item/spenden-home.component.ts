@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChildhoodProfileC, ChildhoodSituationC, Item } from '@becoming-german/model';
@@ -10,54 +10,6 @@ import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '
 import { UUID } from 'io-ts-types';
 import { pipe } from 'fp-ts/function';
 import * as TE from 'fp-ts/TaskEither';
-
-const testData = {
-  id: "14dd0444-4428-4a36-ba11-cbb4525729e5",
-  legacyId: null,
-  situation: {
-    gender: 'female',
-    bedroomSituation: 'brother',
-    moves: '2',
-    favoriteColor: 'asdfa',
-    parents: 'mother',
-    siblingPosition: 'middle',
-    germanState: 'NW',
-    birthDate: '1970-01-01T11:00:00.000Z',
-    dwellingSituation: 'small_town',
-    siblings: 'two',
-    hobby: 'asdasf',
-  },
-  profile: {
-    de: {
-      memory: null,
-      party: null,
-      favoriteColor: 'Cerulean',
-      book: null,
-      dwellingSituationComment: null,
-      hobby: null,
-      softToy: null,
-      song: null,
-      hatedFood: 'Brussel sprouts',
-      holidays: null,
-      grandparents: null,
-      audioBook: null,
-    },
-    en: {
-      memory: null,
-      party: null,
-      favoriteColor: null,
-      book: null,
-      dwellingSituationComment: null,
-      hobby: null,
-      softToy: null,
-      song: null,
-      hatedFood: null,
-      holidays: null,
-      grandparents: null,
-      audioBook: null,
-    },
-  },
-};
 
 const getF =
   <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
@@ -82,7 +34,7 @@ const optionFields = getF(childhoodProfileTranslations);
     '../../request/request.component.scss',
   ],
 })
-export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
+export class SpendenHomeComponent implements OnDestroy {
   form = this.fb.group({
     ...fpFormGroup({id: UUID}),
     situation: this.fb.group(fpFormGroup(ChildhoodSituationC.props)),
@@ -115,8 +67,6 @@ export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
   ) {
 
   }
-
-
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -152,9 +102,5 @@ export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
   reset() {
     this.service.resetInput();
     this.form.reset();
-  }
-
-  ngAfterContentInit(): void {
-    this.form.patchValue(testData as any)
   }
 }

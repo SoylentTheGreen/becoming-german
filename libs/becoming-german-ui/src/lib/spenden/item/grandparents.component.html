@@ -1,4 +1,3 @@
-<div class="textheading" i18n="@@match.spenden.gp.heading">Deine Großeltern</div>
 <div class="options" [formGroup]="form">
   <label for="who"i18n="@@match.spenden.gp.who">Was haben deine Großeltern beruflich gemacht?</label>
   <input type="text" id="who" formControlName="who">
@@ -19,5 +18,5 @@
 
   <label for="specialMemory" i18n="@@match.spenden.gp.specialMemory">Besondere Erinnerungen?</label>
   <input type="text" id="specialMemory" formControlName="specialMemory"/>
-  <button [disabled]="form.invalid" (click)="update()">Add Grandparents</button>>
+  <button [disabled]="form.invalid" (click)="update()">Add Grandparents</button>
 </div>

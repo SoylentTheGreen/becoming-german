@@ -1,26 +1,25 @@
-<div class="textheading" i18n="@@match.spenden.party.heading">Kindergeburtstag</div>
-<div class="options">
+<div class="options" [formGroup]="form">
   <label for="likeParty"i18n="@@match.spenden.party.likeParty">Warst Du gerne auf Kindergeburtstagen / Partys? (dropdown)</label>
-  <input type="text" id="likeParty" />
+  <input type="text" id="likeParty" formControlName="likeParty" />
 
   <label for="reason"i18n="@@match.spenden.party.reason">Warum war das so?</label>
-  <input type="text" id="reason" />
+  <input type="text" id="reason" formControlName="reason" />
 
   <label for="food" i18n="@@match.spenden.party.food">Was gab's dort meistens zum Essen?</label>
-  <input type="text" id="food" />
+  <input type="text" id="food" formControlName="food" />
 
   <label for="favoriteFood" i18n="@@match.spenden.party.favoriteFood">Was war Dein Lieblingsessen?</label>
-  <input type="text" id="favoriteFood" />
+  <input type="text" id="favoriteFood" formControlName="favoriteFood" />
 
   <label for="game" i18n="@@match.spenden.party.game">Was habt Ihr gespielt?</label>
-  <input type="text" id="game" />
+  <input type="text" id="game" formControlName="game" />
 
   <label for="favoriteGame" i18n="@@match.spenden.party.favoriteGame">Welches Spiel hast Du am liebsten gespielt?</label>
-  <input type="text" id="favoriteGame" />
+  <input type="text" id="favoriteGame" formControlName="favoriteGame" />
 
   <label for="worstGame" i18n="@@match.spenden.party.worstGame">... und welches überhaupt nicht?</label>
-  <input type="text" id="worstGame" />
+  <input type="text" id="worstGame" formControlName="worstGame" />
 
   <label for="specialMemory" i18n="@@match.spenden.party.specialMemory">Besondere Erinnerungen?</label>
-  <input type="text" id="specialMemory" />
+  <input type="text" id="specialMemory" formControlName="specialMemory" />
 </div>

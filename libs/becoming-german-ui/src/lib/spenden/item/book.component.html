@@ -1,27 +1,27 @@
-<div class="textheading" i18n="@@match.spenden.book.heading">Lieblingsbuch</div>
-<div class="options">
+<div class="options" [formGroup]="form">
   <label for="title"i18n="@@match.spenden.book.title">Welches war Dein Lieblingsbuch als Kind?</label>
-  <input type="text" id="title" />
+  <input type="text" id="title" formControlName="title" />
 
   <label for="author"i18n="@@match.spenden.book.author">Von wem ist das Buch?</label>
-  <input type="text" id="author" />
+  <input type="text" id="author" formControlName="author" />
 
   <label for="character1" i18n="@@match.spenden.book.character1">Lieblingsfiguren in dem Buch? (two character fields)</label>
-  <input type="text" id="character1" />
+  <input type="text" id="character1" formControlName="character1" />
+  <input type="text" id="character2" formControlName="character2" />
 
   <label for="synopsis" i18n="@@match.spenden.book.synopsis">Worum ging es in diesem Buch?</label>
-  <input type="text" id="synopsis" />
+  <input type="text" id="synopsis" formControlName="synopsis" />
 
-  <label for="reason" i18n="@@match.spenden.book.reason">Warum war es Dein Lieblingsbuch?</label>
-  <input type="text" id="reason" />
+  <label for="whyFavorite" i18n="@@match.spenden.book.whyFavorite">Warum war es Dein Lieblingsbuch?</label>
+  <input type="text" id="whyFavorite" formControlName="whyFavorite" />
 
   <label for="howItInfluenced" i18n="@@match.spenden.book.howItInfluenced">Wie hat das Buch deinen Alltag beeinflusst?</label>
-  <input type="text" id="howItInfluenced" />
+  <input type="text" id="howItInfluenced" formControlName="howItInfluenced" />
 
   <label for="readBy" i18n="@@match.spenden.book.readBy">Selber gelesen oder vorgelesen bekommen? (this is a dropdown list)</label>
-  <input type="text" id="readBy" /> 
+  <input type="text" id="readBy" formControlName="readBy" /> 
 
-  <label for="ageWhenImportant" i18n="@@match.spenden.book.ageWhenImportant">Wie alt warst Du ungefähr, als es für Dich wichtig 
+  <label for="ageWhenRead" i18n="@@match.spenden.book.ageWhenRead">Wie alt warst Du ungefähr, als es für Dich wichtig 
     war?</label>
-  <input type="text" id="ageWhenImportant" />
+  <input type="text" id="ageWhenRead" formControlName="ageWhenRead" />
 </div>

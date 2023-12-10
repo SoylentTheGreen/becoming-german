@@ -1,25 +1,24 @@
-<div class="textheading" i18n="@@match.spenden.audiobook.heading">Lieblings Hörbuch</div>
-<div class="options">
+<div class="options" [formGroup]="form">
   <label for="title"i18n="@@match.spenden.audiobook.title">Hattest Du eine Lieblingshörbuch (oder 
     eine Lieblingsmärchenkassette) als Kind? Wie hieß es?</label>
-  <input type="text" id="title" />
+  <input type="text" id="title" formControlName="title" />
 
   <label for="author"i18n="@@match.spenden.audiobook.author">Von wem war es geschrieben?</label>
-  <input type="text" id="author" />
+  <input type="text" id="author" formControlName="author" />
 
-  <label for="theme" i18n="@@match.spenden.audiobook.theme">Gab's eine Titelmelodie? Wie ging's? Kannst Du das aufschreiben?</label>
-  <input type="text" id="theme" />
+  <label for="themeMusic" i18n="@@match.spenden.audiobook.themeMusic">Gab's eine Titelmelodie? Wie ging's? Kannst Du das aufschreiben?</label>
+  <input type="text" id="theme" formControlName="themeMusic" />
 
   <label for="synopsis" i18n="@@match.spenden.audiobook.synopsis">Was für eine Geschichte oder Geschichten waren es?</label>
-  <input type="text" id="synopsis" />
+  <input type="text" id="synopsis" formControlName="synopsis" />
 
   <label for="reason" i18n="@@match.spenden.audiobook.reason">Was war das Besondere daran?</label>
-  <input type="text" id="reason" />
+  <input type="text" id="reason" formControlName="reason" />
 
   <label for="listeningSituation" i18n="@@match.spenden.audiobook.listeningSituation">In welcher Situation und wie hast du es immer gehört?</label>
-  <input type="text" id="listeningSituation" />
+  <input type="text" id="listeningSituation" formControlName="listeningSituation" />
 
   <label for="ageWhenImportant" i18n="@@match.spenden.audiobook.ageWhenImportant">Wie alt warst Du ungefähr, als es für Dich wichtig 
     war?</label>
-  <input type="text" id="ageWhenImportant" />
+  <input type="text" id="ageWhenImportant" formControlName="ageWhenImportant" />
 </div>
