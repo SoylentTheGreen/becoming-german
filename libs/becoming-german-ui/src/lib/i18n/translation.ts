@@ -30,7 +30,7 @@ export type LiteralPropertiesRecord<T> = {
   [K in keyof T]: T[K] extends string ? Record<T[K], string> : string;
 };
 export const siblings: LiteralTranslation<SiblingState> = {
-  none: $localize`:@@childhood.siblings.none:keine`,
+  none: $localize`:@@childhood.siblings.no:keine`,
   one: $localize`:@@childhood.siblings.one:eins`,
   two: $localize`:@@childhood.siblings.two:zwei`,
   three: $localize`:@@childhood.siblings.three:drei`,
@@ -45,11 +45,11 @@ export const germanState: LiteralTranslation<GermanState> = {
   BW: $localize`:@@germany.state.bw:Baden-Württemberg`,
   BY: $localize`:@@germany.state.by:Bayern`,
   HB: $localize`:@@germany.state.hb:Bremen`,
-  HE: $localize`:@@germany.state.he:Hesse`,
+  HE: $localize`:@@germany.state.he:Hessen`,
   HH: $localize`:@@germany.state.hh:Hamburg`,
   MV: $localize`:@@germany.state.mv:Mecklenburg-Vorpommern`,
   NI: $localize`:@@germany.state.ni:Niedersachsen`,
-  NW: $localize`:@@germany.state.nw:Nordrhinewestfalen`,
+  NW: $localize`:@@germany.state.nw:Nordrhein-Westfalen`,
   RP: $localize`:@@germany.state.rp:Rhinelandpfalz`,
   SH: $localize`:@@germany.state.sh:Schleswig-Holstein`,
   SL: $localize`:@@germany.state.sl:Saarland`,
@@ -84,9 +84,9 @@ const dwellingSituation: LiteralTranslation<DwellingSituation> = {
 };
 
 const gender: LiteralTranslation<Gender> = {
-  female: $localize`:@@gender.female:Weiblich`,
-  male: $localize`:@@gender.male:Männlich`,
-  diverse: $localize`:@@gender.diverse:Divers`,
+  female: $localize`:@@gender.female:weiblich`,
+  male: $localize`:@@gender.male:männlich`,
+  diverse: $localize`:@@gender.diverse:divers`,
 };
 
 const moves: LiteralTranslation<HomeMoves> = {
