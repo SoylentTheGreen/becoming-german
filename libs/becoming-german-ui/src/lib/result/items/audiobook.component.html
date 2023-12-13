@@ -1,7 +1,7 @@
 <ng-container *ngIf="item as audiobook">
   <div i18n="@@match.audiobook.heading" class="heading">Dein Lieblingshörbuch:</div>
   <div class="item">
-    <span class="data"> {{audiobook.title }}</span>
+    <span class="data"> {{audiobook.title }} </span>
     <span i18n="@@match.audiobook.by" *ngIf="audiobook.author">von</span>
     <span class="data"> {{audiobook.author}}</span>
   </div>
