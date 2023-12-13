@@ -3,12 +3,14 @@
   flex-direction: column;
   gap: 2rem;
   max-width: 100%;
+  width: 100%;
 }
 
 .secondary-nav {
   display: flex;
   flex-wrap: wrap;
   justify-items: stretch;
+  gap: 1rem;
 
   a {
     flex-grow: 1;
