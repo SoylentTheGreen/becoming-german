@@ -10,7 +10,7 @@
 
 <div class="profile results" *ngIf="translated | async as profile">
   <div class="result-item">
-    <div class="heading">Dein Profil:</div>
+    <div class="heading" i18n="@@result.profil">Dein Profil:</div>
     <div class="item">
       Du bist <span class="data">{{ profile('gender') }}</span> und Jahrgang
       <span class="data">{{ profile('birthYear') }}</span>. <br />
