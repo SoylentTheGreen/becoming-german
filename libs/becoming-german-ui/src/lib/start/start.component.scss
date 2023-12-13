@@ -1,18 +1,31 @@
 :host {
+  align-self: center;
   display: flex;
   flex-direction: column;
-  padding-top: 2rem;
-}
-.teaser a {
 
+  padding-top: 2rem;
+  gap: 5rem;
+  flex: 1;
+}
+
+a {
   font-style: italic;
   text-decoration: none;
 }
 
-.teaser.spenden a {
+.teaser {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  span {
+
+  }
+}
+
+.spenden  {
   color: red;
 }
 
-.teaser.empfangen a {
+.empfangen {
   color: green;
 }

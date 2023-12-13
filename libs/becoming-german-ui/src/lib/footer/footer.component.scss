@@ -1,14 +1,15 @@
-:host {
+
+.footer {
   position: relative;
   display: grid;
   width: 100%;
-  justify-content: end;
+
   grid-template-columns: 1fr 5rem auto 1rem auto 1rem;
-  grid-template-rows: 25% 25% 2rem auto;
+  grid-template-rows: 76px 53px 9px 16px;
   grid-template-areas:
             "... ... ... ... trl ..."
-            "... ... ... ... trl ..."
             "txt txt ... ... trl ..."
+            "... ... ... ... trl ..."
             "... att att ... trl ...";
 
 
@@ -19,11 +20,9 @@
     width: 100%;
     height: 40px;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -20%);
     z-index: -1;
   }
+
 
   /* Images overlayed on the lines */
   .text-img {
@@ -38,6 +37,37 @@
     grid-area: att;
     color: blue;
     font-style: italic;
+    align-self: flex-end;
+  }
+}
+
+@media (min-width: 475px) {
+  .footer {
+    height: 154px;
+  }
+  .lined-paper {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+  }
+}
+
+@media (max-width: 475px) {
+  .footer {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      "... ... ..."
+      "txt txt ..."
+      "... att att";
+    grid-template-rows: 7px 53px 1rem;
   }
 
+  .attribution {
+    align-self: center;
+  }
+  .trolly {
+    display: none
+  }
 }
+
+

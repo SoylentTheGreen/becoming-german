@@ -2,13 +2,15 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   margin: 0;
   padding: 1rem;
-  height: 100%;
+  flex: 1;
+  min-width: 375px;
 
   .content {
-    max-width: 100%;
+    flex: 1;
+    display: flex;
   }
 
   .bg_content {
@@ -16,7 +18,11 @@
   }
 
 
+  bgn-nav {
+    flex: none;
+  }
   bgn-footer {
+    flex: none;
     margin-top: auto;
   }
 }
