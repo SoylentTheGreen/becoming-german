@@ -34,10 +34,6 @@ export const appRoutes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
-  },
-  {
     path: '',
     component: StandardLayoutComponent,
     children: [

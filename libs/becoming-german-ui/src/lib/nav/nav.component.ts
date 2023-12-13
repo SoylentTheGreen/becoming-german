@@ -1,6 +1,4 @@
-import { Component, Inject, LOCALE_ID } from '@angular/core';
-import { Language } from '@becoming-german/model';
-import { I18n } from '../i18n';
+import { Component } from '@angular/core';
 
 const linkText: () => [string, string][] = () => [
   ['request', $localize`:@@nav-request:Empfangen`],
@@ -16,14 +14,4 @@ const linkText: () => [string, string][] = () => [
 })
 export class NavComponent {
   links = linkText();
-
-  constructor(
-    @Inject(LOCALE_ID) public localeId: string,
-    private i18n: I18n,
-  ) {}
-
-  async toggleLang() {
-    await this.i18n.setLocale(this.localeId === 'en' ? 'de' : 'en' );
-    location.reload();
-  }
 }

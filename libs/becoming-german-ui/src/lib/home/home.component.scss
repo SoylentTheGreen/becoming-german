@@ -1,8 +1,15 @@
-.container {
+:host {
     display: flex;
-    align-items: center;
-    justify-content: center; 
+    flex-direction: column;
+    justify-content: center;
     min-height: 100vh;
+    padding: 1rem;
+}
+
+.link {
+    text-decoration: underline;
+    cursor: pointer;
+    color: blue;
 }
 
 .startpage {
