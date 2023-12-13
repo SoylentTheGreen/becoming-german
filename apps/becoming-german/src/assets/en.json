@@ -3,7 +3,7 @@
   "translations": {
     "match.about.heading": "About",
     "match.about.concept": "Concept and Design",
-    "match.about.address": " Joanne Moar{$LINE_BREAK} Antoniastr. 3{$LINE_BREAK} 51105 Cologne{$LINE_BREAK}{$LINE_BREAK} Email: info[at]becoming-german.de {$LINE_BREAK}{$LINE_BREAK}",
+    "match.about.address": "Joanne Moar{$LINE_BREAK} Antoniastr. 3{$LINE_BREAK} 51105 Cologne{$LINE_BREAK}{$LINE_BREAK} Email: info[at]becoming-german.de {$LINE_BREAK}{$LINE_BREAK}",
     "match.about.programming": "Programming:",
     "match.about.creditsTitle": "Thank you for generous support from:{$LINE_BREAK}{$LINE_BREAK}",
     "match.about.khm": "Academy of Media Arts Cologne{$LINE_BREAK}",
