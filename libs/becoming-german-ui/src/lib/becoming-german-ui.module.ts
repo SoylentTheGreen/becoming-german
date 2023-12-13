@@ -34,13 +34,13 @@ export const appRoutes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'start',
+    component: StartComponent,
+  },
+  {
     path: '',
     component: StandardLayoutComponent,
     children: [
-      {
-        path: 'start',
-        component: StartComponent,
-      },
       {
         path: 'project',
         loadChildren: () => import('./project/project.module').then((m) => m.ProjectModule),
