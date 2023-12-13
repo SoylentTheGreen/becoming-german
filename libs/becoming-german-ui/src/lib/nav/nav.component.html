@@ -3,9 +3,9 @@
   <div class="line line2"></div>
   <div class="line line3"></div>
 </div>
-
+<div class="current">{{current}}</div>
 <nav>
-  <a routerLink="/start">
+  <a routerLink="/">
     <img [ngSrc]="'../assets/pix/header/home_2.png'" alt="Home" i18n-alt="@@nav.home.alt" height="25" width="35">
   </a>
   <a class="lolly-link" [class]="link[0]" *ngFor="let link of links" routerLink="/{{link[0]}}"

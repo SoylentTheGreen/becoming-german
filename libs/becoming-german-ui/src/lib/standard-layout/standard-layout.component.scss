@@ -6,6 +6,10 @@
   margin: 0;
   flex: 1;
   min-width: 375px;
+  padding: 0.5rem 0;
+  @media (max-width: 720px) {
+    padding-top: 0;
+  }
 
   .content {
     flex: 1;

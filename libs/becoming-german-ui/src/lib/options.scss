@@ -1,0 +1,23 @@
+.options {
+  width: 100%;
+  input,
+  select {
+    padding: 0.2rem;
+  }
+  padding: 1rem 0;
+}
+@media (min-width: 720px) {
+  .options {
+    display: grid;
+    grid-template-columns: 40% auto;
+    grid-row-gap: 1rem;
+  }
+}
+@media (max-width: 720px) {
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 0.5rem;
+  }
+}

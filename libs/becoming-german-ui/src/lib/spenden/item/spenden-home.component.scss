@@ -1,3 +1,10 @@
+@import "../../options";
+:host {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
 .collapsible {
   width: 100%;
 
@@ -19,14 +26,3 @@
   }
 }
 
-.options {
-  max-width: 100%;
-  width: 100%;
-  display: grid;
-  grid-template-columns: max-content min-content;
-  grid-gap: 1rem;
-  input,
-  select {
-    padding: 0.2rem;
-  }
-}

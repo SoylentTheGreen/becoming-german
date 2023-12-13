@@ -1,15 +1,19 @@
 @import "lolly-link";
 
+@mixin bg {
+  background-color: hsl(204, 8%, 96%);
+}
+
 :host {
   display: flex;
   max-width: 100%;
   z-index: 1000;
-  //@media only screen and (max-width: 720px) {
   height: 2rem;
-
   width: 100%;
   position: sticky;
   top: 0;
+  border-bottom: 2px solid lightgreen;
+  padding-right: 0.5rem;
 
   a {
     font-style: italic;
@@ -17,11 +21,18 @@
     text-decoration: none;
   }
 
+  .current {
+    display:none;
+    position: absolute;
+    right: 0.2rem;
+    bottom: 0;
+    color: blue;
+  }
 
   .hamburger {
     display: none;
     position: absolute;
-    top: 5px;
+    top: 3px;
     left: 15px;
     height: 23px;
     width: 35px;
@@ -84,39 +95,53 @@
     justify-content: flex-end;
   }
 
-  @media (max-width: 720px) {
-   .hamburger{
-     display: flex;
-   }
-  nav {
-    padding-top: 40px;
-    transition: width 0.4s ease-in-out;
-    top: 0;
-    bottom: 0;
-    left: 10rem;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
-    background-color: hsl(204, 8%, 96%);
-    gap: 2rem;
-    min-height: 100vh;
-    width: 0;
-    overflow: hidden;
-
-
-    a.active, a:hover {
-      text-decoration: underline;
-      transform: scale(1.02);
-    }
-
-    a {
-      padding-right: 1rem;
-      white-space: nowrap;
-      .ball {
-        display: none;
+  @media (min-width: 720px) {
+    nav {
+      a:first-child {
+        margin-right: auto;
       }
     }
   }
+
+  @media (max-width: 720px) {
+    .current {
+      display: block;
+
+    }
+    @include bg;
+    .hamburger {
+      display: flex;
+    }
+    nav {
+      padding-top: 40px;
+      transition: width 0.4s ease-in-out;
+      top: 0;
+      bottom: 0;
+      left: 10rem;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-end;
+      @include bg;
+      gap: 2rem;
+      min-height: 100vh;
+      width: 0;
+      overflow: hidden;
+
+
+      a.active, a:hover {
+        text-decoration: underline;
+        transform: scale(1.02);
+      }
+
+      a {
+        padding-right: 1rem;
+        white-space: nowrap;
+
+        .ball {
+          display: none;
+        }
+      }
+    }
 
   }
 
@@ -144,3 +169,5 @@
   //  }
   //}
 }
+
+
