@@ -108,7 +108,7 @@
     "wanderschaft.wanderschaft": "On the Road",
     "request.image.alt": "Receive a German childhood",
     "request.donate.or.text": "... or would you rather donate?",
-    "request.intro": "Would you like to recreate a childhood in Germany and make the memories your own? Fill out this form and receive childhood memories from Germany based on your details.",
+    "request.intro": "Would you like to recreate a childhood in Germany and make the memories your own? Fill out this form and receive childhood memories from Germany based on who you are.",
     "result.profil": "Your profile:",
     "result.east-west": "{$START_LINK}East German Memories{$CLOSE_LINK} | {$START_LINK}West German Memories{$CLOSE_LINK}",
     "result.profile-details": "You are {$START_TAG_SPAN}{$INTERPOLATION}{$CLOSE_TAG_SPAN} and were born in {$START_TAG_SPAN}{$INTERPOLATION_1}{$CLOSE_TAG_SPAN}. {$LINE_BREAK} You are {$START_TAG_SPAN}{$INTERPOLATION_2}{$CLOSE_TAG_SPAN}, you have {$START_TAG_SPAN}{$INTERPOLATION_3}{$CLOSE_TAG_SPAN} siblings and you grew up with {$START_TAG_SPAN}{$INTERPOLATION_4}{$CLOSE_TAG_SPAN}. {$LINE_BREAK} When you were a child you moved {$START_TAG_SPAN}{$INTERPOLATION_5}{$CLOSE_TAG_SPAN}. ",
