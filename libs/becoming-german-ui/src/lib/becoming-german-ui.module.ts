@@ -25,22 +25,21 @@ import { StartComponent } from './start/start.component';
 import { SpendenHomeComponent } from './spenden/item/spenden-home.component';
 import { SpendenItemComponent } from './spenden/item/spenden-item.component';
 import { SpendenDankeComponent } from './spenden/item/spenden-danke.component';
-import { OptionsComponent } from './form/options.component';
-
 
 export const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
   },
-  {
-    path: 'start',
-    component: StartComponent,
-  },
+
   {
     path: '',
     component: StandardLayoutComponent,
     children: [
+      {
+        path: 'start',
+        component: StartComponent,
+      },
       {
         path: 'project',
         loadChildren: () => import('./project/project.module').then((m) => m.ProjectModule),

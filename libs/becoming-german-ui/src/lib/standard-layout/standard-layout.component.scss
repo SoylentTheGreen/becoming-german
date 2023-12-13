@@ -4,13 +4,16 @@
   flex-direction: column;
   gap: 1rem;
   margin: 0;
-  padding: 1rem;
   flex: 1;
   min-width: 375px;
 
   .content {
     flex: 1;
     display: flex;
+    align-items: stretch;
+    padding: 2rem 1rem 1rem;
+    position: relative;
+    overflow-x: hidden;
   }
 
   .bg_content {
@@ -21,6 +24,7 @@
   bgn-nav {
     flex: none;
   }
+
   bgn-footer {
     flex: none;
     margin-top: auto;

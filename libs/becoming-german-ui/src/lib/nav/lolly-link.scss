@@ -1,0 +1,34 @@
+    .lolly-link {
+      display: flex;
+      justify-self: flex-end;
+      align-items: center;
+      /*font-size: 1rem;*/
+      gap: 1rem;
+      padding-left: 2.5rem;
+
+      .ball {
+        /* red lolly */
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        display: inline-block;
+        background: radial-gradient(circle at 15% 50%, rgba(255, 0, 0, 0.8) 1px, red 3%, darkred 60%, red 100%);
+
+        &::before {
+          /*green stick*/
+          content: '';
+          display: inline-block;
+          width: 2rem; //stick length
+          height: 0.2rem;
+          transform: translate(-1.8rem, -0.5rem); // (horizontal position, vertical position)
+          background-image: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), lightgreen, rgba(0, 255, 0, 0.1));
+        }
+      }
+
+      &.active,
+      &:hover {
+        .ball {
+          transform: rotate(270deg);
+        }
+      }
+    }

@@ -1,11 +1,14 @@
 :host {
   display: flex;
-  height: 100%;
-  width: 100%;
-  .main {
-    max-width: 720px;
-    display: flex;
-  }
+  width: 100vw;
+  max-width: 100%;
   align-items: stretch;
   justify-content: center;
+  min-height: 100%;
+  position: relative;
+  .main {
+    max-width: 720px;
+    width: 100%;
+    display: flex;
+  }
 }

@@ -76,8 +76,6 @@ const optionFields = getF(childhoodProfileTranslations);
   templateUrl: './spenden-home.component.html',
   styleUrls: [
     './spenden-home.component.scss',
-    '../../start/start.component.scss',
-    '../../request/request.component.scss',
   ],
 })
 export class SpendenHomeComponent implements OnDestroy, AfterContentInit {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 const linkText: () => [string, string][] = () => [
   ['request', $localize`:@@nav-request:Empfangen`],
@@ -14,4 +14,6 @@ const linkText: () => [string, string][] = () => [
 })
 export class NavComponent {
   links = linkText();
+  @HostBinding('class.open')
+  open = false;
 }
