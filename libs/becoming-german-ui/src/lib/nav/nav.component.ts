@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, HostListener } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { pipe } from 'fp-ts/function';
@@ -10,7 +10,7 @@ const linkText: () => [string, string][] = () => [
   ['project', $localize`:@@nav-project:Projekt-Infos`],
   ['about', $localize`:@@nav-about:Impressum`],
 ];
-const regex = /\/([^\/]*)\/?/;
+const regex = /\/([^/]*)\/?/;
 const parseUrl = (e: NavigationEnd): string => {
   return pipe(
     e.urlAfterRedirects.match(regex),
@@ -31,6 +31,8 @@ const parseUrl = (e: NavigationEnd): string => {
 })
 export class NavComponent {
   links = linkText();
+
+
   @HostBinding('class.open')
   open = false;
   current = '';
@@ -42,4 +44,18 @@ export class NavComponent {
     .subscribe((r) => (this.current = r));
 
   constructor(private router: Router) {}
+
+  @HostListener('document:click')
+  anyClick() {
+    console.log('document was clicked');
+    this.open = false;
+  }
+
+
+  openMenu($event: MouseEvent) {
+
+    $event.stopPropagation();
+    console.log('wtf')
+    this.open = !this.open;
+  }
 }

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'bgn-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss','../../standard-layout/standard-layout.component.scss'],
+  styleUrls: ['./info.component.scss'],
 })
-export class InfoComponent {}
+export class InfoComponent {
+  constructor(@Inject(LOCALE_ID) public locale: string) {}
+}
