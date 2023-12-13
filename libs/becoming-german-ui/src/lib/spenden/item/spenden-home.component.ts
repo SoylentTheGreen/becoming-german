@@ -11,53 +11,6 @@ import { UUID } from 'io-ts-types';
 import { pipe } from 'fp-ts/function';
 import * as TE from 'fp-ts/TaskEither';
 
-const testData = {
-  legacyId: null,
-  situation: {
-    gender: 'female',
-    bedroomSituation: 'brother',
-    moves: '2',
-    favoriteColor: 'asdfa',
-    parents: 'mother',
-    siblingPosition: 'middle',
-    germanState: 'NW',
-    birthYear: 1971,
-    dwellingSituation: 'small_town',
-    siblings: 'two',
-    hobby: 'asdasf',
-  },
-  profile: {
-    de: {
-      memory: null,
-      party: null,
-      favoriteColor: 'Cerulean',
-      book: null,
-      dwellingSituationComment: null,
-      hobby: null,
-      softToy: null,
-      song: null,
-      hatedFood: 'Brussel sprouts',
-      holidays: null,
-      grandparents: null,
-      audioBook: null,
-    },
-    en: {
-      memory: null,
-      party: null,
-      favoriteColor: null,
-      book: null,
-      dwellingSituationComment: null,
-      hobby: null,
-      softToy: null,
-      song: null,
-      hatedFood: null,
-      holidays: null,
-      grandparents: null,
-      audioBook: null,
-    },
-  },
-};
-
 const getF =
   <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
   (
@@ -78,7 +31,7 @@ const optionFields = getF(childhoodProfileTranslations);
     './spenden-home.component.scss',
   ],
 })
-export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
+export class SpendenHomeComponent implements OnDestroy {
   form = this.fb.group({
     ...fpFormGroup({ id: UUID }),
     situation: this.fb.group(fpFormGroup(ChildhoodSituationC.props)),
@@ -158,10 +111,6 @@ export class SpendenHomeComponent implements OnDestroy, AfterContentInit {
   reset() {
     this.service.resetInput();
     this.form.reset();
-  }
-
-  ngAfterContentInit(): void {
-    this.form.patchValue(testData as any);
   }
 
   yearOnly(event: KeyboardEvent, currentValue: string | null) {
