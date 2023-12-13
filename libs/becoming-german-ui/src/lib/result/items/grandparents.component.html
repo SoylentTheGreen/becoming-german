@@ -1,8 +1,8 @@
 <div class="result-item" *ngIf="item as gp">
   <div class="heading" i18n="@@match.grandparents.heading">Deine Großeltern:</div>
   <div class="item" *ngIf="gp.who">
-    <span i18n="@@match.grandparents.who">Deine Großeltern waren</span>:
-    <span class="data">{{ gp.who }}</span>
+    <span i18n="@@match.grandparents.who">Deine Großeltern waren:</span>
+    <span class="data"> {{ gp.who }}</span>
   </div>
   <div class="item" *ngIf="gp.didYouMeet">
     <span i18n="@@match.grandparents.didYouMeet">Hast Du die kennengelernt?</span>
@@ -13,11 +13,11 @@
     <span class="data"> {{ gp.getOn }}</span>
   </div>
   <div class="item" *ngIf="gp.activity">
-    <span i18n="@@match.grandparents.activity">Wenn ihr euch gesehen habt, habt ihr folgendes gemacht</span>: <br />
+    <span i18n="@@match.grandparents.activity">Wenn ihr euch gesehen habt, habt ihr folgendes gemacht:</span> <br />
     <span class="data"> {{ gp.activity }}</span>
   </div>
   <div class="item" *ngIf="gp.smell">
-    <span i18n="@@match.grandparents.smell">Der Geruch, den Du mit Deinen Großeltern verbindest ist</span>: <br />
+    <span i18n="@@match.grandparents.smell">Der Geruch, den Du mit Deinen Großeltern verbindest ist:</span> <br />
     <span class="data"> {{ gp.smell }}</span>
   </div>
   <div class="item" *ngIf="gp.association">

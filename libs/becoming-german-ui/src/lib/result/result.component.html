@@ -1,30 +1,34 @@
 <div class="intro spenden teaser">
-  <img [ngSrc]="'../assets/pix/header/kindheit_empfangen_DE.png'" alt="Kindheit Empfangen" i18n-alt="@@request.image.alt"
-       height="58" width="397">
+  <img
+    [ngSrc]="'../assets/pix/header/kindheit_empfangen_DE.png'"
+    alt="Kindheit Empfangen"
+    i18n-alt="@@request.image.alt"
+    height="58"
+    width="397"
+  />
   <!--<a routerLink="../spenden" i18n="@@request.donate.or.text">... oder doch lieber spenden?</a>-->
 </div>
 
-<div>
-  <a>Ostdeutsche Erinnerungen</a> | <a>Westdeutsche Erinnerungen</a>
-</div>
+<div i18n="@@result.east-west"><a>Ostdeutsche Erinnerungen</a> | <a>Westdeutsche Erinnerungen</a></div>
 
 <div class="profile results" *ngIf="translated | async as profile">
   <div class="result-item">
     <div class="heading" i18n="@@result.profil">Dein Profil:</div>
-    <div class="item">
+    <div class="item" i18n="@@result.profile-details">
       Du bist <span class="data">{{ profile('gender') }}</span> und Jahrgang
-      <span class="data">{{ profile('birthYear') }}</span>. <br />
+      <span class="data">{{ profile('birthYear') }}</span
+      >. <br />
       Du bist <span class="data">{{ profile('siblingPosition') }}</span
       >, hast <span class="data">{{ profile('siblings') }}</span> Geschwister und bist
       <span class="data">{{ profile('parents') }}</span> aufgewachsen. <br />
       Während deiner Kindheit bist du <span class="data">{{ profile('moves') }}</span> umgezogen.
     </div>
-    <div *ngIf="profile('hobby')">
+    <div *ngIf="profile('hobby')" i18n="@@result.hobby">
       Dein Lieblingshobby als Kind war <span class="data">{{ profile('hobby') }}</span
       >.
-      <div *ngIf="profile('favoriteColor')">
-        Deine Lieblingsfarbe war <span class="data">{{ profile('favoriteColor') }}.</span>
-      </div>
+    </div>
+    <div *ngIf="profile('favoriteColor')" i18n="@@result.favoriteColor">
+      Deine Lieblingsfarbe war <span class="data">{{ profile('favoriteColor') }}.</span>
     </div>
   </div>
 
@@ -47,4 +51,4 @@
   </div>
 </div>
 
-<div class="back"><a routerLink="/request">Nochmal probieren?</a></div>
+<div class="back" i18n="@@result.again"><a routerLink="/request">Nochmal probieren?</a></div>
