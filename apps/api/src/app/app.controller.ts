@@ -103,7 +103,6 @@ export class AppController {
       TE.chain((profile) => this.service.findMatchingItem(profile)),
       TE.toUnion
     )();
-    console.log(res);
     return res;
   }
 

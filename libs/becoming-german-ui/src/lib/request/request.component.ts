@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ChildhoodProfile, ChildhoodProfileC, MatchingProfileRequestC } from '@becoming-german/model';
+import { MatchingProfileRequestC } from '@becoming-german/model';
 import { firstValueFrom, Subject } from 'rxjs';
 import { isRight } from 'fp-ts/Either';
 import { PersonService } from '../person.service';
@@ -9,7 +9,7 @@ import { v4 as uuid } from 'uuid';
 import { fpFormGroup } from '@becoming-german/tools';
 import { pipe } from 'fp-ts/function';
 import * as R from 'fp-ts/Record';
-import { getLabel, getOptions, labels } from '../i18n/translation';
+import { getLabel } from '../i18n/translation';
 
 @Component({
   selector: 'bgn-request',
@@ -17,8 +17,8 @@ import { getLabel, getOptions, labels } from '../i18n/translation';
   styleUrls: ['./request.component.scss'],
 })
 export class RequestComponent implements OnDestroy {
-  val: ChildhoodProfile = pipe(
-    ChildhoodProfileC.props,
+  val = pipe(
+    MatchingProfileRequestC.props,
     R.map(() => null),
   );
   form = this.fb.group(fpFormGroup(MatchingProfileRequestC.props));
@@ -31,22 +31,19 @@ export class RequestComponent implements OnDestroy {
     private fb: FormBuilder,
     private service: PersonService,
     private router: Router,
-  ) {
-    this.subscription.add(this.form.valueChanges.subscribe(console.log))
-  }
+  ) {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   async doUpdate() {
-    const result = MatchingProfileRequestC.decode({ ...this.form.getRawValue(), id: uuid() });
+    const result = MatchingProfileRequestC.decode({ ...this.form.getRawValue(), id: uuid(), eastOnly: false });
 
     if (isRight(result)) {
       this.service.findProfile(result.right);
 
       const output = await firstValueFrom(this.service.matchingProfile);
-      console.log(output);
       await this.router.navigate(['request', 'result']);
     }
   }

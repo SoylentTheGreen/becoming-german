@@ -47,7 +47,6 @@ export class NavComponent {
 
   @HostListener('document:click')
   anyClick() {
-    console.log('document was clicked');
     this.open = false;
   }
 
@@ -55,7 +54,6 @@ export class NavComponent {
   openMenu($event: MouseEvent) {
 
     $event.stopPropagation();
-    console.log('wtf')
     this.open = !this.open;
   }
 }

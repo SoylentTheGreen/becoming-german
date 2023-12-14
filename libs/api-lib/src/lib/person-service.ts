@@ -94,7 +94,6 @@ export class PersonService {
   async addQuarantined(ids: number[]) {
     const conn = await this.pool.getConnection();
     const sql = conn.format(`UPDATE tbl_german_person SET isQuarantined=1 WHERE id in (?)`, [ids]);
-    console.log(sql);
     const [upResult] = await conn.execute(sql);
 
     console.warn(upResult['changedRows'], 'entries in german_person quarantined', ids);
@@ -105,7 +104,6 @@ export class PersonService {
     try {
       if (this.totalRows.getValue() === 0) this.totalRows.next((await conn.execute(countPersonSql))[0][0]['total']);
       const sql = getNormalizePersonSql(offset, limit);
-      console.log(sql);
       const res = pipe(await conn.execute(sql), (r) => r[0] as unknown[], A.partitionMap(processNormalizedPerson));
       conn.release();
       return {
@@ -229,7 +227,6 @@ export type MatchRow = {
 };
 
 const processMatchingItem = (rows: MatchRow[]): Either<Error, MatchingItems> => {
-  console.log(JSON.stringify(rows, undefined, 2));
   return pipe(
     rows,
     A.map((r) => r.jsonItem),

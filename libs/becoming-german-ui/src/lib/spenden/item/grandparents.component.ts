@@ -6,7 +6,6 @@ import { PersonService } from '../../person.service';
 import { flow, pipe } from 'fp-ts/function';
 import * as E from 'fp-ts/Either';
 import * as TE from 'fp-ts/TaskEither';
-export const tap = <T>(v: T): T => {console.log(v); return v;}
 @Component({
   selector: 'bgn-grandparents',
   templateUrl: './grandparents.component.html',
@@ -25,7 +24,7 @@ export class GrandparentsComponent {
       this.form.getRawValue(),
       TE.of,
       TE.chainW((v) => this.form.invalid ? TE.left(new Error('form not valid')) : TE.right(v)),
-      TE.chainW(flow(Grandparents.decode, tap, TE.fromEither)),
+      TE.chainW(flow(Grandparents.decode, TE.fromEither)),
       TE.chainW((v) => this.service.addItem('grandparents', v)),
     )();
 

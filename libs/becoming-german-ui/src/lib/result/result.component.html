@@ -9,7 +9,16 @@
   <!--<a routerLink="../spenden" i18n="@@request.donate.or.text">... oder doch lieber spenden?</a>-->
 </div>
 
-<div i18n="@@result.east-west"><a>Ostdeutsche Erinnerungen</a> | <a>Westdeutsche Erinnerungen</a></div>
+<div class="link"
+     *ngIf="(request | async)?.eastOnly === false"
+     (click)="toggleEastWest()"
+     i18n="@@result.east">Zur Ostdeutsche Erinnerungen wechseln
+</div>
+<div class="link"
+     *ngIf="(request | async)?.eastOnly === true"
+     (click)="toggleEastWest()"
+     i18n="@@result.west">Zur Westdeutsche Erinnerungen wechseln
+</div>
 
 <div class="profile results" *ngIf="translated | async as profile">
   <div class="result-item">
@@ -19,13 +28,13 @@
       <span class="data">{{ profile('birthYear') }}</span
       >. <br />
       Du bist <span class="data">{{ profile('siblingPosition') }}</span
-      >, hast <span class="data">{{ profile('siblings') }}</span> Geschwister und bist
+    >, hast <span class="data">{{ profile('siblings') }}</span> Geschwister und bist
       <span class="data">{{ profile('parents') }}</span> aufgewachsen. <br />
       Während deiner Kindheit bist du <span class="data">{{ profile('moves') }}</span> umgezogen.
     </div>
     <div *ngIf="profile('hobby')" i18n="@@result.hobby">
       Dein Lieblingshobby als Kind war <span class="data">{{ profile('hobby') }}</span
-      >.
+    >.
     </div>
     <div *ngIf="profile('favoriteColor')" i18n="@@result.favoriteColor">
       Deine Lieblingsfarbe war <span class="data">{{ profile('favoriteColor') }}.</span>

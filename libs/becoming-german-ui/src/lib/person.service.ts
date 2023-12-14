@@ -35,7 +35,9 @@ import { none, Option, some } from 'fp-ts/Option';
 import * as E from 'fp-ts/Either';
 import * as R from 'fp-ts/Record';
 import * as TE from 'fp-ts/TaskEither';
-import { mapOneOrManyArgs } from 'rxjs/internal/util/mapOneOrManyArgs';
+import { Lens } from 'monocle-ts';
+
+const eastOnlyLens = Lens.fromNullableProp<MatchingProfileRequest>()('eastOnly', false);
 
 const decodeResultToOption =
   <T, O>(codec: t.Type<T, O>) =>
@@ -82,10 +84,11 @@ export class PersonService {
   );
 
 
-  requestProfile = this.matchingProfileInput.pipe(
+  requestProfile: Observable<MatchingProfileRequest> = this.matchingProfileInput.pipe(
     map(flow(MatchingProfileRequestC.decode)),
     filter(E.isRight),
     map((e) => e.right),
+    shareReplay(1),
   );
 
   spendenProfile = this.matchingProfileInput.pipe(
@@ -107,6 +110,12 @@ export class PersonService {
 
   findProfile(req: Nullable<MatchingProfileRequest>) {
     this.matchingProfileInput.next(req);
+  }
+
+  async toggleEastWest() {
+    const current = await firstValueFrom(this.requestProfile);
+    const newProfile = eastOnlyLens.modify(v => !v)(current);
+    this.findProfile(newProfile);
   }
 
   resetInput() {

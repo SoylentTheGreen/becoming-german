@@ -1,10 +1,11 @@
 import * as t from 'io-ts';
 import {
   ChildhoodSituation,
-  ChildhoodSituationC,
-  Item, items,
+  ChildhoodSituationC, germanStates, germanStateType,
+  Item,
+  items,
   ItemToggleValue,
-  MatchingProfileRequest,
+  MatchingProfileRequest, stateIsEast,
 } from '@becoming-german/model';
 import { fMapping } from './field-mapping';
 import {
@@ -18,6 +19,7 @@ import * as A from 'fp-ts/Array';
 import { weights } from './weights';
 import { itemQueryTable } from './item-query-table';
 import { UUID } from 'io-ts-types';
+import { not } from 'fp-ts/Predicate';
 
 export const PersonTable = t.type({
   id: UUID,
@@ -50,22 +52,29 @@ export const getNormalizePersonSql = (offset = 0, limit = 10) => {
 
 const itemToTbl = (i: string) => (i === 'audioBook' ? 'speaking_book' : i);
 export const getPersonSql = (offset = 0, limit = 10) => {
-  const items = (lang = '') => pipe(
-    itemQueryTable,
-    toEntries,
-    A.map(
-      ([k, v]) =>
-        `'${k}', (SELECT ${v} 
+  const items = (lang = '') =>
+    pipe(
+      itemQueryTable,
+      toEntries,
+      A.map(
+        ([k, v]) =>
+          `'${k}', (SELECT ${v} 
         FROM ${lang}tbl_${itemToTbl(k)}  
         WHERE pid=p.id LIMIT 1)`,
-    ),
-    A.concat( ['favoriteColor', 'hobby', 'hatedFood', 'softToy', 'dwellingSituationComment'].flatMap(a =>[`'${a}'`, lang == '' ? a : `''`]))
-  ).join(',');
-
+      ),
+      A.concat(
+        ['favoriteColor', 'hobby', 'hatedFood', 'softToy', 'dwellingSituationComment'].flatMap((a) => [
+          `'${a}'`,
+          lang == '' ? a : `''`,
+        ]),
+      ),
+    ).join(',');
 
   return `
   SELECT id, json_object('situation', json_object(
-  ${personTableMapping.join(', ')}), 'profile', json_object('de', json_object(${items('')}), 'en', json_object(${items('eng_')})), 'id', uuid, 'legacyId', id) as json_mapping
+  ${personTableMapping.join(', ')}), 'profile', json_object('de', json_object(${items('')}), 'en', json_object(${items(
+    'eng_',
+  )})), 'id', uuid, 'legacyId', id) as json_mapping
   FROM tbl_german_person p
   WHERE 
     isQuarantined=0
@@ -79,6 +88,12 @@ const fieldName = (k: keyof MatchingProfileRequest): string =>
 
 export const getSearch = (p: ChildhoodProfileRequestTable) => {
   const data = ChildhoodProfileRequestTableC.encode(p);
+  const limitEastWest = (eastOnly = false) => {
+    const f = eastOnly ? stateIsEast : not(stateIsEast);
+    return germanStates.filter(f).map(germanStateType.fromNumber.encode).join(',')
+
+  }
+  const getEW = limitEastWest(p.eastOnly);
 
   const weightField = `
       IF(
@@ -99,56 +114,12 @@ export const getSearch = (p: ChildhoodProfileRequestTable) => {
     'item',${itemQueryTable[k]})) as jsonItem
   FROM tbl_german_person p inner join tbl_${itemToTbl(k)} i ON p.id = i.pid
   WHERE 
-  items_de & ${ItemToggleValue[k]}
+  items_de & ${ItemToggleValue[k]} AND p.germanState in(${getEW})
   AND  isQuarantined = 0
   ORDER BY weight DESC LIMIT 1`;
 
-  const sql = items.map((i) => `(${getSql(i)})`);
-  // const sql = [`(${getSql('book')})`]
+  return items.map((i) => `(${getSql(i)})`);
 
-  //   const sql = `
-  //
-  //   SELECT p.id, ${weightField} / ${divisor} * 100 as weight, json_object(
-  //   'weight', ${weightField} / ${divisor} * 100,
-  //   'memory', JSON_OBJECT('de', item.diverse, 'en', eItem.diverse)) as jsonItem
-  // FROM tbl_german_person p
-  //          JOIN (tbl_memory item LEFT JOIN eng_tbl_memory eItem ON item.id = eItem.id) ON p.id = item.pid
-  // WHERE item.id is not null ORDER BY weight DESC LIMIT 1`;
-  //   const sql =  pipe(
-  //     itemTables,
-  //     toEntries,
-  //     A.map(
-  //       ([item]) =>
-  //         `
-  //     (SELECT
-  //
-  //       JSON_OBJECT(
-  //
-  //       '${item}', (${getItemSql(item)})) as jsonResult
-  //       FROM tbl_german_person, ${getItemTableName(item)} b
-  //       WHERE b.pid = tbl_german_person.id
-  //       AND ${weightField} > 0
-  //       ORDER BY weight DESC
-  //       limit 1)
-  // `,
-  //     ),
-  //   ).join(' UNION ');
-  console.log(sql[0]);
-  return sql;
+
 };
 
-/*
-const t = `
-    (SELECT
-      (${weightField}) / ${divisor} * 100 as weight,
-      JSON_OBJECT(
-      'weight',  (${weightField}) / ${divisor} * 100,
-      '${item}', (${getItemSql(item)})) as jsonResult
-      FROM tbl_german_person, ${getItemTableName(item)} b
-      WHERE
-      b.pid = tbl_german_person.id
-      AND ${weightField} > 0
-      ORDER BY weight DESC
-      limit 1)
-`
- */

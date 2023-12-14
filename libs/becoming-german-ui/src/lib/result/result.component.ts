@@ -26,5 +26,11 @@ export class ResultComponent {
   items = items;
   translated = this.request.pipe(map(get));
 
+
+
   constructor(private service: PersonService) {}
+
+  toggleEastWest() {
+    return this.service.toggleEastWest()
+  }
 }

@@ -1,5 +1,6 @@
 <div class="intro spenden teaser">
-  <img [ngSrc]="'../assets/pix/header/kindheit_empfangen_DE.png'" alt="Kindheit Empfangen" i18n-alt="@@request.image.alt"
+  <img [ngSrc]="'../assets/pix/header/kindheit_empfangen_DE.png'" alt="Kindheit Empfangen"
+       i18n-alt="@@request.image.alt"
        height="58" width="397">
   <!--<a routerLink="../spenden" i18n="@@request.donate.or.text">... oder doch lieber spenden?</a>-->
 </div>
@@ -11,27 +12,10 @@
 <div class="textheading" i18n="@@request.profile">Wer bist du?</div>
 <div class="input-form" [formGroup]="form">
 
-    <bgn-property-input [ctl]="form" [name]="'hobby'"></bgn-property-input>
-    <bgn-property-input [ctl]="form" [name]="'favoriteColor'"></bgn-property-input>
-
-    <div  class="options">
-      <label i18n="@@label.birthDate">Geburtstag</label>
-      <input class="year"
-             (keydown)="yearOnly($event, year.value)"
-             formControlName="birthYear"
-             #year />
-
-    </div>
-
-    <ng-container class="selector radio" *ngFor="let opt of options">
-      <bgn-options [name]="opt" [ctl]="form"></bgn-options>
-
-<!--      <label>{{ getLabel(opt) }}</label>-->
-<!--      <select formControlName="{{ opt }}">-->
-<!--        <option [value]="null">&#45;&#45;</option>-->
-<!--        <option *ngFor="let o of getOptions(opt)" [value]="o[0]">{{ o[1] }}</option>-->
-<!--      </select>-->
-    </ng-container>
+  <bgn-property-input [ctl]="form" [name]="'hobby'" />
+  <bgn-property-input [ctl]="form" [name]="'favoriteColor'" />
+  <bgn-property-input [ctl]="form" [name]="'birthYear'" />
+  <bgn-options class="selector radio" *ngFor="let opt of options" [name]="opt" [ctl]="form" />
 
 
   <div class="text" i18n="@@request.cta"

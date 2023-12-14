@@ -30,6 +30,8 @@ const base = {
 export const ChildhoodProfileRequestTableC = t.type({
   ...base,
   birthYear: numberInRange(1900, new Date().getFullYear() - 10),
+  eastOnly: t.union([t.null, t.boolean]),
+  westOnly: t.union([t.null, t.boolean])
 });
 
 export type ChildhoodProfileRequestTable = t.TypeOf<typeof ChildhoodProfileRequestTableC>;
