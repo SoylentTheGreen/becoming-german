@@ -1,5 +1,5 @@
 <div class="options" *ngIf="ctl" [formGroup]="ctl">
-  <label>{{ getLabel(name) }}:</label>
+  <label>{{ getLabel(name) }}</label>
   <select [formControlName]="name">
     <option [value]="null">--</option>
     <option *ngFor="let o of getOptions(name)" [value]="o[0]">{{ o[1] }}</option>
