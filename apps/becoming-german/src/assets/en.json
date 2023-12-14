@@ -112,7 +112,7 @@
     "result.profil": "Your profile:",
     "result.east": "Switch to East German memories",
     "result.west": "Switch to West German memories",
-    "result.profile-details": "You are {$START_TAG_SPAN}{$INTERPOLATION}{$CLOSE_TAG_SPAN} and were born in {$START_TAG_SPAN}{$INTERPOLATION_1}{$CLOSE_TAG_SPAN}. {$LINE_BREAK} You are {$START_TAG_SPAN}{$INTERPOLATION_2}{$CLOSE_TAG_SPAN}, you have {$START_TAG_SPAN}{$INTERPOLATION_3}{$CLOSE_TAG_SPAN} siblings and you grew up with {$START_TAG_SPAN}{$INTERPOLATION_4}{$CLOSE_TAG_SPAN}. {$LINE_BREAK} When you were a child you moved {$START_TAG_SPAN}{$INTERPOLATION_5}{$CLOSE_TAG_SPAN}. ",
+    "result.profile-details": "You are {$START_TAG_SPAN}{$INTERPOLATION}{$CLOSE_TAG_SPAN} and were born in {$START_TAG_SPAN}{$INTERPOLATION_1}{$CLOSE_TAG_SPAN}. {$LINE_BREAK} You are {$START_TAG_SPAN}{$INTERPOLATION_2}{$CLOSE_TAG_SPAN}, you have {$START_TAG_SPAN}{$INTERPOLATION_3}{$CLOSE_TAG_SPAN} sibling(s) and you grew up with {$START_TAG_SPAN}{$INTERPOLATION_4}{$CLOSE_TAG_SPAN}. {$LINE_BREAK} When you were a child you moved {$START_TAG_SPAN}{$INTERPOLATION_5}{$CLOSE_TAG_SPAN}. ",
     "result.hobby": " Your favourite hobby as a child was {$START_TAG_SPAN}{$INTERPOLATION}{$CLOSE_TAG_SPAN}. ",
     "result.favoriteColor": " Your favourite colour was {$START_TAG_SPAN}{$INTERPOLATION}.{$CLOSE_TAG_SPAN}",
     "result.again": "{$START_LINK}Have another go?{$CLOSE_LINK}",
