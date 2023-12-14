@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatchingProfileRequestC } from '@becoming-german/model';
@@ -31,6 +31,7 @@ export class RequestComponent implements OnDestroy {
     private fb: FormBuilder,
     private service: PersonService,
     private router: Router,
+    @Inject(LOCALE_ID) public locale: string
   ) {}
 
   ngOnDestroy(): void {

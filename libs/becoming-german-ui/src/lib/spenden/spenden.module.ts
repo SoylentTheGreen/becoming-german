@@ -18,17 +18,17 @@ import { PropertyInputComponent } from '../form/property-input.component';
 const routes: Routes = [
   {
     path: '',
-    component: SpendenComponent,
-    children: [
-      { path: 'audiobook', component: AudiobookComponent },
-      { path: 'book', component: BookComponent },
-      { path: 'grandparents', component: GrandparentsComponent },
-      { path: 'holidays', component: HolidaysComponent },
-      { path: 'memory', component: MemoryComponent },
-      { path: 'party', component: PartyComponent },
-      { path: 'song', component: SongComponent },
-      { path: '', component: SpendenHomeComponent },
-    ],
+    component: SpendenComponent
+  //   children: [
+  //     { path: 'audiobook', component: AudiobookComponent },
+  //     { path: 'book', component: BookComponent },
+  //     { path: 'grandparents', component: GrandparentsComponent },
+  //     { path: 'holidays', component: HolidaysComponent },
+  //     { path: 'memory', component: MemoryComponent },
+  //     { path: 'party', component: PartyComponent },
+  //     { path: 'song', component: SongComponent },
+  //     { path: '', component: SpendenHomeComponent },
+  //   ],
   },
 ];
 
