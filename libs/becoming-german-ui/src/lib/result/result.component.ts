@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { PersonService } from '../person.service';
 import { items, MatchingProfileRequest } from '@becoming-german/model';
 import { map } from 'rxjs';
@@ -27,7 +27,7 @@ export class ResultComponent {
 
 
 
-  constructor(private service: PersonService) {}
+  constructor(private service: PersonService, @Inject(LOCALE_ID) public locale: string) {}
 
   toggleEastWest() {
     return this.service.toggleEastWest()
