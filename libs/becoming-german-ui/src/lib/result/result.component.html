@@ -6,18 +6,17 @@
     height="58"
     width="397"
   />
-  <!--<a routerLink="../spenden" i18n="@@request.donate.or.text">... oder doch lieber spenden?</a>-->
 </div>
 
 <div class="link"
      *ngIf="(request | async)?.eastOnly === false"
      (click)="toggleEastWest()"
-     i18n="@@result.east">Zur Ostdeutsche Erinnerungen wechseln
+     i18n="@@result.east">Zur Ostdeutschen Erinnerungen wechseln
 </div>
 <div class="link"
      *ngIf="(request | async)?.eastOnly === true"
      (click)="toggleEastWest()"
-     i18n="@@result.west">Zur Westdeutsche Erinnerungen wechseln
+     i18n="@@result.west">Zur Westdeutschen Erinnerungen wechseln
 </div>
 
 <div class="profile results" *ngIf="translated | async as profile">
