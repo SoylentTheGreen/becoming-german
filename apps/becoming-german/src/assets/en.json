@@ -241,7 +241,9 @@
     "match.spenden.audioBook.heading": "Favourite Talking Book",
     "match.spenden.song.heading": "Favourite Song",
     "match.spenden.party.heading": "(Birthday) Parties",
-    "match.spenden.memory.heading": "Other Memories"
+    "match.spenden.memory.heading": "Other Memories",
+    "spenden.coming-soon": "You grew up in Germany?{$LINE_BREAK} Soon you will be able to donate your childhood memories here.\n"
+
     
     }
 }
