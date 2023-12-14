@@ -74,12 +74,6 @@ export class PersonService {
     map(ChildhoodAggregate.build),
     map((c) => c(ChildhoodAggregate.newState)),
     map((r) => r[1]),
-    // map(
-    //   flow(
-    //     E.mapLeft((l) => l.state),
-    //     E.map((r) => r.state),
-    //   ),
-    // ),
     shareReplay(1),
   );
 
@@ -91,10 +85,9 @@ export class PersonService {
     shareReplay(1),
   );
 
-  spendenProfile = this.matchingProfileInput.pipe(
-    map(ChildhoodSituationC.decode),
-    filter(E.isRight),
-    map((r) => r.right),
+  spendenProfile = this.donation.pipe(
+    map(E.toUnion),
+    map(v => v.state)
   );
 
   matchingProfile: Observable<MatchingItems> = this.requestProfile.pipe(

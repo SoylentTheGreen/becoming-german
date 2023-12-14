@@ -2,16 +2,14 @@ import { Component } from '@angular/core';
 import { PersonService } from '../person.service';
 import { items, MatchingProfileRequest } from '@becoming-german/model';
 import { map } from 'rxjs';
-import { getOpt, Translations } from '../i18n/translation';
+import { getOpt } from '../i18n/translation';
 import { isString } from 'fp-ts/string';
-
 
 const get =
   (req: MatchingProfileRequest) =>
   <K extends keyof MatchingProfileRequest>(field: K) => {
-
     const val = req[field];
-    if(isString(val)) getOpt(field, val);
+    if (isString(val)) return getOpt(field, val);
     return val;
   };
 
