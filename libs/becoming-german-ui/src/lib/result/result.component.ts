@@ -9,6 +9,7 @@ const get =
   (req: MatchingProfileRequest) =>
   <K extends keyof MatchingProfileRequest>(field: K) => {
     const val = req[field];
+    if(['birthYear', 'hobby', 'favoriteColor'].includes(field)) return req[field]
     if (isString(val)) return getOpt(field, val);
     return val;
   };
