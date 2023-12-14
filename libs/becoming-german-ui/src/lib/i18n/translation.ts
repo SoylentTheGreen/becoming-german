@@ -36,7 +36,7 @@ export const Translations = () => ({
 
   siblingPosition: {
     only: $localize`:@@childhood.siblings.only:Einzelkind`,
-    eldest: $localize`:@@childhood.siblings.the eldest:das älteste Kind`,
+    eldest: $localize`:@@childhood.siblings.eldest:das älteste Kind`,
     middle: $localize`:@@childhood.siblings.middle:das mittlere Kind`,
     youngest: $localize`:@@childhood.siblings.youngest:das jüngste Kind`,
   },
