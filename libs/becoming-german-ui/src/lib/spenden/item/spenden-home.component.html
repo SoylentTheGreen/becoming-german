@@ -1,13 +1,3 @@
-<img src="../assets/pix/header/kindheit_spenden_DE.png" />
-
-
-<div i18n="@@spenden.intro">
-  Du bist in Deutschland aufgewachsen? Spende Deine Kindheit, indem Du dieses Formular ausfüllst. Die Daten werden
-  vertraulich behandelt und nur im Rahmen dieses Projektes verwendet. Aus allen Spender-Einträgen werden neue Kindheiten
-  für "Becoming German"-Interessenten zusammengestellt.
-  <p>Wenn mehrere Antworten möglich sind, dann spontan die Wichtigste eingeben.</p>
-</div>
-<div class="separator"></div>
 <div
   (click)="active = null"
   [ngClass]="{ expanded: active === null }"
@@ -15,98 +5,69 @@
   [formGroup]="form"
 >
   <div i18n="@@donate.situation.header" class="banner textheading">Wer bist du?</div>
-  <div class="content">
-    <div class="options">
-      <ng-container formGroupName="profile">
-        <label i18n="@@label.softToy">Lieblingsstofftier:</label>
-        <input type="text" formControlName="softToy" />
-
-        <label i18n="@@label.hatedFood">Hass-Essen:</label>
-        <input type="text" formControlName="hatedFood" />
-
-        <label i18n="@@label.hobby">Hobby:</label>
-        <input type="text" formControlName="hobby" />
-
-        <label i18n="@@label.favoriteColor">Lieblingsfarbe:</label>
-        <input type="text" formControlName="favoriteColor" />
-      </ng-container>
-      <ng-container formGroupName="situation">
-        <label i18n="@@label.birthDate">Geburtsdatum</label>
-        <input
-          class="year"
-          (keydown)="yearOnly($event, year.value)"
-          number="birthYear"
-          formControlName="birthYear" #year>
-
-        <ng-container *ngFor="let opt of options">
-          <label>{{ opt.t }}</label>
-          <select formControlName="{{ opt.k }}">
-            <option [value]="null">--</option>
-            <option *ngFor="let o of $any(opt.o)" [value]="o[0]">{{ o[1] }}</option>
-          </select>
-        </ng-container>
-      </ng-container>
-    </div>
-    <div class="text" i18n="@@spenden.cta">
-      Um Erinnerungen an deine Kindheit in Deutschland zu spenden, klicke auf den Kirschlutscher ...
-    </div>
-    <div>
-      <input
-        [disabled]="!form.controls.situation.valid"
-        type="image"
-        src="../assets/pix/kirschlutscher_kl.gif"
-        alt="Anmelden"
-        i18n-alt="@@donate.submit.alt"
-        (click)="doUpdate()"
-      />
-    </div>
+  <div>
+      <bgn-property-input *ngFor="let prop of profile" [name]="prop" [ctl]="form.controls.profile"></bgn-property-input>
+      <bgn-property-input name="birthYear" [ctl]="form.controls.situation"></bgn-property-input>
+      <bgn-options *ngFor="let opt of options" [name]="opt" [ctl]="form.controls.situation"></bgn-options>
+  </div>
+  <div class="submit-container">
+    <p class="text" i18n="@@spenden.cta">Um Erinnerungen an deine Kindheit in Deutschland zu spenden, klicke auf den
+      Kirschlutscher ...</p>
+    <input
+      [disabled]="!form.controls.situation.valid"
+      type="image"
+      class="image-button"
+      src="../../assets/pix/kirschlutscher_kl.gif"
+      alt="Anmelden"
+      i18n-alt="@@donate.submit.alt"
+      (click)="doUpdate()"
+    >
   </div>
 </div>
-<ng-container *ngIf="state | async">
-    <div class="book collapsible" [ngClass]="{ expanded: active === 'grandparents' }" (click)="active = 'grandparents'">
-    <div class="banner textheading" i18n="@@match.spenden.gp.heading">Deine Großeltern</div>
-    <div class="content">
-      <bgn-grandparents></bgn-grandparents>
-    </div>
-  </div>
-  <div class="book collapsible" [ngClass]="{ expanded: active === 'holidays' }" (click)="active = 'holidays'">
-    <div class="banner textheading" i18n="@@match.spenden.holidays.heading">Sommerferien</div>
-    <div class="content">
-      <bgn-holidays></bgn-holidays>
-    </div>
-  </div>
-  <div class="book collapsible" [ngClass]="{expanded: active === 'book'}"
-       (click)="active = 'book'">
-    <div class="banner textheading" i18n="@@match.spenden.book.heading">Lieblingsbuch</div>
-    <div class="content">
-      <bgn-book></bgn-book>
-    </div>
-  </div>
-  <div class="book collapsible" [ngClass]="{ expanded: active === 'audioBook' }" (click)="active = 'audioBook'">
-    <div class="banner textheading" i18n="@@match.spenden.audioBook.heading">Lieblingshörbuch</div>
-    <div class="content">
-      <bgn-audiobook></bgn-audiobook>
-    </div>
-  </div>
-  <div class="book collapsible" [ngClass]="{ expanded: active === 'song' }" (click)="active = 'song'">
-    <div class="banner textheading" i18n="@@match.spenden.song.heading">Lieblingslied</div>
-    <div class="content">
-      <bgn-song></bgn-song>
-    </div>
-  </div>
-  <div class="book collapsible" [ngClass]="{ expanded: active === 'party' }" (click)="active = 'party'">
-    <div class="banner textheading" i18n="@@match.spenden.party.heading">Kindergeburtstag / Party</div>
-    <div class="content">
-      <bgn-party></bgn-party>
-    </div>
-  </div>
-  <div class="book collapsible" [ngClass]="{expanded: active === 'memory', complete: childhood}"
-       (click)="active = 'memory'">
-    <div class="banner textheading" i18n="@@match.spenden.memory.heading">Weitere Erinnerungen?</div>
-    <div class="content">
-      <bgn-memory></bgn-memory>
-    </div>
-  </div>
-</ng-container>
 
-<div>{{(state | async)?.id}}</div>
+<!--<ng-container *ngIf="state | async">-->
+<!--  <div class="book collapsible" [ngClass]="{ expanded: active === 'grandparents' }" (click)="active = 'grandparents'">-->
+<!--    <div class="banner textheading" i18n="@@match.spenden.gp.heading">Deine Großeltern</div>-->
+<!--    <div class="content">-->
+<!--      <bgn-grandparents></bgn-grandparents>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="book collapsible" [ngClass]="{ expanded: active === 'holidays' }" (click)="active = 'holidays'">-->
+<!--    <div class="banner textheading" i18n="@@match.spenden.holidays.heading">Sommerferien</div>-->
+<!--    <div class="content">-->
+<!--      <bgn-holidays></bgn-holidays>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="book collapsible" [ngClass]="{expanded: active === 'book'}"-->
+<!--       (click)="active = 'book'">-->
+<!--    <div class="banner textheading" i18n="@@match.spenden.book.heading">Lieblingsbuch</div>-->
+<!--    <div class="content">-->
+<!--      <bgn-book></bgn-book>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="book collapsible" [ngClass]="{ expanded: active === 'audioBook' }" (click)="active = 'audioBook'">-->
+<!--    <div class="banner textheading" i18n="@@match.spenden.audioBook.heading">Lieblingshörbuch</div>-->
+<!--    <div class="content">-->
+<!--      <bgn-audiobook></bgn-audiobook>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="book collapsible" [ngClass]="{ expanded: active === 'song' }" (click)="active = 'song'">-->
+<!--    <div class="banner textheading" i18n="@@match.spenden.song.heading">Lieblingslied</div>-->
+<!--    <div class="content">-->
+<!--      <bgn-song></bgn-song>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="book collapsible" [ngClass]="{ expanded: active === 'party' }" (click)="active = 'party'">-->
+<!--    <div class="banner textheading" i18n="@@match.spenden.party.heading">Kindergeburtstag / Party</div>-->
+<!--    <div class="content">-->
+<!--      <bgn-party></bgn-party>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="book collapsible" [ngClass]="{expanded: active === 'memory', complete: childhood}"-->
+<!--       (click)="active = 'memory'">-->
+<!--    <div class="banner textheading" i18n="@@match.spenden.memory.heading">Weitere Erinnerungen?</div>-->
+<!--    <div class="content">-->
+<!--      <bgn-memory></bgn-memory>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-container>-->

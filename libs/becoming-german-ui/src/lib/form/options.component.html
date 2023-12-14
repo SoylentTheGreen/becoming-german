@@ -1,17 +1,7 @@
-<select formControlName="{{type}}" [ngSwitch]="type">
-  <ng-template ngSwitchCase="siblings">
-    <option value="none" i18n="@@childhood.siblings.none">keine</option>
-    <option value="one" i18n="@@childhood.siblings.one">eins</option>
-    <option value="two" i18n="@@childhood.siblings.two">zwei</option>
-    <option value="three" i18n="@@childhood.siblings.three">drei</option>
-    <option value="four" i18n="@@childhood.siblings.four">vier</option>
-    <option value="five" i18n="@@childhood.siblings.five">fünf</option>
-    <option value="more" i18n="@@childhood.siblings.more">mehr als fünf</option>
-  </ng-template>
-  <ng-template ngSwitchCase="siblingPosition">
-    <option value="only" i18n="@@childhood.siblings.only">Einzelkind</option>
-    <option value="eldest" i18n="@@childhood.siblings.eldest">das älteste Kind</option>
-    <option value="middle" i18n="@@childhood.siblings.middle">das mittlere Kind</option>
-    <option value="youngest" i18n="@@childhood.siblings.youngest">das jüngste Kind</option>
-  </ng-template>
-</select>
+<div class="options" *ngIf="ctl" [formGroup]="ctl">
+  <label>{{ getLabel(name) }}:</label>
+  <select [formControlName]="name">
+    <option [value]="null">--</option>
+    <option *ngFor="let o of getOptions(name)" [value]="o[0]">{{ o[1] }}</option>
+  </select>
+</div>

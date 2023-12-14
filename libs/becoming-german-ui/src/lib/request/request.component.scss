@@ -21,8 +21,8 @@ input.year {
 .input-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   align-items: flex-start;
+  justify-content: stretch;
 }
 
 input[type=image] {

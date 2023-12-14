@@ -7,10 +7,12 @@
 
 .collapsible {
   width: 100%;
+  position: relative;
 
   .banner {
     cursor: pointer;
   }
+
   .content {
     max-height: 0;
     overflow: hidden;
@@ -24,5 +26,14 @@
       transition: max-height 0.6s linear;
     }
   }
+}
+
+.submit-container {
+  position: relative;
+
+}
+.image-button {
+  border: 0;
+  float: right;
 }
 

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ChildhoodSituation } from '@becoming-german/model';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { getLabel, getOptions } from '../i18n/translation';
 
 @Component({
   selector: 'bgn-options',
@@ -12,5 +12,8 @@ import { ChildhoodSituation } from '@becoming-german/model';
 })
 export class OptionsComponent {
   @Input() name = '';
-  @Input() type: keyof ChildhoodSituation = 'siblings';
+  @Input() ctl: FormGroup | null = null;
+
+  protected readonly getLabel = getLabel;
+  protected readonly getOptions = getOptions;
 }

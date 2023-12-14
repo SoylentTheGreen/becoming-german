@@ -6,23 +6,11 @@ import { filter, map, shareReplay, Subject, Subscription } from 'rxjs';
 import { PersonService } from '../../person.service';
 import { fpFormGroup } from '@becoming-german/tools';
 import * as E from 'fp-ts/Either';
-import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../../i18n/translation';
+import { getLabel, getOptions, labels, LiteralPropertiesEntries } from '../../i18n/translation';
 import { UUID } from 'io-ts-types';
 import { pipe } from 'fp-ts/function';
 import * as TE from 'fp-ts/TaskEither';
 
-const getF =
-  <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
-  (
-    k: K,
-    t: string,
-  ): {
-    k: K;
-    t: string;
-    o: LiteralPropertiesEntries<T>[K];
-  } => ({ k, t, o: trans[k] });
-
-const optionFields = getF(childhoodProfileTranslations);
 
 @Component({
   selector: 'bgn-spenden-home',
@@ -56,19 +44,20 @@ export class SpendenHomeComponent implements OnDestroy {
   birthYear = new FormControl(1970, [Validators.min(1900), Validators.max(2010), Validators.required]);
 
   active: Item | null = null;
-
-  labels = labels();
-  value = $localize`:@@label.gender:Geschlecht`;
+  profile = [
+    'softToy', 'hatedFood', 'hobby', 'favoriteColor'
+  ]
   options = [
-    optionFields('gender', this.labels.gender),
-    optionFields('siblings', this.labels.siblings),
-    optionFields('siblingPosition', this.labels.siblingPosition),
-    optionFields('parents', this.labels.parents),
-    optionFields('bedroomSituation', this.labels.bedroomSituation),
-    optionFields('dwellingSituation', this.labels.dwellingSituation),
-    optionFields('moves', this.labels.moves),
-    optionFields('germanState', this.labels.germanState),
+    'gender',
+    'siblings',
+    'siblingPosition',
+    'parents',
+    'bedroomSituation',
+    'dwellingSituation',
+    'moves',
+    'germanState',
   ];
+  getOptions = getOptions;
   profileAdded = false;
   submit = new Subject<boolean>();
   subscription = new Subscription();
@@ -113,14 +102,5 @@ export class SpendenHomeComponent implements OnDestroy {
     this.form.reset();
   }
 
-  yearOnly(event: KeyboardEvent, currentValue: string | null) {
-    const allowedKeys = ['Delete', 'Backspace', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
-    const pattern = /[0-9]/;
 
-    if (allowedKeys.includes(event.key)) return;
-    if (pattern.test(event.key) && (currentValue || '').length < 4) return;
-
-    event.preventDefault();
-    return;
-  }
 }

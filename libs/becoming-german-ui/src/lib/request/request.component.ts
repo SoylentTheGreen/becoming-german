@@ -9,20 +9,7 @@ import { v4 as uuid } from 'uuid';
 import { fpFormGroup } from '@becoming-german/tools';
 import { pipe } from 'fp-ts/function';
 import * as R from 'fp-ts/Record';
-import { childhoodProfileTranslations, labels, LiteralPropertiesEntries } from '../i18n/translation';
-
-const getF =
-  <T, K extends keyof T>(trans: LiteralPropertiesEntries<T>) =>
-  (
-    k: K,
-    t: string,
-  ): {
-    k: K;
-    t: string;
-    o: LiteralPropertiesEntries<T>[K];
-  } => ({ k, t, o: trans[k] });
-
-const optionFields = getF(childhoodProfileTranslations);
+import { getLabel, getOptions, labels } from '../i18n/translation';
 
 @Component({
   selector: 'bgn-request',
@@ -36,17 +23,7 @@ export class RequestComponent implements OnDestroy {
   );
   form = this.fb.group(fpFormGroup(MatchingProfileRequestC.props));
 
-  labels = labels();
-  value = $localize`:@@label.gender:Geschlecht`;
-  options = [
-    optionFields('gender', this.labels['gender']),
-    optionFields('siblings', this.labels['siblings']),
-    optionFields('siblingPosition', this.labels['siblingPosition']),
-    optionFields('parents', this.labels['parents']),
-    optionFields('bedroomSituation', this.labels['bedroomSituation']),
-    optionFields('dwellingSituation', this.labels['dwellingSituation']),
-    optionFields('moves', this.labels['moves']),
-  ];
+  options = ['gender', 'siblings', 'siblingPosition', 'parents', 'bedroomSituation', 'dwellingSituation', 'moves'];
 
   submit = new Subject<boolean>();
   subscription = this.service.profileInput.subscribe((p) => this.form.patchValue(p));
@@ -54,7 +31,9 @@ export class RequestComponent implements OnDestroy {
     private fb: FormBuilder,
     private service: PersonService,
     private router: Router,
-  ) {}
+  ) {
+    this.subscription.add(this.form.valueChanges.subscribe(console.log))
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -87,4 +66,6 @@ export class RequestComponent implements OnDestroy {
     event.preventDefault();
     return;
   }
+
+  protected readonly getLabel = getLabel;
 }

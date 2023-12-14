@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { fieldTranslation, TranslationCategory } from '../../i18n/translation';
+import {  getOpt, TranslationCategory } from '../../i18n/translation';
 
 @Component({
   selector: 'bgn-item',
@@ -10,6 +10,6 @@ export class ItemComponent<T> {
   @HostBinding('class.result-item') resultItem = true;
 
   tr(key: TranslationCategory, value: string) {
-    return fieldTranslation(key, value);
+    return getOpt(key, value);
   }
 }

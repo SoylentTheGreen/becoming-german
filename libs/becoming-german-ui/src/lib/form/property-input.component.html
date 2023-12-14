@@ -1,0 +1,6 @@
+<div class="options" *ngIf="ctl" [formGroup]="ctl">
+  <label>{{ getLabel(name) }}:</label>
+  <input *ngIf="name !== 'birthYear'" type="text" [formControlName]="name" class="{{name}}">
+  <input *ngIf="name === 'birthYear'" class="year" [formControlName]="name" (keydown)="yearOnly($event, year.value)" #year>
+</div>
+
